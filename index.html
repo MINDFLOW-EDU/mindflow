@@ -1,1 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>MindFlow — Apprendre autrement</title>
+
+    <meta
+        name="description"
+        content="MindFlow — Ressources éducatives, annales corrigées, exercices et fiches pour apprendre plus efficacement."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e7eaf0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1100px;
+            margin: auto;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .menu {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .menu a:hover {
+            color: #2563eb;
+        }
+
+        /* HERO */
+
+        .hero {
+            max-width: 1100px;
+            margin: auto;
+            padding: 70px 20px 50px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eaf1ff;
+            color: #2563eb;
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 8vw, 64px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #2563eb;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: #5f6b7a;
+            font-size: 17px;
+        }
+
+        .hero-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 1px solid #dfe4ec;
+        }
+
+        /* SEARCH */
+
+        .search-section {
+            max-width: 700px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            border: 1px solid #e1e6ef;
+            border-radius: 14px;
+            padding: 5px;
+            display: flex;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 13px;
+            font-size: 15px;
+        }
+
+        .search-box button {
+            background: #172033;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-weight: 700;
+        }
+
+        /* CATALOGUE */
+
+        .section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            margin-bottom: 25px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+        }
+
+        .section-title p {
+            color: #687386;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 45px;
+        }
+
+        .category {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid #e6eaf0;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .category:hover {
+            transform: translateY(-3px);
+            border-color: #2563eb;
+        }
+
+        .category small {
+            display: block;
+            color: #778196;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+
+        /* PRODUCTS */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e5e9f0;
+            transition: 0.2s;
+        }
+
+        .product:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+        }
+
+        .product-cover {
+            height: 180px;
+            background: linear-gradient(135deg, #2563eb, #172033);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 25px;
+            font-weight: 800;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product-content {
+            padding: 18px;
+        }
+
+        .product-content small {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .product-content h3 {
+            margin: 7px 0;
+        }
+
+        .product-content p {
+            color: #6b7485;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 70px;
+            background: #172033;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            color: #aeb7c7;
+            margin-top: 8px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .menu {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 50px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .search-box button {
+                padding: 0 13px;
+            }
+
+            .product-cover {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+
+        <a href="#" class="logo">
+            Mind<span>Flow</span>
+        </a>
+
+        <div class="menu">
+            <a href="#">Accueil</a>
+            <a href="#catalogue">Catalogue</a>
+            <a href="#categories">Matières</a>
+        </div>
+
+    </nav>
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="badge">
+            Plateforme éducative numérique
+        </div>
+
+        <h1>
+            Apprends.<br>
+            Comprends.<br>
+            <span>Progresse.</span>
+        </h1>
+
+        <p>
+            Découvrez des ressources éducatives conçues pour vous aider
+            à mieux comprendre vos cours, réussir vos examens et développer
+            vos connaissances.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#catalogue" class="btn btn-primary">
+                Explorer le catalogue
+            </a>
+
+            <a href="#categories" class="btn btn-secondary">
+                Découvrir les matières
+            </a>
+        </div>
+
+    </section>
+
+
+    <!-- RECHERCHE -->
+
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <input
+                type="search"
+                placeholder="Rechercher un cours, exercice, annale..."
+            >
+
+            <button>
+                Rechercher
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIES -->
+
+    <section class="section" id="categories">
+
+        <div class="section-title">
+
+            <h2>Explorer par matière</h2>
+
+            <p>
+                Trouvez rapidement les ressources qui vous intéressent.
+            </p>
+
+        </div>
+
+        <div class="categories">
+
+            <a href="#" class="category">
+                📐 Mathématiques
+                <small>Exercices & annales</small>
+            </a>
+
+            <a href="#" class="category">
+                🧬 SVT
+                <small>Cours & fiches</small>
+            </a>
+
+            <a href="#" class="category">
+                ⚛️ Physique
+                <small>Exercices & méthodes</small>
+            </a>
+
+            <a href="#" class="category">
+                💻 Informatique
+                <small>Ressources numériques</small>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATALOGUE -->
+
+    <section class="section" id="catalogue">
+
+        <div class="section-title">
+
+            <h2>Nos ressources</h2>
+
+            <p>
+                Des contenus conçus pour apprendre efficacement.
+            </p>
+
+        </div>
+
+
+        <div class="products">
+
+            <!-- PRODUIT 1 -->
+
+            <article class="product">
+
+                <div class="product-cover">
+                    BAC MATHS<br>
+                    2012
+                </div>
+
+                <div class="product-content">
+
+                    <small>MATHÉMATIQUES</small>
+
+                    <h3>
+                        Bac Maths 2012 — Correction détaillée
+                    </h3>
+
+                    <p>
+                        Correction complète avec méthodes,
+                        explications et astuces.
+                    </p>
+
+                    <div class="product-footer">
+
+                        <span class="price">
+                            1 000 FCFA
+                        </span>
+
+                        <a href="#" class="btn btn-primary">
+                            Voir
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUIT 2 -->
+
+            <article class="product">
+
+                <div class="product-cover">
+                    NOMBRES<br>
+                    COMPLEXES
+                </div>
+
+                <div class="product-content">
+
+                    <small>MATHÉMATIQUES</small>
+
+                    <h3>
+                        Maîtriser les nombres complexes
+                    </h3>
+
+                    <p>
+                        Cours, méthodes et exercices progressifs.
+                    </p>
+
+                    <div class="product-footer">
+
+                        <span class="price">
+                            1 500 FCFA
+                        </span>
+
+                        <a href="#" class="btn btn-primary">
+                            Voir
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUIT 3 -->
+
+            <article class="product">
+
+                <div class="product-cover">
+                    FICHES<br>
+                    DE RÉVISION
+                </div>
+
+                <div class="product-content">
+
+                    <small>RÉVISION</small>
+
+                    <h3>
+                        Fiches essentielles
+                    </h3>
+
+                    <p>
+                        Les notions importantes à retenir avant un examen.
+                    </p>
+
+                    <div class="product-footer">
+
+                        <span class="price">
+                            500 FCFA
+                        </span>
+
+                        <a href="#" class="btn btn-primary">
+                            Voir
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <strong>MindFlow</strong>
+
+    <p>
+        Apprendre autrement. Comprendre davantage.
+    </p>
+
+    <p>
+        © 2026 MindFlow — Tous droits réservés.
+    </p>
+
+</footer>
+
+</body>
+              </html>
