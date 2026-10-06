@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>MindFlow — Apprendre autrement</title>
-  <meta name="description" content="MindFlow — plateforme éducative numérique pour apprendre, réviser et progresser.">
+  <meta
+    name="description"
+    content="MindFlow — plateforme éducative numérique pour apprendre, réviser et progresser."
+  >
 
   <style>
     * {
@@ -14,28 +17,20 @@
       padding: 0;
     }
 
-    :root {
-      --bg: #f6f8fc;
-      --surface: #ffffff;
-      --text: #111827;
-      --muted: #667085;
-      --primary: #5b5ce2;
-      --primary-dark: #4546bd;
-      --border: #e7e9f2;
-      --shadow: 0 15px 40px rgba(31, 41, 55, 0.08);
-      --radius: 20px;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #f7f8fc;
+      color: #111827;
       line-height: 1.6;
     }
 
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
     button,
@@ -43,21 +38,24 @@
       font: inherit;
     }
 
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
     /* ================= HEADER ================= */
 
     header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.94);
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #e5e7eb;
     }
 
     .nav {
-      max-width: 1180px;
-      margin: auto;
-      padding: 16px 20px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -65,484 +63,403 @@
     }
 
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 1.45rem;
       font-weight: 800;
-      font-size: 22px;
+      letter-spacing: -0.5px;
     }
 
-    .logo-mark {
-      width: 40px;
-      height: 40px;
-      border-radius: 13px;
-      display: grid;
-      place-items: center;
-      color: white;
-      background: linear-gradient(135deg, #5b5ce2, #8b5cf6);
-      box-shadow: 0 8px 20px rgba(91,92,226,.25);
+    .logo span {
+      color: #4f46e5;
     }
 
     nav {
       display: flex;
-      gap: 24px;
+      gap: 25px;
       align-items: center;
     }
 
     nav a {
       color: #4b5563;
+      font-size: 0.95rem;
       font-weight: 600;
-      font-size: 14px;
+      transition: 0.2s;
     }
 
     nav a:hover {
-      color: var(--primary);
+      color: #4f46e5;
     }
 
     .nav-button {
-      background: var(--primary);
-      color: white !important;
-      padding: 10px 17px;
-      border-radius: 12px;
+      background: #111827;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+    }
+
+    .nav-button:hover {
+      background: #4f46e5;
+      color: white;
     }
 
     /* ================= HERO ================= */
 
     .hero {
-      position: relative;
-      overflow: hidden;
+      padding: 90px 0 70px;
       background:
-        radial-gradient(circle at 10% 20%, rgba(91,92,226,.16), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(139,92,246,.14), transparent 30%),
-        linear-gradient(135deg, #ffffff, #f1f3ff);
+        radial-gradient(circle at top right, rgba(79,70,229,0.12), transparent 35%),
+        linear-gradient(180deg, #ffffff, #f7f8fc);
     }
 
-    .hero-content {
-      max-width: 1180px;
-      margin: auto;
-      padding: 90px 20px 80px;
+    .hero-grid {
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 50px;
       align-items: center;
     }
 
     .badge {
-      display: inline-flex;
-      padding: 8px 13px;
-      border-radius: 50px;
-      background: #ececff;
-      color: var(--primary-dark);
-      font-size: 13px;
+      display: inline-block;
+      padding: 7px 12px;
+      background: #eef2ff;
+      color: #4338ca;
+      border-radius: 999px;
+      font-size: 0.82rem;
       font-weight: 700;
       margin-bottom: 20px;
     }
 
-    h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 1.03;
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      line-height: 1.02;
       letter-spacing: -3px;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
-    .gradient-text {
-      background: linear-gradient(90deg, #5b5ce2, #8b5cf6);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .hero h1 span {
+      color: #4f46e5;
     }
 
     .hero p {
-      max-width: 650px;
-      color: var(--muted);
-      font-size: 18px;
+      color: #6b7280;
+      font-size: 1.08rem;
+      max-width: 600px;
       margin-bottom: 30px;
     }
 
     .hero-buttons {
       display: flex;
-      flex-wrap: wrap;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 13px 20px;
-      border-radius: 13px;
-      font-weight: 700;
-      border: 1px solid transparent;
+      border: none;
       cursor: pointer;
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
+      padding: 13px 19px;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: 0.2s;
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: #4f46e5;
       color: white;
-      box-shadow: 0 10px 25px rgba(91,92,226,.25);
+    }
+
+    .btn-primary:hover {
+      background: #4338ca;
+      transform: translateY(-1px);
     }
 
     .btn-secondary {
       background: white;
-      border-color: var(--border);
+      border: 1px solid #e5e7eb;
+      color: #111827;
     }
 
-    /* HERO CARD */
+    .btn-secondary:hover {
+      border-color: #c7d2fe;
+      color: #4f46e5;
+    }
 
     .hero-card {
-      background: rgba(255,255,255,.78);
-      border: 1px solid rgba(255,255,255,.9);
-      border-radius: 30px;
-      padding: 25px;
-      box-shadow: 0 30px 70px rgba(31,41,55,.12);
-      transform: rotate(2deg);
-    }
-
-    .hero-card-inner {
-      background: #101223;
+      background: #111827;
       color: white;
-      border-radius: 22px;
-      padding: 25px;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 25px 60px rgba(17,24,39,0.18);
     }
 
-    .hero-card-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 30px;
-      color: #c7c9d8;
-      font-size: 13px;
-    }
-
-    .progress {
-      height: 8px;
-      background: #303247;
-      border-radius: 20px;
-      overflow: hidden;
-      margin: 15px 0 25px;
-    }
-
-    .progress div {
-      width: 72%;
-      height: 100%;
-      background: linear-gradient(90deg,#6366f1,#a78bfa);
-    }
-
-    .mini-stat {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .mini-stat div {
-      background: #1b1d31;
-      border-radius: 14px;
-      padding: 13px;
-      text-align: center;
-    }
-
-    .mini-stat strong {
-      display: block;
-      font-size: 18px;
-    }
-
-    .mini-stat span {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    /* ================= GENERAL ================= */
-
-    .section {
-      max-width: 1180px;
-      margin: auto;
-      padding: 75px 20px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .section-title {
-      font-size: 32px;
-      letter-spacing: -1px;
-      margin-bottom: 7px;
-    }
-
-    .section-subtitle {
-      color: var(--muted);
-    }
-
-    .see-all {
-      color: var(--primary);
+    .hero-card small {
+      color: #a5b4fc;
       font-weight: 700;
-      white-space: nowrap;
+    }
+
+    .hero-card h2 {
+      font-size: 2rem;
+      margin: 12px 0;
+    }
+
+    .hero-card p {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini-item {
+      padding: 14px;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      color: #e5e7eb;
     }
 
     /* ================= SEARCH ================= */
 
+    .search-section {
+      padding: 35px 0;
+    }
+
     .search-box {
-      max-width: 760px;
-      margin: -35px auto 0;
-      position: relative;
-      z-index: 5;
-    }
-
-    .search {
-      background: white;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      border-radius: 18px;
-      padding: 7px;
       display: flex;
+      gap: 10px;
+      background: white;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.04);
     }
 
-    .search input {
+    .search-box input {
       flex: 1;
-      border: 0;
-      outline: 0;
-      padding: 15px;
-      background: transparent;
+      border: none;
+      outline: none;
+      padding: 12px;
       min-width: 0;
     }
 
-    .search button {
-      border: 0;
-      border-radius: 13px;
-      background: var(--primary);
-      color: white;
-      padding: 0 22px;
-      font-weight: 700;
-      cursor: pointer;
+    /* ================= SECTIONS ================= */
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      margin-bottom: 35px;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      color: #6b7280;
     }
 
     /* ================= CATEGORIES ================= */
 
     .categories {
       display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
     }
 
     .category {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 8px 25px rgba(31,41,55,.04);
-      transition: .2s;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 22px;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
     .category:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+      border-color: #c7d2fe;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
     }
 
     .category-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
-      background: #f0f0ff;
-      margin-bottom: 18px;
+      font-size: 1.7rem;
+      margin-bottom: 10px;
     }
 
     .category h3 {
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .category p {
-      color: var(--muted);
-      font-size: 13px;
+      color: #6b7280;
+      font-size: 0.9rem;
     }
 
     /* ================= PRODUCTS ================= */
 
-    .products {
+    .products-grid {
       display: grid;
-      grid-template-columns: repeat(3,1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
     .product {
       background: white;
-      border: 1px solid var(--border);
-      border-radius: 22px;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
       overflow: hidden;
-      transition: .2s;
+      transition: 0.2s;
     }
 
     .product:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.07);
     }
 
-    .product-cover {
-      min-height: 180px;
-      padding: 25px;
+    .product-image {
+      height: 150px;
+      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
       display: flex;
-      align-items: end;
-      background:
-        radial-gradient(circle at 90% 20%, rgba(255,255,255,.7), transparent 25%),
-        linear-gradient(135deg,#e9e9ff,#f8f8ff);
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    .product-cover span {
-      background: rgba(255,255,255,.85);
-      padding: 7px 11px;
-      border-radius: 9px;
-      font-size: 12px;
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-placeholder {
+      font-size: 2.7rem;
+    }
+
+    .product-content {
+      padding: 20px;
+    }
+
+    .product-category {
+      color: #4f46e5;
+      font-size: 0.78rem;
       font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .product-body {
-      padding: 22px;
-    }
-
-    .product-body h3 {
+      text-transform: uppercase;
       margin-bottom: 8px;
-      font-size: 18px;
     }
 
-    .product-body p {
-      color: var(--muted);
-      font-size: 14px;
-      min-height: 46px;
-      margin-bottom: 18px;
+    .product h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .product-description {
+      color: #6b7280;
+      font-size: 0.9rem;
+      min-height: 50px;
+      margin-bottom: 15px;
     }
 
     .product-bottom {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
     }
 
     .price {
-      font-size: 20px;
       font-weight: 800;
+      font-size: 1.1rem;
     }
 
     .product-btn {
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: #f0f0ff;
-      color: var(--primary-dark);
-      font-weight: 700;
-      border: 0;
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 10px 13px;
+      border-radius: 9px;
       cursor: pointer;
+      font-weight: 700;
     }
 
-    /* ================= WHY ================= */
+    .product-btn:hover {
+      background: #4f46e5;
+    }
 
-    .why {
-      background: #111322;
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px;
+      color: #6b7280;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      color: #6b7280;
+    }
+
+    /* ================= DARK SECTION ================= */
+
+    .dark-section {
+      background: #111827;
       color: white;
     }
 
-    .why-inner {
-      max-width: 1180px;
-      margin: auto;
-      padding: 75px 20px;
-    }
-
-    .why .section-subtitle {
-      color: #aeb1c3;
+    .dark-section p {
+      color: #cbd5e1;
     }
 
     .why-grid {
       display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 18px;
-      margin-top: 35px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
 
     .why-card {
-      background: #1b1d2d;
-      border: 1px solid #2b2e42;
-      border-radius: 20px;
       padding: 25px;
+      border: 1px solid #374151;
+      border-radius: 17px;
     }
 
-    .why-card .icon {
-      font-size: 25px;
-      margin-bottom: 15px;
+    .why-card h3 {
+      margin: 12px 0 7px;
     }
 
-    .why-card p {
-      color: #aeb1c3;
-      font-size: 14px;
-      margin-top: 8px;
-    }
-
-    /* ================= CTA ================= */
-
-    .cta {
-      text-align: center;
-      background: linear-gradient(135deg,#eeeeff,#faf9ff);
-      border-radius: 30px;
-      padding: 60px 25px;
-    }
-
-    .cta h2 {
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
-
-    .cta p {
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 25px;
+    .why-icon {
+      font-size: 1.7rem;
     }
 
     /* ================= FOOTER ================= */
 
     footer {
-      background: #0d0e17;
-      color: white;
-      margin-top: 70px;
-    }
-
-    .footer-inner {
-      max-width: 1180px;
-      margin: auto;
-      padding: 55px 20px 25px;
+      background: #0b1120;
+      color: #9ca3af;
+      padding: 45px 0;
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 35px;
-      margin-bottom: 45px;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 30px;
     }
 
-    .footer-brand p {
-      color: #9699a9;
-      max-width: 350px;
-      margin-top: 15px;
-    }
-
-    footer h4 {
-      margin-bottom: 15px;
+    footer h3 {
+      color: white;
+      margin-bottom: 10px;
     }
 
     footer a {
       display: block;
-      color: #9699a9;
-      margin-bottom: 9px;
-      font-size: 14px;
+      margin-bottom: 7px;
     }
 
     footer a:hover {
@@ -550,52 +467,29 @@
     }
 
     .copyright {
-      border-top: 1px solid #252736;
+      margin-top: 35px;
       padding-top: 20px;
-      color: #777b8d;
-      font-size: 13px;
+      border-top: 1px solid #1f2937;
+      font-size: 0.85rem;
     }
 
-    /* ================= MESSAGE ================= */
-
-    .message {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 200;
-      background: #111322;
-      color: white;
-      padding: 15px 18px;
-      border-radius: 14px;
-      box-shadow: 0 15px 40px rgba(0,0,0,.2);
-      display: none;
-      max-width: 300px;
-      font-size: 14px;
-    }
-
-    /* ================= MOBILE ================= */
+    /* ================= RESPONSIVE ================= */
 
     @media (max-width: 850px) {
-
       nav {
         display: none;
       }
 
-      .hero-content {
+      .hero-grid {
         grid-template-columns: 1fr;
-        padding-top: 65px;
-      }
-
-      .hero-card {
-        transform: none;
       }
 
       .categories {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .products {
-        grid-template-columns: 1fr;
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .why-grid {
@@ -603,53 +497,30 @@
       }
 
       .footer-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 550px) {
-
-      h1 {
-        font-size: 44px;
+      .hero {
+        padding-top: 55px;
       }
 
-      .hero p {
-        font-size: 16px;
+      .hero h1 {
+        letter-spacing: -1.5px;
       }
 
-      .search {
-        flex-direction: column;
-        gap: 7px;
-      }
-
-      .search button {
-        padding: 13px;
-      }
-
-      .categories {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .category {
-        padding: 17px;
-      }
-
-      .section {
-        padding: 55px 16px;
-      }
-
-      .section-header {
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .footer-grid {
+      .categories,
+      .products-grid {
         grid-template-columns: 1fr;
       }
 
-      .cta h2 {
-        font-size: 28px;
+      .search-box {
+        flex-direction: column;
+      }
+
+      .search-box button {
+        width: 100%;
       }
     }
   </style>
@@ -660,20 +531,22 @@
   <!-- ================= HEADER ================= -->
 
   <header>
-    <div class="nav">
+    <div class="container nav">
 
-      <a href="#accueil" class="logo">
-        <span class="logo-mark">M</span>
-        <span>MindFlow</span>
+      <a href="#" class="logo">
+        Mind<span>Flow</span>
       </a>
 
       <nav>
         <a href="#accueil">Accueil</a>
         <a href="#categories">Catégories</a>
         <a href="#catalogue">Catalogue</a>
-        <a href="#apropos">À propos</a>
-        <a href="#catalogue" class="nav-button">Explorer</a>
+        <a href="#pourquoi">Pourquoi MindFlow</a>
       </nav>
+
+      <a href="#catalogue" class="nav-button">
+        Explorer
+      </a>
 
     </div>
   </header>
@@ -684,34 +557,35 @@
   <main id="accueil">
 
     <section class="hero">
-
-      <div class="hero-content">
+      <div class="container hero-grid">
 
         <div>
 
-          <div class="badge">
-            ✦ La plateforme éducative nouvelle génération
-          </div>
+          <span class="badge">
+            📚 Plateforme éducative numérique
+          </span>
 
           <h1>
             Apprends.<br>
             Comprends.<br>
-            <span class="gradient-text">Progresse.</span>
+            <span>Progresse.</span>
           </h1>
 
           <p>
-            Des ressources éducatives pensées pour t'aider à mieux comprendre,
-            réviser efficacement et progresser à ton rythme.
+            Des ressources éducatives simples, pratiques et accessibles
+            pour apprendre plus efficacement et progresser à ton rythme.
           </p>
 
           <div class="hero-buttons">
+
             <a href="#catalogue" class="btn btn-primary">
-              Explorer les ressources
+              Découvrir les ressources
             </a>
 
             <a href="#categories" class="btn btn-secondary">
-              Découvrir les matières
+              Voir les catégories
             </a>
+
           </div>
 
         </div>
@@ -719,42 +593,29 @@
 
         <div class="hero-card">
 
-          <div class="hero-card-inner">
+          <small>BIENVENUE SUR MINDFLOW</small>
 
-            <div class="hero-card-top">
-              <span>MON ESPACE D'APPRENTISSAGE</span>
-              <span>● EN LIGNE</span>
+          <h2>
+            Apprendre autrement.
+          </h2>
+
+          <p>
+            Fiches, exercices, annales, e-books et ressources
+            pour accompagner chaque étape de ton apprentissage.
+          </p>
+
+          <div class="mini-list">
+
+            <div class="mini-item">
+              ✓ Ressources numériques
             </div>
 
-            <h2>Maîtriser les nombres complexes</h2>
-
-            <p style="color:#aeb1c3;font-size:14px;margin-top:8px;">
-              Cours + exercices corrigés
-            </p>
-
-            <div class="progress">
-              <div></div>
+            <div class="mini-item">
+              ✓ Accès rapide
             </div>
 
-            <small style="color:#aeb1c3;">
-              Progression recommandée
-            </small>
-
-            <div class="mini-stat">
-              <div>
-                <strong>12</strong>
-                <span>Exercices</span>
-              </div>
-
-              <div>
-                <strong>5</strong>
-                <span>Fiches</span>
-              </div>
-
-              <div>
-                <strong>100%</strong>
-                <span>Accessible</span>
-              </div>
+            <div class="mini-item">
+              ✓ Pensé pour les étudiants
             </div>
 
           </div>
@@ -762,103 +623,124 @@
         </div>
 
       </div>
-
     </section>
 
 
     <!-- ================= SEARCH ================= -->
 
-    <div class="search-box">
+    <section class="search-section">
 
-      <form class="search" onsubmit="searchMindFlow(event)">
+      <div class="container">
 
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Rechercher un cours, une fiche, un exercice..."
-        >
+        <form class="search-box" id="searchForm">
 
-        <button type="submit">
-          Rechercher
-        </button>
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Rechercher une ressource..."
+            autocomplete="off"
+          >
 
-      </form>
+          <button type="submit" class="btn btn-primary">
+            Rechercher
+          </button>
 
-    </div>
+        </form>
+
+      </div>
+
+    </section>
 
 
     <!-- ================= CATEGORIES ================= -->
 
     <section class="section" id="categories">
 
-      <div class="section-header">
+      <div class="container">
 
-        <div>
-          <h2 class="section-title">Explorer par matière</h2>
-          <p class="section-subtitle">
-            Trouve rapidement les ressources dont tu as besoin.
+        <div class="section-header">
+
+          <h2>
+            Explore par matière
+          </h2>
+
+          <p>
+            Trouve rapidement les ressources qui correspondent à tes besoins.
           </p>
+
         </div>
 
-        <a href="#catalogue" class="see-all">
-          Voir tout →
-        </a>
 
-      </div>
+        <div class="categories">
 
+          <div class="category" data-category="Mathématiques">
 
-      <div class="categories">
+            <div class="category-icon">
+              📐
+            </div>
 
-        <a href="#maths" class="category">
+            <h3>
+              Mathématiques
+            </h3>
 
-          <div class="category-icon">∑</div>
+            <p>
+              Exercices, annales et méthodes.
+            </p>
 
-          <h3>Mathématiques</h3>
-
-          <p>
-            Exercices, annales, méthodes et fiches.
-          </p>
-
-        </a>
+          </div>
 
 
-        <a href="#svt" class="category">
+          <div class="category" data-category="SVT">
 
-          <div class="category-icon">🧬</div>
+            <div class="category-icon">
+              🧬
+            </div>
 
-          <h3>SVT</h3>
+            <h3>
+              SVT
+            </h3>
 
-          <p>
-            Biologie, géologie et sciences de la vie.
-          </p>
+            <p>
+              Fiches et ressources scientifiques.
+            </p>
 
-        </a>
-
-
-        <a href="#physique" class="category">
-
-          <div class="category-icon">⚡</div>
-
-          <h3>Physique</h3>
-
-          <p>
-            Cours, exercices et préparation aux examens.
-          </p>
-
-        </a>
+          </div>
 
 
-        <a href="#informatique" class="category">
+          <div class="category" data-category="Physique">
 
-          <div class="category-icon">⌨️</div>
+            <div class="category-icon">
+              ⚛️
+            </div>
 
-          <h3>Informatique</h3>
+            <h3>
+              Physique
+            </h3>
 
-          <p>
-            Programmation, numérique et outils.
-          </p>
+            <p>
+              Exercices et corrections.
+            </p>
 
-        </a>
+          </div>
+
+
+          <div class="category" data-category="Informatique">
+
+            <div class="category-icon">
+              💻
+            </div>
+
+            <h3>
+              Informatique
+            </h3>
+
+            <p>
+              Programmation et numérique.
+            </p>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -869,235 +751,31 @@
 
     <section class="section" id="catalogue">
 
-      <div class="section-header">
+      <div class="container">
 
-        <div>
-          <h2 class="section-title">Ressources populaires</h2>
+        <div class="section-header">
 
-          <p class="section-subtitle">
-            Des contenus conçus pour apprendre plus efficacement.
+          <h2>
+            Catalogue MindFlow
+          </h2>
+
+          <p>
+            Découvre les ressources disponibles sur la plateforme.
           </p>
+
         </div>
 
-        <a href="#catalogue" class="see-all">
-          Catalogue →
-        </a>
 
-      </div>
+        <div
+          class="products-grid"
+          id="productsContainer"
+        >
 
-
-      <div class="products">
-
-
-        <!-- PRODUIT 1 -->
-
-        <article class="product" id="maths">
-
-          <div class="product-cover">
-            <span>MATHÉMATIQUES</span>
+          <div class="loading">
+            Chargement du catalogue...
           </div>
 
-          <div class="product-body">
-
-            <h3>Bac Maths 2012 — Correction détaillée</h3>
-
-            <p>
-              Une correction expliquée étape par étape pour comprendre
-              les méthodes utilisées.
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                1 000 FCFA
-              </span>
-
-              <button
-                class="product-btn"
-                onclick="showProduct('Bac Maths 2012 — Correction détaillée')">
-                Voir le produit
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        <!-- PRODUIT 2 -->
-
-        <article class="product">
-
-          <div class="product-cover">
-            <span>MATHÉMATIQUES</span>
-          </div>
-
-          <div class="product-body">
-
-            <h3>Maîtriser les nombres complexes</h3>
-
-            <p>
-              Fiche pédagogique + exercices progressifs + corrections.
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                1 500 FCFA
-              </span>
-
-              <button
-                class="product-btn"
-                onclick="showProduct('Maîtriser les nombres complexes')">
-                Voir le produit
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        <!-- PRODUIT 3 -->
-
-        <article class="product">
-
-          <div class="product-cover">
-            <span>RÉVISION</span>
-          </div>
-
-          <div class="product-body">
-
-            <h3>Fiches essentielles</h3>
-
-            <p>
-              Un condensé des notions importantes pour réviser rapidement.
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                500 FCFA
-              </span>
-
-              <button
-                class="product-btn"
-                onclick="showProduct('Fiches essentielles')">
-                Voir le produit
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        <!-- PRODUIT 4 -->
-
-        <article class="product" id="svt">
-
-          <div class="product-cover">
-            <span>SVT</span>
-          </div>
-
-          <div class="product-body">
-
-            <h3>Biologie — Fiches de révision</h3>
-
-            <p>
-              Les notions essentielles de biologie regroupées dans un seul support.
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                1 000 FCFA
-              </span>
-
-              <button
-                class="product-btn"
-                onclick="showProduct('Biologie — Fiches de révision')">
-                Voir le produit
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        <!-- PRODUIT 5 -->
-
-        <article class="product" id="physique">
-
-          <div class="product-cover">
-            <span>PHYSIQUE</span>
-          </div>
-
-          <div class="product-body">
-
-            <h3>Physique — Exercices corrigés</h3>
-
-            <p>
-              Une sélection d'exercices pour progresser et préparer les examens.
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                1 000 FCFA
-              </span>
-
-              <button
-                class="product-btn"
-                onclick="showProduct('Physique — Exercices corrigés')">
-                Voir le produit
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        <!-- PRODUIT 6 -->
-
-        <article class="product" id="informatique">
-
-          <div class="product-cover">
-            <span>INFORMATIQUE</span>
-          </div>
-
-          <div class="product-body">
-
-            <h3>Initiation à la programmation</h3>
-
-            <p>
-              Les bases pour comprendre la logique de programmation.
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                1 500 FCFA
-              </span>
-
-              <button
-                class="product-btn"
-                onclick="showProduct('Initiation à la programmation')">
-                Voir le produit
-              </button>
-
-            </div>
-
-          </div>
-
-        </article>
+        </div>
 
       </div>
 
@@ -1106,30 +784,39 @@
 
     <!-- ================= WHY ================= -->
 
-    <section class="why" id="apropos">
+    <section class="section dark-section" id="pourquoi">
 
-      <div class="why-inner">
+      <div class="container">
 
-        <h2 class="section-title">
-          Pourquoi MindFlow ?
-        </h2>
+        <div class="section-header">
 
-        <p class="section-subtitle">
-          Une plateforme pensée pour rendre les ressources éducatives
-          plus accessibles.
-        </p>
+          <h2>
+            Pourquoi MindFlow ?
+          </h2>
+
+          <p>
+            Une plateforme pensée pour rendre les ressources éducatives
+            plus simples à trouver et à utiliser.
+          </p>
+
+        </div>
 
 
         <div class="why-grid">
 
           <div class="why-card">
 
-            <div class="icon">📚</div>
+            <div class="why-icon">
+              🎯
+            </div>
 
-            <h3>Des ressources utiles</h3>
+            <h3>
+              Simple
+            </h3>
 
             <p>
-              Des supports conçus autour des besoins réels des apprenants.
+              Des ressources organisées pour aller directement
+              à l'essentiel.
             </p>
 
           </div>
@@ -1137,12 +824,16 @@
 
           <div class="why-card">
 
-            <div class="icon">⚡</div>
+            <div class="why-icon">
+              ⚡
+            </div>
 
-            <h3>Simple et rapide</h3>
+            <h3>
+              Rapide
+            </h3>
 
             <p>
-              Trouve ton contenu et accède rapidement à tes ressources.
+              Trouve et accède rapidement aux ressources dont tu as besoin.
             </p>
 
           </div>
@@ -1150,42 +841,22 @@
 
           <div class="why-card">
 
-            <div class="icon">🌍</div>
+            <div class="why-icon">
+              🚀
+            </div>
 
-            <h3>Une vision locale puis mondiale</h3>
+            <h3>
+              Évolutif
+            </h3>
 
             <p>
-              MindFlow commence au Gabon avec l'ambition de devenir
-              une plateforme éducative internationale.
+              MindFlow évoluera progressivement vers une véritable
+              marketplace éducative.
             </p>
 
           </div>
 
         </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= CTA ================= -->
-
-    <section class="section">
-
-      <div class="cta">
-
-        <h2>
-          Ton apprentissage peut aller plus loin.
-        </h2>
-
-        <p>
-          Découvre les ressources MindFlow et construis progressivement
-          ta bibliothèque de connaissances.
-        </p>
-
-        <a href="#catalogue" class="btn btn-primary">
-          Explorer le catalogue
-        </a>
 
       </div>
 
@@ -1198,20 +869,18 @@
 
   <footer>
 
-    <div class="footer-inner">
+    <div class="container">
 
       <div class="footer-grid">
 
-        <div class="footer-brand">
+        <div>
 
-          <div class="logo">
-            <span class="logo-mark">M</span>
-            <span>MindFlow</span>
-          </div>
+          <h3>
+            MindFlow
+          </h3>
 
           <p>
-            Une plateforme éducative numérique dédiée aux ressources,
-            exercices, annales et contenus pédagogiques.
+            Apprendre autrement, progresser intelligemment.
           </p>
 
         </div>
@@ -1219,34 +888,25 @@
 
         <div>
 
-          <h4>Plateforme</h4>
+          <h3>
+            Navigation
+          </h3>
 
           <a href="#accueil">Accueil</a>
-          <a href="#catalogue">Catalogue</a>
           <a href="#categories">Catégories</a>
+          <a href="#catalogue">Catalogue</a>
 
         </div>
 
 
         <div>
 
-          <h4>Ressources</h4>
+          <h3>
+            MindFlow
+          </h3>
 
-          <a href="#maths">Mathématiques</a>
-          <a href="#svt">SVT</a>
-          <a href="#physique">Physique</a>
-          <a href="#informatique">Informatique</a>
-
-        </div>
-
-
-        <div>
-
-          <h4>MindFlow</h4>
-
-          <a href="#apropos">À propos</a>
-          <a href="#catalogue">Devenir créateur</a>
-          <a href="#catalogue">Contact</a>
+          <a href="#pourquoi">À propos</a>
+          <a href="#catalogue">Ressources</a>
 
         </div>
 
@@ -1254,7 +914,9 @@
 
 
       <div class="copyright">
-        © 2026 MindFlow. Tous droits réservés.
+
+        © 2026 MindFlow — Tous droits réservés.
+
       </div>
 
     </div>
@@ -1262,67 +924,422 @@
   </footer>
 
 
-  <!-- MESSAGE -->
-
-  <div class="message" id="message"></div>
-
-
   <!-- ================= JAVASCRIPT ================= -->
 
   <script>
 
-    function showProduct(productName) {
+    /*
+      ==================================================
+      CONFIGURATION SUPABASE
+      ==================================================
 
-      const message = document.getElementById("message");
+      Cette clé est la clé PUBLIABLE.
+      Elle peut être utilisée dans le navigateur.
 
-      message.innerHTML =
-        "<strong>" + productName + "</strong><br>" +
-        "La page produit est en préparation. " +
-        "Le paiement Mobile Money sera intégré prochainement.";
+      NE JAMAIS mettre ici :
+      - clé service_role Supabase
+      - secret E-Billing
+      - clé privée Google Drive
+    */
 
-      message.style.display = "block";
+    const SUPABASE_URL =
+      "https://ejjmluesrrrbktgstlqm.supabase.co";
 
-      setTimeout(function() {
-        message.style.display = "none";
-      }, 4500);
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+
+
+    /*
+      ==================================================
+      VARIABLES
+      ==================================================
+    */
+
+    const productsContainer =
+      document.getElementById("productsContainer");
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const searchForm =
+      document.getElementById("searchForm");
+
+    let allProducts = [];
+
+
+    /*
+      ==================================================
+      ÉCHAPPER LE HTML
+      ==================================================
+    */
+
+    function escapeHTML(value) {
+
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
     }
 
 
-    function searchMindFlow(event) {
+    /*
+      ==================================================
+      FORMATAGE DU PRIX
+      ==================================================
+    */
 
-      event.preventDefault();
+    function formatPrice(price) {
 
-      const input =
-        document.getElementById("searchInput").value.trim();
+      return Number(price).toLocaleString("fr-FR") + " FCFA";
 
-      const message =
-        document.getElementById("message");
+    }
 
-      if (input === "") {
 
-        message.innerHTML =
-          "🔎 Entre un mot-clé pour effectuer une recherche.";
+    /*
+      ==================================================
+      CHARGEMENT DES PRODUITS SUPABASE
+      ==================================================
+    */
 
-      } else {
+    async function loadProducts() {
 
-        message.innerHTML =
-          "🔎 Recherche : <strong>" +
-          input +
-          "</strong><br>" +
-          "Le moteur de recherche complet sera activé dans la prochaine version.";
+      try {
+
+        productsContainer.innerHTML = `
+          <div class="loading">
+            Chargement du catalogue...
+          </div>
+        `;
+
+
+        const endpoint =
+          SUPABASE_URL +
+          "/rest/v1/products" +
+          "?select=id,title,description,price,category,product_type,image_url,is_active" +
+          "&is_active=eq.true" +
+          "&order=created_at.desc";
+
+
+        const response = await fetch(endpoint, {
+
+          method: "GET",
+
+          headers: {
+
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_PUBLISHABLE_KEY,
+
+            "Content-Type":
+              "application/json"
+
+          }
+
+        });
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Erreur Supabase : " + response.status
+          );
+
+        }
+
+
+        const products = await response.json();
+
+        allProducts = products;
+
+        renderProducts(products);
 
       }
 
-      message.style.display = "block";
+      catch (error) {
 
-      setTimeout(function() {
-        message.style.display = "none";
-      }, 3500);
+        console.error(error);
+
+        productsContainer.innerHTML = `
+          <div class="empty">
+            <strong>Impossible de charger le catalogue.</strong>
+            <br><br>
+            Vérifie la connexion à Supabase.
+          </div>
+        `;
+
+      }
 
     }
+
+
+    /*
+      ==================================================
+      AFFICHAGE DES PRODUITS
+      ==================================================
+    */
+
+    function renderProducts(products) {
+
+      if (!products || products.length === 0) {
+
+        productsContainer.innerHTML = `
+          <div class="empty">
+            Aucun produit disponible pour le moment.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      productsContainer.innerHTML = "";
+
+
+      products.forEach(product => {
+
+        const card =
+          document.createElement("article");
+
+        card.className = "product";
+
+
+        let imageHTML = `
+          <div class="product-placeholder">
+            📚
+          </div>
+        `;
+
+
+        if (product.image_url) {
+
+          imageHTML = `
+            <img
+              src="${escapeHTML(product.image_url)}"
+              alt="${escapeHTML(product.title)}"
+              loading="lazy"
+            >
+          `;
+
+        }
+
+
+        card.innerHTML = `
+
+          <div class="product-image">
+            ${imageHTML}
+          </div>
+
+          <div class="product-content">
+
+            <div class="product-category">
+              ${escapeHTML(product.category)}
+            </div>
+
+            <h3>
+              ${escapeHTML(product.title)}
+            </h3>
+
+            <p class="product-description">
+              ${
+                escapeHTML(
+                  product.description ||
+                  "Ressource éducative MindFlow."
+                )
+              }
+            </p>
+
+            <div class="product-bottom">
+
+              <span class="price">
+                ${formatPrice(product.price)}
+              </span>
+
+              <button
+                class="product-btn"
+                type="button"
+                data-product-id="${escapeHTML(product.id)}"
+              >
+                Découvrir
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+
+        const button =
+          card.querySelector(".product-btn");
+
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            openProduct(product);
+
+          }
+        );
+
+
+        productsContainer.appendChild(card);
+
+      });
+
+    }
+
+
+    /*
+      ==================================================
+      PAGE PRODUIT
+      ==================================================
+
+      Pour l'instant, le paiement n'est pas encore branché.
+    */
+
+    function openProduct(product) {
+
+      alert(
+        product.title +
+        "\n\n" +
+        formatPrice(product.price) +
+        "\n\n" +
+        "La page produit et le paiement seront bientôt disponibles."
+      );
+
+    }
+
+
+    /*
+      ==================================================
+      RECHERCHE
+      ==================================================
+    */
+
+    function searchProducts() {
+
+      const query =
+        searchInput.value
+          .trim()
+          .toLowerCase();
+
+
+      if (!query) {
+
+        renderProducts(allProducts);
+
+        return;
+
+      }
+
+
+      const filtered =
+        allProducts.filter(product => {
+
+          const title =
+            (product.title || "").toLowerCase();
+
+          const description =
+            (product.description || "").toLowerCase();
+
+          const category =
+            (product.category || "").toLowerCase();
+
+
+          return (
+            title.includes(query) ||
+            description.includes(query) ||
+            category.includes(query)
+          );
+
+        });
+
+
+      renderProducts(filtered);
+
+    }
+
+
+    searchForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+        searchProducts();
+
+        document
+          .getElementById("catalogue")
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
+      }
+    );
+
+
+    /*
+      ==================================================
+      FILTRE PAR CATÉGORIE
+      ==================================================
+    */
+
+    document
+      .querySelectorAll(".category")
+      .forEach(categoryElement => {
+
+        categoryElement.addEventListener(
+          "click",
+          function() {
+
+            const category =
+              categoryElement.dataset.category;
+
+
+            const filtered =
+              allProducts.filter(product =>
+
+                (product.category || "")
+                  .toLowerCase() ===
+                category.toLowerCase()
+
+              );
+
+
+            renderProducts(filtered);
+
+
+            document
+              .getElementById("catalogue")
+              .scrollIntoView({
+                behavior: "smooth"
+              });
+
+          }
+        );
+
+      });
+
+
+    /*
+      ==================================================
+      DÉMARRAGE
+      ==================================================
+    */
+
+    loadProducts();
 
   </script>
 
 </body>
-          </html>
+  </html>
