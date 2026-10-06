@@ -2,13 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>MindFlow — Paiement</title>
 
   <meta
     name="description"
-    content="Paiement sécurisé de votre commande MindFlow."
+    content="Paiement sécurisé MindFlow"
   >
 
   <style>
@@ -19,60 +23,42 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial, sans-serif;
       background: #f5f7fb;
-      color: #111827;
+      color: #172033;
       min-height: 100vh;
     }
 
     .container {
-      width: 100%;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 30px 18px 60px;
+      width: min(600px, 92%);
+      margin: 40px auto;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
     }
 
     .logo {
       text-align: center;
       font-size: 30px;
       font-weight: 800;
-      margin-bottom: 25px;
-      color: #111827;
-    }
-
-    .logo span {
-      color: #2563eb;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      font-size: 20px;
-      margin-bottom: 15px;
+      margin-bottom: 8px;
     }
 
     .subtitle {
-      color: #6b7280;
-      line-height: 1.5;
+      text-align: center;
+      color: #697386;
       margin-bottom: 25px;
     }
 
-    .product {
-      background: #f8fafc;
+    .product-box {
+      background: #f7f8fc;
       border-radius: 14px;
       padding: 18px;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .product-name {
@@ -82,56 +68,50 @@
     }
 
     .product-price {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 800;
-      color: #2563eb;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      font-weight: 600;
       margin-bottom: 7px;
+      font-weight: 600;
     }
 
     input {
       width: 100%;
-      padding: 14px;
-      border: 1px solid #d1d5db;
+      padding: 13px 14px;
+      border: 1px solid #d8deea;
       border-radius: 10px;
       font-size: 16px;
       outline: none;
-      transition: 0.2s;
+      margin-bottom: 17px;
     }
 
     input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: #555;
+    }
+
+    .payment-title {
+      font-weight: 700;
+      margin-bottom: 12px;
     }
 
     .methods {
       display: grid;
-      gap: 12px;
-      margin-top: 10px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     .method {
-      border: 1px solid #d1d5db;
+      border: 1px solid #d8deea;
       border-radius: 12px;
-      padding: 15px;
+      padding: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 12px;
-      transition: 0.2s;
-    }
-
-    .method:hover {
-      border-color: #2563eb;
-      background: #f8fbff;
+      gap: 10px;
+      background: #fff;
     }
 
     .method input {
@@ -139,99 +119,62 @@
       margin: 0;
     }
 
-    .method-name {
-      font-weight: 700;
-    }
-
-    .method-description {
-      font-size: 13px;
-      color: #6b7280;
-      margin-top: 3px;
+    .method.active {
+      border-color: #111;
+      background: #f7f7f7;
     }
 
     button {
       width: 100%;
+      padding: 15px;
       border: none;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 17px;
+      border-radius: 11px;
+      background: #111827;
+      color: #fff;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      background: #2563eb;
-      color: white;
-      transition: 0.2s;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background: #1d4ed8;
     }
 
     button:disabled {
-      background: #93c5fd;
+      opacity: 0.55;
       cursor: not-allowed;
     }
 
     .message {
       display: none;
-      border-radius: 12px;
-      padding: 15px;
       margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
       line-height: 1.5;
-    }
-
-    .message.success {
-      display: block;
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-    }
-
-    .message.error {
-      display: block;
-      background: #fef2f2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
     }
 
     .message.info {
       display: block;
-      background: #eff6ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
+      background: #eef4ff;
+      color: #174ea6;
     }
 
-    .order-details {
-      margin-top: 15px;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 10px;
-      padding: 12px;
+    .message.success {
+      display: block;
+      background: #eaf8ef;
+      color: #176b37;
     }
 
-    .order-details div {
-      margin-bottom: 7px;
-      word-break: break-word;
+    .message.error {
+      display: block;
+      background: #fff0f0;
+      color: #a61b1b;
     }
 
-    .order-details div:last-child {
-      margin-bottom: 0;
-    }
-
-    .secure {
-      text-align: center;
-      color: #6b7280;
-      font-size: 13px;
-      margin-top: 15px;
-    }
-
-    .loading {
-      display: inline-block;
-      width: 17px;
-      height: 17px;
-      border: 2px solid rgba(255,255,255,0.5);
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,.35);
       border-top-color: white;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      animation: spin .8s linear infinite;
       vertical-align: middle;
       margin-right: 8px;
     }
@@ -242,1081 +185,913 @@
       }
     }
 
-    .hidden {
-      display: none !important;
+    .details {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #596579;
+      line-height: 1.6;
     }
 
-    @media (max-width: 600px) {
-      .container {
-        padding: 20px 12px 40px;
-      }
-
-      .card {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 22px;
-      }
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
+
+  <div class="card">
 
     <div class="logo">
-      Mind<span>Flow</span>
+      MindFlow
     </div>
 
-    <div class="card">
+    <div class="subtitle">
+      Paiement sécurisé
+    </div>
 
-      <h1>Finaliser votre commande</h1>
-
-      <p class="subtitle">
-        Remplissez vos informations puis choisissez votre moyen de paiement.
-      </p>
-
-      <div class="product">
-
-        <div
-          id="productName"
-          class="product-name"
-        >
-          Chargement du produit...
-        </div>
-
-        <div
-          id="productPrice"
-          class="product-price"
-        >
-          --
-        </div>
-
-      </div>
-
-      <form id="paymentForm">
-
-        <div class="form-group">
-
-          <label for="customerName">
-            Nom complet
-          </label>
-
-          <input
-            type="text"
-            id="customerName"
-            placeholder="Votre nom complet"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label for="customerEmail">
-            Adresse e-mail
-          </label>
-
-          <input
-            type="email"
-            id="customerEmail"
-            placeholder="exemple@email.com"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label for="customerPhone">
-            Numéro de téléphone
-          </label>
-
-          <input
-            type="tel"
-            id="customerPhone"
-            placeholder="Ex : 077000000"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            Moyen de paiement
-          </label>
-
-          <div class="methods">
-
-            <label class="method">
-
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="airtel"
-                checked
-              >
-
-              <div>
-                <div class="method-name">
-                  Airtel Money
-                </div>
-
-                <div class="method-description">
-                  Paiement mobile avec Airtel Money
-                </div>
-              </div>
-
-            </label>
-
-            <label class="method">
-
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="moov"
-              >
-
-              <div>
-                <div class="method-name">
-                  Moov Money
-                </div>
-
-                <div class="method-description">
-                  Paiement mobile avec Moov Money
-                </div>
-              </div>
-
-            </label>
-
-          </div>
-
-        </div>
-
-        <button
-          type="submit"
-          id="payButton"
-        >
-          Payer maintenant
-        </button>
-
-      </form>
+    <div class="product-box">
 
       <div
-        id="message"
-        class="message"
-      ></div>
+        id="productName"
+        class="product-name"
+      >
+        Chargement...
+      </div>
 
-      <div class="secure">
-        🔒 Vos informations sont transmises de manière sécurisée.
+      <div
+        id="productPrice"
+        class="product-price"
+      >
+        ...
       </div>
 
     </div>
+
+    <form id="paymentForm">
+
+      <label for="customerName">
+        Nom complet
+      </label>
+
+      <input
+        id="customerName"
+        type="text"
+        placeholder="Votre nom complet"
+        required
+      >
+
+      <label for="customerEmail">
+        Adresse e-mail
+      </label>
+
+      <input
+        id="customerEmail"
+        type="email"
+        placeholder="vous@example.com"
+        required
+      >
+
+      <label for="customerPhone">
+        Numéro Mobile Money
+      </label>
+
+      <input
+        id="customerPhone"
+        type="tel"
+        placeholder="Ex. 074509021"
+        required
+      >
+
+      <div class="payment-title">
+        Moyen de paiement
+      </div>
+
+      <div class="methods">
+
+        <label class="method active">
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="airtelmoney"
+            checked
+          >
+
+          <span>
+            Airtel Money
+          </span>
+        </label>
+
+        <label class="method">
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="moovmoney4"
+          >
+
+          <span>
+            Moov Money
+          </span>
+        </label>
+
+      </div>
+
+      <button
+        id="payButton"
+        type="submit"
+      >
+        Payer maintenant
+      </button>
+
+    </form>
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+    <div
+      id="details"
+      class="details hidden"
+    ></div>
 
   </div>
 
+</div>
 
 <script>
 
-  /*
-   * ==========================================================
-   * CONFIGURATION SUPABASE
-   * ==========================================================
-   */
+const SUPABASE_URL =
+  "https://ejjmluesrrrbktgstlqm.supabase.co";
 
-  const SUPABASE_URL =
-    "https://ejjmluesrrrbktgstlqm.supabase.co";
+const SUPABASE_KEY =
+  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
-  const SUPABASE_KEY =
-    "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+const CREATE_INVOICE_FUNCTION =
+  `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
 
+const START_USSD_FUNCTION =
+  `${SUPABASE_URL}/functions/v1/start-usdd-payment`;
 
-  /*
-   * ==========================================================
-   * EDGE FUNCTION E-BILLING
-   * ==========================================================
-   */
-
-  const EBILLING_FUNCTION_URL =
-    `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
+const CHECK_USSD_FUNCTION =
+  `${SUPABASE_URL}/functions/v1/check-usdd-payment`;
 
 
-  /*
-   * ==========================================================
-   * VARIABLES
-   * ==========================================================
-   */
+let currentProduct = null;
+let currentOrderId = null;
+let currentPushId = null;
 
-  let currentProduct = null;
+let paymentCheckTimer = null;
 
 
-  /*
-   * ==========================================================
-   * ELEMENTS HTML
-   * ==========================================================
-   */
+/* =========================================================
+   UTILITAIRES
+========================================================= */
 
-  const productNameElement =
-    document.getElementById("productName");
+function showMessage(text, type = "info") {
 
-  const productPriceElement =
-    document.getElementById("productPrice");
-
-  const paymentForm =
-    document.getElementById("paymentForm");
-
-  const payButton =
-    document.getElementById("payButton");
-
-  const messageElement =
+  const box =
     document.getElementById("message");
 
+  box.className =
+    `message ${type}`;
 
-  /*
-   * ==========================================================
-   * MESSAGE
-   * ==========================================================
-   */
+  box.innerHTML = text;
+}
 
-  function showMessage(
-    message,
-    type = "info"
-  ) {
 
-    messageElement.className =
-      `message ${type}`;
+function formatPrice(value) {
 
-    messageElement.innerHTML =
-      message;
+  const amount =
+    Number(value || 0);
 
-    messageElement.style.display =
-      "block";
+  return new Intl.NumberFormat(
+    "fr-FR"
+  ).format(amount) + " FCFA";
+}
+
+
+function normalizePhone(phone) {
+
+  let value =
+    String(phone || "")
+      .trim()
+      .replace(/[^\d+]/g, "");
+
+  if (value.startsWith("+241")) {
+    value = "0" + value.slice(4);
   }
 
-
-  function hideMessage() {
-
-    messageElement.className =
-      "message";
-
-    messageElement.innerHTML =
-      "";
-
-    messageElement.style.display =
-      "none";
+  if (value.startsWith("241")) {
+    value = "0" + value.slice(3);
   }
 
+  return value;
+}
 
-  /*
-   * ==========================================================
-   * FORMAT PRIX
-   * ==========================================================
-   */
 
-  function formatPrice(price) {
+/* =========================================================
+   CHARGEMENT PRODUIT
+========================================================= */
 
-    return new Intl.NumberFormat(
-      "fr-FR"
-    ).format(Number(price)) + " FCFA";
+async function loadProduct() {
 
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const productId =
+    params.get("id");
+
+  if (!productId) {
+
+    showMessage(
+      "Produit introuvable.",
+      "error"
+    );
+
+    return;
   }
 
-
-  /*
-   * ==========================================================
-   * RÉCUPÉRATION DU PRODUIT
-   * ==========================================================
-   *
-   * La page attend par exemple :
-   *
-   * paiement.html?id=UUID_DU_PRODUIT
-   *
-   */
-
-  function getProductIdFromUrl() {
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    return params.get("id");
-
-  }
-
-
-  /*
-   * ==========================================================
-   * CHARGER LE PRODUIT
-   * ==========================================================
-   */
-
-  async function loadProduct() {
-
-    const productId =
-      getProductIdFromUrl();
-
-
-    if (!productId) {
-
-      throw new Error(
-        "Aucun produit n'a été sélectionné."
-      );
-
-    }
-
+  try {
 
     const response =
       await fetch(
         `${SUPABASE_URL}/rest/v1/products?id=eq.${encodeURIComponent(productId)}&select=*`,
         {
-          method: "GET",
-
           headers: {
-            "apikey": SUPABASE_KEY,
-            "Authorization":
+            apikey: SUPABASE_KEY,
+            Authorization:
               `Bearer ${SUPABASE_KEY}`
           }
         }
       );
 
-
     if (!response.ok) {
-
-      const errorText =
-        await response.text();
-
-      console.error(
-        "Erreur récupération produit :",
-        errorText
-      );
-
       throw new Error(
-        "Impossible de récupérer le produit."
+        "Impossible de charger le produit."
       );
-
     }
-
 
     const products =
       await response.json();
 
-
-    if (
-      !Array.isArray(products) ||
-      products.length === 0
-    ) {
-
+    if (!products.length) {
       throw new Error(
         "Produit introuvable."
       );
-
     }
-
 
     currentProduct =
       products[0];
 
-
-    /*
-     * Affichage
-     */
-
-    productNameElement.textContent =
+    document.getElementById(
+      "productName"
+    ).textContent =
       currentProduct.name ||
       currentProduct.title ||
       "Produit MindFlow";
 
-
-    productPriceElement.textContent =
+    document.getElementById(
+      "productPrice"
+    ).textContent =
       formatPrice(
         currentProduct.price
       );
 
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      error.message ||
+      "Erreur lors du chargement du produit.",
+      "error"
+    );
   }
+}
 
 
-  /*
-   * ==========================================================
-   * CRÉER LA COMMANDE
-   * ==========================================================
-   *
-   * CORRECTION IMPORTANTE :
-   *
-   * 1. L'UUID est créé ici côté navigateur.
-   *
-   * 2. On utilise return=minimal.
-   *
-   * Cela évite que Supabase essaie de retourner
-   * la ligne créée alors qu'une politique SELECT
-   * publique n'existe pas sur orders.
-   *
-   * On ne crée donc PAS de SELECT public sur orders.
-   *
-   */
+/* =========================================================
+   CREATION COMMANDE
+========================================================= */
 
-  async function createOrder(
-    customerData
-  ) {
+async function createOrder(customerData) {
 
-    /*
-     * Création de l'ID avant insertion
-     */
+  const orderId =
+    crypto.randomUUID();
 
-    const orderId =
-      crypto.randomUUID();
+  const order = {
 
+    id: orderId,
 
-    const order = {
+    product_id:
+      currentProduct.id,
 
-      id:
-        orderId,
+    customer_name:
+      customerData.name,
 
-      product_id:
-        currentProduct.id,
+    customer_email:
+      customerData.email,
 
-      customer_name:
-        customerData.name,
+    customer_phone:
+      customerData.phone,
 
-      customer_email:
-        customerData.email,
+    amount:
+      Number(currentProduct.price),
 
-      customer_phone:
-        customerData.phone,
+    status:
+      "pending"
+  };
 
-      amount:
-        Number(currentProduct.price),
+  const response =
+    await fetch(
+      `${SUPABASE_URL}/rest/v1/orders`,
+      {
+        method: "POST",
 
-      status:
-        "pending"
+        headers: {
+          "Content-Type":
+            "application/json",
 
-    };
+          apikey:
+            SUPABASE_KEY,
 
+          Authorization:
+            `Bearer ${SUPABASE_KEY}`,
 
-    console.log(
-      "Création commande :",
-      order
+          Prefer:
+            "return=minimal"
+        },
+
+        body:
+          JSON.stringify(order)
+      }
     );
 
+  if (!response.ok) {
+
+    const text =
+      await response.text();
+
+    throw new Error(
+      `Impossible de créer la commande : ${text}`
+    );
+  }
+
+  return order;
+}
+
+
+/* =========================================================
+   CREATION FACTURE
+========================================================= */
+
+async function createInvoice(orderId) {
+
+  const response =
+    await fetch(
+      CREATE_INVOICE_FUNCTION,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+
+          apikey:
+            SUPABASE_KEY,
+
+          Authorization:
+            `Bearer ${SUPABASE_KEY}`
+        },
+
+        body:
+          JSON.stringify({
+            order_id: orderId
+          })
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (!response.ok ||
+      !data.success) {
+
+    throw new Error(
+      data.message ||
+      "Impossible de créer la facture E-Billing."
+    );
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   USSD PUSH
+========================================================= */
+
+async function startUssdPayment(
+  orderId,
+  phone,
+  paymentMethod
+) {
+
+  const response =
+    await fetch(
+      START_USSD_FUNCTION,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+
+          apikey:
+            SUPABASE_KEY,
+
+          Authorization:
+            `Bearer ${SUPABASE_KEY}`
+        },
+
+        body:
+          JSON.stringify({
+
+            order_id:
+              orderId,
+
+            phone:
+              normalizePhone(phone),
+
+            payment_method:
+              paymentMethod
+
+          })
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (!response.ok ||
+      !data.success) {
+
+    throw new Error(
+      data.message ||
+      "Impossible d'envoyer le USSD Push."
+    );
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   VERIFICATION DU PAIEMENT
+========================================================= */
+
+async function checkPayment() {
+
+  if (
+    !currentOrderId ||
+    !currentPushId
+  ) {
+    return;
+  }
+
+  try {
 
     const response =
       await fetch(
-        `${SUPABASE_URL}/rest/v1/orders`,
+        CHECK_USSD_FUNCTION,
         {
           method: "POST",
 
           headers: {
-
             "Content-Type":
               "application/json",
 
-            "apikey":
+            apikey:
               SUPABASE_KEY,
 
-            "Authorization":
-              `Bearer ${SUPABASE_KEY}`,
-
-            /*
-             * IMPORTANT :
-             * Ne pas utiliser return=representation.
-             */
-
-            "Prefer":
-              "return=minimal"
-
-          },
-
-          body:
-            JSON.stringify(order)
-
-        }
-      );
-
-
-    if (!response.ok) {
-
-      const errorText =
-        await response.text();
-
-
-      console.error(
-        "Erreur création commande :",
-        errorText
-      );
-
-
-      let errorMessage =
-        "Impossible de créer la commande.";
-
-
-      try {
-
-        const errorData =
-          JSON.parse(errorText);
-
-
-        errorMessage =
-          errorData.message ||
-          errorData.error_description ||
-          errorData.hint ||
-          errorData.details ||
-          errorMessage;
-
-      }
-      catch (_) {
-        /*
-         * La réponse n'est pas forcément
-         * du JSON.
-         */
-      }
-
-
-      throw new Error(
-        errorMessage
-      );
-
-    }
-
-
-    /*
-     * Comme return=minimal est utilisé,
-     * Supabase ne renvoie pas la ligne.
-     *
-     * Mais nous avons déjà l'objet order
-     * complet avec son UUID.
-     */
-
-    return order;
-
-  }
-
-
-  /*
-   * ==========================================================
-   * CRÉER LA FACTURE E-BILLING
-   * ==========================================================
-   */
-
-  async function createEBillingInvoice(
-    orderId
-  ) {
-
-    console.log(
-      "Création facture E-Billing pour :",
-      orderId
-    );
-
-
-    const response =
-      await fetch(
-        EBILLING_FUNCTION_URL,
-        {
-          method: "POST",
-
-          headers: {
-
-            "Content-Type":
-              "application/json",
-
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
+            Authorization:
               `Bearer ${SUPABASE_KEY}`
-
           },
 
           body:
             JSON.stringify({
-              order_id:
-                orderId
-            })
 
+              order_id:
+                currentOrderId,
+
+              push_id:
+                currentPushId
+
+            })
         }
       );
 
+    const data =
+      await response.json();
 
-    const responseText =
-      await response.text();
+    if (!response.ok ||
+        !data.success) {
 
+      console.error(
+        "Erreur vérification :",
+        data
+      );
+
+      return;
+    }
 
     console.log(
-      "Réponse E-Billing :",
-      responseText
+      "État paiement :",
+      data
     );
 
+    if (data.paid === true) {
 
-    let data = null;
+      stopPaymentPolling();
 
+      document.getElementById(
+        "payButton"
+      ).disabled = false;
 
-    try {
-
-      data =
-        JSON.parse(
-          responseText
-        );
-
-    }
-    catch (_) {
-
-      data = null;
-
-    }
-
-
-    if (!response.ok) {
-
-      const errorMessage =
-        data?.message ||
-        data?.error ||
-        responseText ||
-        "Erreur lors de la création de la facture E-Billing.";
-
-      throw new Error(
-        errorMessage
+      showMessage(
+        `
+        <strong>Paiement confirmé !</strong><br><br>
+        Votre paiement a bien été reçu.
+        Vous pouvez maintenant accéder à votre contenu.
+        `,
+        "success"
       );
 
+      document.getElementById(
+        "details"
+      ).classList.remove("hidden");
+
+      document.getElementById(
+        "details"
+      ).innerHTML = `
+        Commande : ${currentOrderId}<br>
+        Facture : ${data.bill_id}<br>
+        Statut : payé
+      `;
+
+      return;
     }
 
+    const failedStates = [
+      "failed",
+      "failure",
+      "cancelled",
+      "canceled",
+      "rejected",
+      "declined",
+      "ambiguous"
+    ];
 
     if (
-      !data ||
-      data.success !== true
+      failedStates.includes(
+        String(
+          data.payment_state || ""
+        ).toLowerCase()
+      )
     ) {
 
-      throw new Error(
-        data?.message ||
-        "La facture E-Billing n'a pas pu être créée."
+      stopPaymentPolling();
+
+      document.getElementById(
+        "payButton"
+      ).disabled = false;
+
+      showMessage(
+        `
+        Le paiement n'a pas pu être confirmé.
+        Vous pouvez réessayer.
+        `,
+        "error"
       );
 
+      return;
     }
 
+  } catch (error) {
 
-    return data;
-
+    console.error(
+      "Erreur de vérification :",
+      error
+    );
   }
+}
 
 
-  /*
-   * ==========================================================
-   * SOUMISSION DU FORMULAIRE
-   * ==========================================================
-   */
+/* =========================================================
+   POLLING
+========================================================= */
 
-  paymentForm.addEventListener(
+function startPaymentPolling() {
+
+  stopPaymentPolling();
+
+  checkPayment();
+
+  paymentCheckTimer =
+    setInterval(
+      checkPayment,
+      5000
+    );
+}
+
+
+function stopPaymentPolling() {
+
+  if (paymentCheckTimer) {
+
+    clearInterval(
+      paymentCheckTimer
+    );
+
+    paymentCheckTimer =
+      null;
+  }
+}
+
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+document
+  .getElementById("paymentForm")
+  .addEventListener(
     "submit",
     async function(event) {
 
       event.preventDefault();
 
-
-      hideMessage();
-
-
       if (!currentProduct) {
 
         showMessage(
-          "Le produit n'est pas encore chargé. Veuillez patienter.",
+          "Le produit n'est pas encore chargé.",
           "error"
         );
 
         return;
-
       }
 
-
-      /*
-       * Récupération des informations
-       */
+      const button =
+        document.getElementById(
+          "payButton"
+        );
 
       const name =
-        document
-          .getElementById(
-            "customerName"
-          )
-          .value
-          .trim();
-
+        document.getElementById(
+          "customerName"
+        ).value.trim();
 
       const email =
-        document
-          .getElementById(
-            "customerEmail"
-          )
-          .value
-          .trim();
-
+        document.getElementById(
+          "customerEmail"
+        ).value.trim();
 
       const phone =
-        document
-          .getElementById(
-            "customerPhone"
-          )
-          .value
-          .trim();
-
-
-      const paymentMethodElement =
-        document.querySelector(
-          'input[name="paymentMethod"]:checked'
-        );
-
+        document.getElementById(
+          "customerPhone"
+        ).value.trim();
 
       const paymentMethod =
-        paymentMethodElement
-          ? paymentMethodElement.value
-          : null;
+        document.querySelector(
+          'input[name="paymentMethod"]:checked'
+        )?.value;
 
-
-      /*
-       * Vérifications
-       */
-
-      if (!name) {
+      if (!name ||
+          !email ||
+          !phone ||
+          !paymentMethod) {
 
         showMessage(
-          "Veuillez entrer votre nom complet.",
+          "Veuillez remplir tous les champs.",
           "error"
         );
 
         return;
-
       }
 
+      const normalizedPhone =
+        normalizePhone(phone);
 
-      if (!email) {
+      if (
+        !/^0\d{8}$/.test(
+          normalizedPhone
+        )
+      ) {
 
         showMessage(
-          "Veuillez entrer votre adresse e-mail.",
+          "Veuillez entrer un numéro Mobile Money gabonais valide.",
           "error"
         );
 
         return;
-
       }
-
-
-      if (!phone) {
-
-        showMessage(
-          "Veuillez entrer votre numéro de téléphone.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (!paymentMethod) {
-
-        showMessage(
-          "Veuillez sélectionner un moyen de paiement.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * Désactiver le bouton
-       */
-
-      payButton.disabled =
-        true;
-
-
-      payButton.innerHTML =
-        `<span class="loading"></span>Traitement en cours...`;
-
 
       try {
 
+        button.disabled = true;
+
+        button.innerHTML =
+          `
+          <span class="spinner"></span>
+          Préparation du paiement...
+          `;
+
+        showMessage(
+          "Création de votre commande...",
+          "info"
+        );
+
         /*
-         * ==================================================
-         * ÉTAPE 1
-         * Créer la commande
-         * ==================================================
+         * 1. Création commande
          */
 
         const order =
           await createOrder({
 
-            name:
-              name,
-
-            email:
-              email,
+            name,
+            email,
 
             phone:
-              phone
+              normalizedPhone
 
           });
 
-
-        console.log(
-          "Commande créée :",
-          order
-        );
-
+        currentOrderId =
+          order.id;
 
         /*
-         * ==================================================
-         * ÉTAPE 2
-         * Création facture E-Billing
-         * ==================================================
+         * 2. Création facture E-Billing
          */
 
         showMessage(
-          "Commande créée. Création de votre facture de paiement...",
+          "Création de la facture sécurisée...",
           "info"
         );
 
-
-        const billing =
-          await createEBillingInvoice(
+        const invoice =
+          await createInvoice(
             order.id
           );
 
-
-        console.log(
-          "Facture E-Billing créée :",
-          billing
-        );
-
-
         /*
-         * ==================================================
-         * SUCCÈS
-         * ==================================================
+         * 3. USSD Push
          */
 
-        const selectedMethod =
-          paymentMethod === "airtel"
+        showMessage(
+          `
+          <strong>Facture créée.</strong><br><br>
+          Préparation de votre paiement
+          ${paymentMethod === "airtelmoney"
             ? "Airtel Money"
-            : "Moov Money";
-
-
-        showMessage(
-
-          `
-            <strong>Commande enregistrée avec succès.</strong>
-
-            <div class="order-details">
-
-              <div>
-                <strong>Produit :</strong>
-                ${escapeHtml(
-                  currentProduct.name ||
-                  currentProduct.title ||
-                  "Produit MindFlow"
-                )}
-              </div>
-
-              <div>
-                <strong>Montant :</strong>
-                ${formatPrice(
-                  currentProduct.price
-                )}
-              </div>
-
-              <div>
-                <strong>Moyen :</strong>
-                ${escapeHtml(
-                  selectedMethod
-                )}
-              </div>
-
-              <div>
-                <strong>Commande :</strong>
-                ${escapeHtml(
-                  order.id
-                )}
-              </div>
-
-              <div>
-                <strong>Facture E-Billing :</strong>
-                ${escapeHtml(
-                  String(
-                    billing.bill_id
-                  )
-                )}
-              </div>
-
-              <div>
-                <strong>État de la facture :</strong>
-                ${escapeHtml(
-                  String(
-                    billing.state ||
-                    "ready"
-                  )
-                )}
-              </div>
-
-            </div>
-
-            <br>
-
-            <strong>
-              Votre facture a été créée.
-            </strong>
-
-            <br>
-
-            Le paiement Mobile Money sera traité à l'étape suivante.
+            : "Moov Money"}...
           `,
-
-          "success"
-
+          "info"
         );
 
+        const push =
+          await startUssdPayment(
+            order.id,
+            normalizedPhone,
+            paymentMethod
+          );
+
+        currentPushId =
+          push?.ussd_push?.id;
+
+        if (!currentPushId) {
+
+          throw new Error(
+            "E-Billing n'a pas retourné l'identifiant du USSD Push."
+          );
+        }
 
         /*
-         * Pour le moment, on ne dit PAS "paiement réussi".
-         *
-         * "ready" signifie que la facture est prête.
-         * Le vrai paiement Airtel/Moov sera ajouté ensuite.
+         * 4. Demande au client de valider
          */
 
-        payButton.disabled =
-          true;
+        showMessage(
+          `
+          <strong>Demande de paiement envoyée.</strong><br><br>
 
+          Vérifiez votre téléphone
+          et validez la demande
+          ${paymentMethod === "airtelmoney"
+            ? "Airtel Money"
+            : "Moov Money"}.
+          <br><br>
 
-        payButton.textContent =
-          "Commande enregistrée";
-
-
-      }
-      catch (error) {
-
-        console.error(
-          "Erreur paiement :",
-          error
+          Nous vérifions automatiquement
+          votre paiement...
+          `,
+          "info"
         );
 
+        document.getElementById(
+          "details"
+        ).classList.remove("hidden");
+
+        document.getElementById(
+          "details"
+        ).innerHTML = `
+          Commande : ${order.id}<br>
+          Facture : ${invoice.bill_id || "créée"}<br>
+          USSD Push : ${currentPushId}<br>
+          Opérateur :
+          ${
+            paymentMethod === "airtelmoney"
+              ? "Airtel Money"
+              : "Moov Money"
+          }
+        `;
+
+        button.innerHTML =
+          "Paiement en attente...";
+
+        /*
+         * 5. Vérification automatique
+         */
+
+        startPaymentPolling();
+
+      } catch (error) {
+
+        console.error(error);
+
+        stopPaymentPolling();
+
+        button.disabled = false;
+
+        button.innerHTML =
+          "Payer maintenant";
 
         showMessage(
-
-          `
-            <strong>Une erreur est survenue.</strong>
-            <br><br>
-            ${escapeHtml(
-              error.message ||
-              "Impossible de traiter votre commande."
-            )}
-          `,
-
+          error.message ||
+          "Une erreur est survenue.",
           "error"
-
         );
-
-
-        /*
-         * Réactiver le bouton
-         */
-
-        payButton.disabled =
-          false;
-
-
-        payButton.textContent =
-          "Réessayer le paiement";
-
       }
+    }
+  );
+
+
+/* =========================================================
+   STYLE DES MOYENS DE PAIEMENT
+========================================================= */
+
+document
+  .querySelectorAll(
+    'input[name="paymentMethod"]'
+  )
+  .forEach(
+    radio => {
+
+      radio.addEventListener(
+        "change",
+        () => {
+
+          document
+            .querySelectorAll(
+              ".method"
+            )
+            .forEach(
+              element =>
+                element.classList.remove(
+                  "active"
+                )
+            );
+
+          radio
+            .closest(".method")
+            ?.classList.add(
+              "active"
+            );
+        }
+      );
 
     }
   );
 
 
-  /*
-   * ==========================================================
-   * PROTECTION AFFICHAGE HTML
-   * ==========================================================
-   */
+/* =========================================================
+   INITIALISATION
+========================================================= */
 
-  function escapeHtml(
-    value
-  ) {
-
-    return String(value)
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-  }
-
-
-  /*
-   * ==========================================================
-   * INITIALISATION
-   * ==========================================================
-   */
-
-  async function init() {
-
-    try {
-
-      await loadProduct();
-
-    }
-    catch (error) {
-
-      console.error(
-        "Erreur initialisation :",
-        error
-      );
-
-
-      productNameElement.textContent =
-        "Produit indisponible";
-
-
-      productPriceElement.textContent =
-        "";
-
-
-      showMessage(
-        error.message ||
-        "Impossible de charger le produit.",
-        "error"
-      );
-
-
-      payButton.disabled =
-        true;
-
-    }
-
-  }
-
-
-  /*
-   * Lancement
-   */
-
-  init();
+loadProduct();
 
 </script>
 
