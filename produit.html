@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Produit — MindFlow</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f8fc;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1050px, 92%);
+      margin: auto;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.45rem;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: #4f46e5;
+    }
+
+    .back {
+      color: #4f46e5;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 70px 0;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+
+    .product-image {
+      min-height: 420px;
+      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .placeholder {
+      font-size: 6rem;
+    }
+
+    .product-info {
+      padding: 45px;
+    }
+
+    .category {
+      color: #4f46e5;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .description {
+      color: #6b7280;
+      font-size: 1.05rem;
+      margin-bottom: 30px;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 25px;
+    }
+
+    .buy-button {
+      width: 100%;
+      border: none;
+      background: #4f46e5;
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .buy-button:hover {
+      background: #4338ca;
+    }
+
+    .info-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f9fafb;
+      border-radius: 12px;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .loading,
+    .error {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .error {
+      color: #b91c1c;
+    }
+
+    @media (max-width: 750px) {
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-image {
+        min-height: 280px;
+      }
+
+      .product-info {
+        padding: 30px 22px;
+      }
+
+      main {
+        padding: 35px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+
+    <a href="index.html" class="logo">
+      Mind<span>Flow</span>
+    </a>
+
+    <a href="index.html#catalogue" class="back">
+      ← Retour au catalogue
+    </a>
+
+  </div>
+</header>
+
+
+<main>
+
+  <div class="container">
+
+    <div id="productContainer">
+
+      <div class="loading">
+        Chargement du produit...
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://ejjmluesrrrbktgstlqm.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+
+
+const container =
+  document.getElementById("productContainer");
+
+
+function escapeHTML(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function formatPrice(price) {
+
+  return Number(price).toLocaleString("fr-FR")
+    + " FCFA";
+
+}
+
+
+async function loadProduct() {
+
+  try {
+
+    const params =
+      new URLSearchParams(window.location.search);
+
+    const productId =
+      params.get("id");
+
+
+    if (!productId) {
+
+      throw new Error(
+        "Aucun produit sélectionné."
+      );
+
+    }
+
+
+    const endpoint =
+      SUPABASE_URL +
+      "/rest/v1/products" +
+      "?select=id,title,description,price,category,product_type,image_url,is_active" +
+      "&id=eq." +
+      encodeURIComponent(productId) +
+      "&is_active=eq.true";
+
+
+    const response =
+      await fetch(endpoint, {
+
+        method: "GET",
+
+        headers: {
+
+          "apikey":
+            SUPABASE_PUBLISHABLE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            SUPABASE_PUBLISHABLE_KEY
+
+        }
+
+      });
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Erreur Supabase : " +
+        response.status
+      );
+
+    }
+
+
+    const products =
+      await response.json();
+
+
+    if (!products.length) {
+
+      throw new Error(
+        "Produit introuvable."
+      );
+
+    }
+
+
+    const product =
+      products[0];
+
+
+    let imageHTML = `
+      <div class="placeholder">
+        📚
+      </div>
+    `;
+
+
+    if (product.image_url) {
+
+      imageHTML = `
+        <img
+          src="${escapeHTML(product.image_url)}"
+          alt="${escapeHTML(product.title)}"
+        >
+      `;
+
+    }
+
+
+    document.title =
+      product.title +
+      " — MindFlow";
+
+
+    container.innerHTML = `
+
+      <div class="product-card">
+
+        <div class="product-grid">
+
+          <div class="product-image">
+
+            ${imageHTML}
+
+          </div>
+
+
+          <div class="product-info">
+
+            <div class="category">
+
+              ${escapeHTML(product.category)}
+
+            </div>
+
+
+            <h1>
+
+              ${escapeHTML(product.title)}
+
+            </h1>
+
+
+            <p class="description">
+
+              ${
+                escapeHTML(
+                  product.description ||
+                  "Ressource éducative MindFlow."
+                )
+              }
+
+            </p>
+
+
+            <div class="price">
+
+              ${formatPrice(product.price)}
+
+            </div>
+
+
+            <button
+              class="buy-button"
+              id="buyButton"
+            >
+              Acheter maintenant
+            </button>
+
+
+            <div class="info-box">
+
+              🔒 Paiement sécurisé et
+              téléchargement numérique.
+              <br><br>
+
+              Le paiement sera bientôt disponible
+              sur MindFlow.
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    document
+      .getElementById("buyButton")
+      .addEventListener("click", function() {
+
+        alert(
+          "Le paiement de ce produit sera bientôt disponible."
+        );
+
+      });
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="error">
+
+        <h2>
+          Impossible de charger le produit
+        </h2>
+
+        <br>
+
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+
+        <br>
+
+        <a
+          href="index.html#catalogue"
+          class="back"
+        >
+          ← Retour au catalogue
+        </a>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+loadProduct();
+
+</script>
+
+</body>
+</html>
