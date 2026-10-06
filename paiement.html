@@ -18,215 +18,251 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #f5f7fb;
       color: #172033;
       min-height: 100vh;
     }
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .header-inner {
+    .container {
+      width: 100%;
       max-width: 900px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
     }
 
     .logo {
-      font-size: 24px;
-      font-weight: 800;
-      color: #111827;
-    }
-
-    .back-btn {
-      text-decoration: none;
-      color: #374151;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .page-title {
       text-align: center;
       margin-bottom: 30px;
     }
 
-    .page-title h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
+    .logo h1 {
+      font-size: 30px;
+      color: #111827;
     }
 
-    .page-title p {
-      color: #6b7280;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
+    .logo span {
+      color: #2563eb;
     }
 
     .card {
       background: #ffffff;
       border-radius: 18px;
       padding: 25px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      margin-bottom: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
     }
 
-    .category {
+    .card h2 {
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .product-category {
       display: inline-block;
       background: #eef2ff;
-      color: #4f46e5;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .product-title {
-      font-size: 25px;
+      color: #4338ca;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
       margin-bottom: 12px;
     }
 
-    .description {
-      color: #6b7280;
+    .product-title {
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: #111827;
+    }
+
+    .product-description {
+      color: #667085;
       line-height: 1.6;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .price {
       font-size: 28px;
-      font-weight: 800;
+      font-weight: bold;
+      color: #2563eb;
     }
 
     .form-group {
       margin-bottom: 18px;
     }
 
-    label {
+    .form-group label {
       display: block;
-      margin-bottom: 7px;
-      font-weight: 600;
+      margin-bottom: 8px;
+      font-weight: bold;
       font-size: 14px;
     }
 
-    input {
+    .form-group input {
       width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d1d5db;
+      padding: 14px;
+      border: 1px solid #d0d5dd;
       border-radius: 10px;
-      font-size: 15px;
+      font-size: 16px;
       outline: none;
+      transition: 0.2s;
     }
 
-    input:focus {
-      border-color: #4f46e5;
+    .form-group input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .payment-methods {
       display: grid;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin-top: 10px;
     }
 
     .payment-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 13px;
-      cursor: pointer;
+      position: relative;
     }
 
     .payment-option input {
-      width: auto;
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .payment-option span {
-      font-weight: 600;
-    }
-
-    button {
-      width: 100%;
-      border: none;
-      background: #111827;
-      color: white;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 700;
+    .payment-label {
+      display: block;
+      padding: 16px;
+      border: 2px solid #e4e7ec;
+      border-radius: 12px;
       cursor: pointer;
-      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      transition: 0.2s;
+      background: #fff;
     }
 
-    button:hover {
-      background: #000000;
+    .payment-option input:checked + .payment-label {
+      border-color: #2563eb;
+      background: #eff6ff;
+      color: #1d4ed8;
     }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .notice {
-      margin-top: 18px;
+    .payment-info {
+      margin-top: 15px;
       padding: 13px;
-      background: #f3f4f6;
       border-radius: 10px;
-      color: #6b7280;
+      background: #f8fafc;
+      color: #667085;
       font-size: 13px;
       line-height: 1.5;
     }
 
+    .btn {
+      width: 100%;
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    .btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
     .message {
       display: none;
-      margin-top: 15px;
-      padding: 13px;
+      padding: 15px;
       border-radius: 10px;
-      font-size: 14px;
+      margin-top: 18px;
       line-height: 1.5;
+      font-size: 14px;
     }
 
     .message.success {
       display: block;
-      background: #ecfdf5;
-      color: #047857;
+      background: #ecfdf3;
+      color: #027a48;
+      border: 1px solid #abefc6;
     }
 
     .message.error {
       display: block;
-      background: #fef2f2;
-      color: #b91c1c;
+      background: #fef3f2;
+      color: #b42318;
+      border: 1px solid #fecdca;
     }
 
-    @media (max-width: 700px) {
-      main {
-        margin: 25px auto;
+    .message.loading {
+      display: block;
+      background: #eff8ff;
+      color: #175cd3;
+      border: 1px solid #b2ddff;
+    }
+
+    .result-box {
+      margin-top: 15px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 7px 0;
+      border-bottom: 1px solid #eaecf0;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      color: #667085;
+    }
+
+    .result-value {
+      font-weight: bold;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #98a2b3;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 14px 40px;
       }
 
-      .grid {
+      .card {
+        padding: 20px;
+      }
+
+      .product-title {
+        font-size: 23px;
+      }
+
+      .payment-methods {
         grid-template-columns: 1fr;
-      }
-
-      .page-title h1 {
-        font-size: 27px;
       }
     }
   </style>
@@ -234,49 +270,35 @@
 
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">MindFlow</div>
+  <div class="container">
 
-    <a href="javascript:history.back()" class="back-btn">
-      ← Retour
-    </a>
-  </div>
-</header>
-
-<main>
-
-  <div class="page-title">
-    <h1>Finaliser votre commande</h1>
-    <p>Remplissez vos informations pour continuer.</p>
-  </div>
-
-  <div class="grid">
+    <div class="logo">
+      <h1>Mind<span>Flow</span></h1>
+    </div>
 
     <!-- PRODUIT -->
     <div class="card">
+      <div id="productCategory" class="product-category">
+        Chargement...
+      </div>
 
-      <div id="productLoading">
+      <h2 id="productTitle" class="product-title">
         Chargement du produit...
+      </h2>
+
+      <p id="productDescription" class="product-description">
+        Veuillez patienter...
+      </p>
+
+      <div id="productPrice" class="price">
+        ...
       </div>
-
-      <div id="productContent" style="display:none;">
-
-        <div class="category" id="productCategory"></div>
-
-        <h2 class="product-title" id="productTitle"></h2>
-
-        <p class="description" id="productDescription"></p>
-
-        <div class="price" id="productPrice"></div>
-
-      </div>
-
     </div>
-
 
     <!-- FORMULAIRE -->
     <div class="card">
+
+      <h2>Vos informations</h2>
 
       <form id="paymentForm">
 
@@ -288,11 +310,10 @@
           <input
             type="text"
             id="customerName"
-            placeholder="Votre nom complet"
+            placeholder="Ex : Louis Curtis Minko"
             required
           >
         </div>
-
 
         <div class="form-group">
           <label for="customerEmail">
@@ -302,244 +323,571 @@
           <input
             type="email"
             id="customerEmail"
-            placeholder="exemple@email.com"
+            placeholder="Ex : contact@mindflow.ga"
             required
           >
         </div>
 
-
         <div class="form-group">
           <label for="customerPhone">
-            Numéro de téléphone
+            Numéro Mobile Money
           </label>
 
           <input
             type="tel"
             id="customerPhone"
-            placeholder="07 XX XX XX XX"
+            placeholder="Ex : 077000000"
             required
           >
         </div>
 
-
         <div class="form-group">
 
           <label>
-            Moyen de paiement
+            Mode de paiement
           </label>
 
           <div class="payment-methods">
 
-            <label class="payment-option">
+            <div class="payment-option">
               <input
                 type="radio"
+                id="airtelMoney"
                 name="paymentMethod"
                 value="airtel_money"
-                required
+                checked
               >
 
-              <span>Airtel Money</span>
-            </label>
+              <label
+                for="airtelMoney"
+                class="payment-label"
+              >
+                Airtel Money
+              </label>
+            </div>
 
-
-            <label class="payment-option">
+            <div class="payment-option">
               <input
                 type="radio"
+                id="moovMoney"
                 name="paymentMethod"
                 value="moov_money"
-                required
               >
 
-              <span>Moov Money</span>
-            </label>
+              <label
+                for="moovMoney"
+                class="payment-label"
+              >
+                Moov Money
+              </label>
+            </div>
 
+          </div>
+
+          <div class="payment-info">
+            Votre choix de Mobile Money sera utilisé pour
+            l'étape de paiement. La connexion directe avec
+            Airtel Money / Moov Money sera ajoutée après
+            la création de la facture E-Billing.
           </div>
 
         </div>
 
-
-        <button type="submit" id="submitButton">
+        <button
+          type="submit"
+          class="btn"
+          id="submitButton"
+        >
           Continuer vers le paiement
         </button>
 
-
-        <div id="message" class="message"></div>
-
-
-        <div class="notice">
-          Votre commande sera enregistrée avant le lancement du
-          paiement. La connexion à E-Billing sera ajoutée dans
-          l'étape suivante.
-        </div>
-
       </form>
 
+      <div id="message" class="message"></div>
+
+      <div id="resultBox" class="result-box">
+
+        <div class="result-row">
+          <span class="result-label">
+            Commande
+          </span>
+
+          <span
+            class="result-value"
+            id="resultOrderId"
+          >
+            -
+          </span>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">
+            Facture E-Billing
+          </span>
+
+          <span
+            class="result-value"
+            id="resultBillId"
+          >
+            -
+          </span>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">
+            Montant
+          </span>
+
+          <span
+            class="result-value"
+            id="resultAmount"
+          >
+            -
+          </span>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">
+            Mode choisi
+          </span>
+
+          <span
+            class="result-value"
+            id="resultMethod"
+          >
+            -
+          </span>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">
+            État
+          </span>
+
+          <span
+            class="result-value"
+            id="resultState"
+          >
+            -
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer">
+      © 2026 MindFlow — Apprendre autrement
     </div>
 
   </div>
 
-</main>
-
 
 <script>
+/* =========================================================
+   CONFIGURATION SUPABASE
+========================================================= */
 
-  const SUPABASE_URL =
-    "https://ejjmluesrrrbktgstlqm.supabase.co";
+const SUPABASE_URL =
+  "https://ejjmluesrrrbktgstlqm.supabase.co";
 
-  const SUPABASE_KEY =
-    "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
-
-
-  const params = new URLSearchParams(window.location.search);
-
-  const productId = params.get("id");
+const SUPABASE_KEY =
+  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
 
-  const productLoading =
-    document.getElementById("productLoading");
+/* =========================================================
+   EDGE FUNCTION
+========================================================= */
 
-  const productContent =
-    document.getElementById("productContent");
-
-  const productCategory =
-    document.getElementById("productCategory");
-
-  const productTitle =
-    document.getElementById("productTitle");
-
-  const productDescription =
-    document.getElementById("productDescription");
-
-  const productPrice =
-    document.getElementById("productPrice");
-
-  const paymentForm =
-    document.getElementById("paymentForm");
-
-  const submitButton =
-    document.getElementById("submitButton");
-
-  const message =
-    document.getElementById("message");
+const EBILLING_FUNCTION_URL =
+  `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
 
 
-  let currentProduct = null;
+/* =========================================================
+   ÉLÉMENTS HTML
+========================================================= */
+
+const productCategory =
+  document.getElementById("productCategory");
+
+const productTitle =
+  document.getElementById("productTitle");
+
+const productDescription =
+  document.getElementById("productDescription");
+
+const productPrice =
+  document.getElementById("productPrice");
+
+const paymentForm =
+  document.getElementById("paymentForm");
+
+const submitButton =
+  document.getElementById("submitButton");
+
+const message =
+  document.getElementById("message");
+
+const resultBox =
+  document.getElementById("resultBox");
+
+const resultOrderId =
+  document.getElementById("resultOrderId");
+
+const resultBillId =
+  document.getElementById("resultBillId");
+
+const resultAmount =
+  document.getElementById("resultAmount");
+
+const resultMethod =
+  document.getElementById("resultMethod");
+
+const resultState =
+  document.getElementById("resultState");
 
 
-  function showMessage(text, type) {
+/* =========================================================
+   PRODUIT ACTUEL
+========================================================= */
 
-    message.textContent = text;
+let currentProduct = null;
 
-    message.className =
-      "message " + type;
+
+/* =========================================================
+   RÉCUPÉRER L'ID DU PRODUIT
+========================================================= */
+
+const urlParams =
+  new URLSearchParams(window.location.search);
+
+const productId =
+  urlParams.get("id");
+
+
+/* =========================================================
+   AFFICHAGE DES MESSAGES
+========================================================= */
+
+function showMessage(text, type) {
+
+  message.textContent = text;
+
+  message.className = "message " + type;
+
+}
+
+
+function clearMessage() {
+
+  message.textContent = "";
+
+  message.className = "message";
+
+}
+
+
+/* =========================================================
+   FORMATAGE DU PRIX
+========================================================= */
+
+function formatPrice(amount) {
+
+  return Number(amount).toLocaleString("fr-FR") + " FCFA";
+
+}
+
+
+/* =========================================================
+   CHARGEMENT DU PRODUIT
+========================================================= */
+
+async function loadProduct() {
+
+  if (!productId) {
+
+    productTitle.textContent =
+      "Produit introuvable";
+
+    productDescription.textContent =
+      "Aucun identifiant de produit n'a été fourni.";
+
+    productCategory.textContent =
+      "Erreur";
+
+    productPrice.textContent =
+      "";
+
+    return;
   }
 
 
-  function formatPrice(price) {
+  try {
 
-    return new Intl.NumberFormat("fr-FR").format(price)
-      + " FCFA";
-  }
-
-
-  async function loadProduct() {
-
-    if (!productId) {
-
-      productLoading.textContent =
-        "Produit introuvable.";
-
-      return;
-    }
-
-
-    try {
-
-      const url =
-        SUPABASE_URL +
-        "/rest/v1/products" +
-        "?select=id,title,description,price,category" +
-        "&id=eq." +
-        encodeURIComponent(productId) +
-        "&is_active=eq.true";
-
-
-      const response = await fetch(url, {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/products?select=id,title,description,price,category&id=eq.${encodeURIComponent(productId)}&is_active=eq.true`,
+      {
+        method: "GET",
 
         headers: {
-
           "apikey": SUPABASE_KEY,
-
-          "Authorization":
-            "Bearer " + SUPABASE_KEY
-
+          "Authorization": `Bearer ${SUPABASE_KEY}`
         }
-
-      });
-
-
-      if (!response.ok) {
-        throw new Error(
-          "Impossible de charger le produit."
-        );
       }
+    );
 
 
-      const products = await response.json();
+    if (!response.ok) {
 
+      const errorText =
+        await response.text();
 
-      if (!products.length) {
-
-        productLoading.textContent =
-          "Ce produit n'existe pas ou n'est plus disponible.";
-
-        return;
-      }
-
-
-      currentProduct = products[0];
-
-
-      productCategory.textContent =
-        currentProduct.category || "Produit";
-
-      productTitle.textContent =
-        currentProduct.title;
-
-      productDescription.textContent =
-        currentProduct.description ||
-        "Aucune description disponible.";
-
-      productPrice.textContent =
-        formatPrice(currentProduct.price);
-
-
-      productLoading.style.display = "none";
-
-      productContent.style.display = "block";
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      productLoading.textContent =
-        "Une erreur est survenue lors du chargement du produit.";
-
+      throw new Error(
+        `Erreur produit (${response.status}) : ${errorText}`
+      );
     }
+
+
+    const products =
+      await response.json();
+
+
+    if (!products.length) {
+
+      throw new Error(
+        "Ce produit n'existe pas ou n'est plus disponible."
+      );
+    }
+
+
+    currentProduct =
+      products[0];
+
+
+    productCategory.textContent =
+      currentProduct.category || "Produit";
+
+
+    productTitle.textContent =
+      currentProduct.title;
+
+
+    productDescription.textContent =
+      currentProduct.description || "";
+
+
+    productPrice.textContent =
+      formatPrice(currentProduct.price);
+
+
+  } catch (error) {
+
+    console.error(
+      "Erreur chargement produit :",
+      error
+    );
+
+
+    productCategory.textContent =
+      "Erreur";
+
+
+    productTitle.textContent =
+      "Impossible de charger le produit";
+
+
+    productDescription.textContent =
+      error.message;
+
+
+    productPrice.textContent =
+      "";
 
   }
 
+}
 
-  paymentForm.addEventListener("submit", async function(event) {
+
+/* =========================================================
+   CRÉATION DE LA COMMANDE
+========================================================= */
+
+async function createOrder(customerData) {
+
+  /*
+    IMPORTANT :
+
+    On n'envoie PAS payment_method ici.
+
+    La table orders actuelle ne possède pas cette colonne.
+  */
+
+  const order = {
+
+    product_id: currentProduct.id,
+
+    customer_name:
+      customerData.name,
+
+    customer_email:
+      customerData.email,
+
+    customer_phone:
+      customerData.phone,
+
+    amount:
+      Number(currentProduct.price),
+
+    status:
+      "pending"
+  };
+
+
+  const response = await fetch(
+    `${SUPABASE_URL}/rest/v1/orders`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+
+        "apikey":
+          SUPABASE_KEY,
+
+        "Authorization":
+          `Bearer ${SUPABASE_KEY}`,
+
+        "Prefer":
+          "return=representation"
+      },
+
+      body:
+        JSON.stringify(order)
+    }
+  );
+
+
+  const data =
+    await response.json();
+
+
+  if (!response.ok) {
+
+    console.error(
+      "Erreur création commande :",
+      data
+    );
+
+
+    throw new Error(
+      data.message ||
+      data.error_description ||
+      data.hint ||
+      "Impossible de créer la commande."
+    );
+  }
+
+
+  if (!data || !data.length) {
+
+    throw new Error(
+      "La commande a été créée mais aucun identifiant n'a été retourné."
+    );
+  }
+
+
+  return data[0];
+
+}
+
+
+/* =========================================================
+   CRÉATION DE LA FACTURE E-BILLING
+========================================================= */
+
+async function createEBillingInvoice(orderId) {
+
+  const response =
+    await fetch(
+      EBILLING_FUNCTION_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            `Bearer ${SUPABASE_KEY}`
+        },
+
+        body:
+          JSON.stringify({
+            order_id: orderId
+          })
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (!response.ok) {
+
+    console.error(
+      "Erreur E-Billing :",
+      data
+    );
+
+
+    throw new Error(
+      data.message ||
+      data.error ||
+      data.details ||
+      `Erreur E-Billing (${response.status})`
+    );
+  }
+
+
+  if (!data.success) {
+
+    throw new Error(
+      data.message ||
+      "La facture E-Billing n'a pas pu être créée."
+    );
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   SOUMISSION DU FORMULAIRE
+========================================================= */
+
+paymentForm.addEventListener(
+  "submit",
+  async function(event) {
 
     event.preventDefault();
 
 
+    clearMessage();
+
+    resultBox.style.display = "none";
+
+
+    /* Vérifier le produit */
+
     if (!currentProduct) {
 
       showMessage(
-        "Le produit n'est pas encore chargé.",
+        "Le produit n'est pas encore chargé. Veuillez patienter.",
         "error"
       );
 
@@ -547,14 +895,27 @@
     }
 
 
+    /* Récupérer les informations */
+
     const customerName =
-      document.getElementById("customerName").value.trim();
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
 
     const customerEmail =
-      document.getElementById("customerEmail").value.trim();
+      document
+        .getElementById("customerEmail")
+        .value
+        .trim();
+
 
     const customerPhone =
-      document.getElementById("customerPhone").value.trim();
+      document
+        .getElementById("customerPhone")
+        .value
+        .trim();
 
 
     const selectedMethod =
@@ -566,7 +927,7 @@
     if (!selectedMethod) {
 
       showMessage(
-        "Veuillez choisir un moyen de paiement.",
+        "Veuillez sélectionner un mode de paiement.",
         "error"
       );
 
@@ -574,128 +935,187 @@
     }
 
 
+    const paymentMethod =
+      selectedMethod.value;
+
+
+    /* Vérifications */
+
+    if (!customerName) {
+
+      showMessage(
+        "Veuillez saisir votre nom complet.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!customerEmail) {
+
+      showMessage(
+        "Veuillez saisir votre adresse e-mail.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!customerPhone) {
+
+      showMessage(
+        "Veuillez saisir votre numéro Mobile Money.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    /* Désactiver le bouton */
+
     submitButton.disabled = true;
 
     submitButton.textContent =
       "Création de la commande...";
 
-    message.className = "message";
-
 
     try {
 
-      const order = {
+      /* -----------------------------------------
+         1. CRÉER LA COMMANDE
+      ----------------------------------------- */
 
-        product_id: currentProduct.id,
+      const order =
+        await createOrder({
 
-        customer_name: customerName,
+          name:
+            customerName,
 
-        customer_email: customerEmail,
+          email:
+            customerEmail,
 
-        customer_phone: customerPhone,
+          phone:
+            customerPhone
 
-        payment_method: selectedMethod.value,
-
-        amount: Number(currentProduct.price),
-
-        status: "pending"
-
-      };
+        });
 
 
-      const response = await fetch(
-
-        SUPABASE_URL + "/rest/v1/orders",
-
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "apikey": SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " + SUPABASE_KEY,
-
-            "Content-Type":
-              "application/json",
-
-            "Prefer":
-              "return=representation"
-
-          },
-
-          body: JSON.stringify(order)
-
-        }
-
+      console.log(
+        "Commande créée :",
+        order
       );
 
 
-      if (!response.ok) {
+      /* -----------------------------------------
+         2. CRÉER LA FACTURE E-BILLING
+      ----------------------------------------- */
 
-        const errorData =
-          await response.json().catch(() => null);
-
-        console.error(
-          "Erreur Supabase :",
-          errorData
-        );
-
-        throw new Error(
-          "Impossible de créer la commande."
-        );
-      }
-
-
-      const createdOrders =
-        await response.json();
-
-
-      const createdOrder =
-        createdOrders[0];
+      submitButton.textContent =
+        "Création de la facture E-Billing...";
 
 
       showMessage(
+        "Commande créée. Création de votre facture de paiement...",
+        "loading"
+      );
 
-        "Commande créée avec succès. Référence : "
-        + createdOrder.id
-        + ". Le paiement sera connecté à E-Billing à l'étape suivante.",
 
+      const invoice =
+        await createEBillingInvoice(
+          order.id
+        );
+
+
+      console.log(
+        "Facture E-Billing créée :",
+        invoice
+      );
+
+
+      /* -----------------------------------------
+         3. AFFICHER LE RÉSULTAT
+      ----------------------------------------- */
+
+      resultOrderId.textContent =
+        invoice.order_id ||
+        order.id;
+
+
+      resultBillId.textContent =
+        invoice.bill_id ||
+        "-";
+
+
+      resultAmount.textContent =
+        formatPrice(
+          invoice.amount ||
+          currentProduct.price
+        );
+
+
+      resultMethod.textContent =
+        paymentMethod === "airtel_money"
+          ? "Airtel Money"
+          : "Moov Money";
+
+
+      resultState.textContent =
+        invoice.state ||
+        "ready";
+
+
+      resultBox.style.display =
+        "block";
+
+
+      showMessage(
+        "Votre facture E-Billing a été créée avec succès. Le paiement est maintenant prêt pour l'étape Mobile Money.",
         "success"
-
       );
 
 
       submitButton.textContent =
-        "Commande enregistrée";
+        "Facture créée";
 
 
     } catch (error) {
 
-      console.error(error);
-
-      showMessage(
-
-        "Une erreur est survenue lors de la création de la commande. Vérifiez votre connexion puis réessayez.",
-
-        "error"
-
+      console.error(
+        "Erreur paiement :",
+        error
       );
 
 
-      submitButton.disabled = false;
+      showMessage(
+        error.message ||
+        "Une erreur est survenue pendant le traitement du paiement.",
+        "error"
+      );
+
+
+      submitButton.disabled =
+        false;
+
 
       submitButton.textContent =
-        "Continuer vers le paiement";
+        "Réessayer";
 
+
+      return;
     }
 
-  });
+  }
+);
 
 
-  loadProduct();
+/* =========================================================
+   DÉMARRAGE
+========================================================= */
+
+loadProduct();
 
 </script>
 
