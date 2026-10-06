@@ -7,6 +7,7 @@
   <title>Produit — MindFlow</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,197 +16,193 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #f7f8fc;
+      background: #f6f8fb;
       color: #111827;
-      line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .container {
-      width: min(1050px, 92%);
-      margin: auto;
+      min-height: 100vh;
     }
 
     header {
       background: white;
       border-bottom: 1px solid #e5e7eb;
-    }
-
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 18px 6%;
     }
 
     .logo {
-      font-size: 1.45rem;
+      font-size: 24px;
       font-weight: 800;
+      color: #111827;
+      text-decoration: none;
     }
 
     .logo span {
-      color: #4f46e5;
-    }
-
-    .back {
-      color: #4f46e5;
-      font-weight: 700;
+      color: #2563eb;
     }
 
     main {
-      padding: 70px 0;
+      width: min(1000px, 92%);
+      margin: 45px auto;
     }
 
-    .product-card {
+    .back {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .product-box {
       background: white;
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.06);
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-    }
-
-    .product-image {
-      min-height: 420px;
-      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-    }
-
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      max-height: 360px;
-      object-fit: cover;
-      border-radius: 15px;
-    }
-
-    .placeholder {
-      font-size: 6rem;
-    }
-
-    .product-info {
-      padding: 45px;
+      border-radius: 22px;
+      padding: 35px;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.08);
     }
 
     .category {
-      color: #4f46e5;
-      font-weight: 800;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+      color: #2563eb;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1.1;
-      margin-bottom: 18px;
+      font-size: 38px;
+      margin-bottom: 15px;
     }
 
     .description {
       color: #6b7280;
-      font-size: 1.05rem;
-      margin-bottom: 30px;
+      line-height: 1.7;
+      font-size: 17px;
+      margin-bottom: 25px;
     }
 
     .price {
-      font-size: 2rem;
+      font-size: 32px;
       font-weight: 800;
       margin-bottom: 25px;
     }
 
     .buy-button {
-      width: 100%;
-      border: none;
-      background: #4f46e5;
+      display: inline-block;
+      background: #2563eb;
       color: white;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 1rem;
+      text-decoration: none;
+      padding: 16px 25px;
+      border-radius: 14px;
       font-weight: 800;
-      cursor: pointer;
+      font-size: 17px;
     }
 
     .buy-button:hover {
-      background: #4338ca;
+      background: #1d4ed8;
     }
 
-    .info-box {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f9fafb;
+    .info {
+      margin-top: 25px;
+      padding: 16px;
+      background: #eff6ff;
+      color: #1e40af;
       border-radius: 12px;
-      color: #6b7280;
-      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .loading,
     .error {
       text-align: center;
-      padding: 80px 20px;
+      padding: 50px 20px;
     }
 
     .error {
       color: #b91c1c;
     }
 
-    @media (max-width: 750px) {
-
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .product-image {
-        min-height: 280px;
-      }
-
-      .product-info {
-        padding: 30px 22px;
-      }
+    @media (max-width: 600px) {
 
       main {
-        padding: 35px 0;
+        margin: 25px auto;
       }
+
+      .product-box {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
     }
+
   </style>
 </head>
 
 <body>
 
 <header>
-  <div class="container nav">
 
-    <a href="index.html" class="logo">
-      Mind<span>Flow</span>
-    </a>
+  <a href="index.html" class="logo">
+    Mind<span>Flow</span>
+  </a>
 
-    <a href="index.html#catalogue" class="back">
-      ← Retour au catalogue
-    </a>
-
-  </div>
 </header>
 
 
 <main>
 
-  <div class="container">
+  <a href="index.html#catalogue" class="back">
+    ← Retour au catalogue
+  </a>
 
-    <div id="productContainer">
 
-      <div class="loading">
-        Chargement du produit...
-      </div>
+  <div id="loading" class="loading">
+    Chargement du produit...
+  </div>
+
+
+  <div id="error" class="error" style="display:none;">
+  </div>
+
+
+  <div
+    id="product"
+    class="product-box"
+    style="display:none;"
+  >
+
+    <div
+      id="category"
+      class="category"
+    ></div>
+
+
+    <h1 id="title"></h1>
+
+
+    <p
+      id="description"
+      class="description"
+    ></p>
+
+
+    <div
+      id="price"
+      class="price"
+    ></div>
+
+
+    <a
+      id="buyButton"
+      href="#"
+      class="buy-button"
+    >
+      Acheter maintenant
+    </a>
+
+
+    <div class="info">
+
+      🔒 Paiement sécurisé bientôt disponible
+      avec <strong>E-Billing</strong> et les
+      moyens de paiement mobile disponibles.
 
     </div>
 
@@ -216,265 +213,152 @@
 
 <script>
 
-const SUPABASE_URL =
-  "https://ejjmluesrrrbktgstlqm.supabase.co";
+  const SUPABASE_URL =
+    "https://ejjmluesrrrbktgstlqm.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
-
-
-const container =
-  document.getElementById("productContainer");
+  const SUPABASE_KEY =
+    "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
 
-function escapeHTML(value) {
+  const params =
+    new URLSearchParams(window.location.search);
 
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
+  const productId =
+    params.get("id");
 
 
-function formatPrice(price) {
+  const loading =
+    document.getElementById("loading");
 
-  return Number(price).toLocaleString("fr-FR")
-    + " FCFA";
+  const errorBox =
+    document.getElementById("error");
 
-}
+  const productBox =
+    document.getElementById("product");
 
 
-async function loadProduct() {
-
-  try {
-
-    const params =
-      new URLSearchParams(window.location.search);
-
-    const productId =
-      params.get("id");
-
+  async function loadProduct() {
 
     if (!productId) {
 
-      throw new Error(
-        "Aucun produit sélectionné."
-      );
+      loading.style.display = "none";
 
+      errorBox.textContent =
+        "Aucun produit sélectionné.";
+
+      errorBox.style.display = "block";
+
+      return;
     }
 
 
-    const endpoint =
-      SUPABASE_URL +
-      "/rest/v1/products" +
-      "?select=id,title,description,price,category,product_type,image_url,is_active" +
-      "&id=eq." +
-      encodeURIComponent(productId) +
-      "&is_active=eq.true";
+    try {
 
+      const response = await fetch(
 
-    const response =
-      await fetch(endpoint, {
+        SUPABASE_URL +
+        "/rest/v1/products" +
+        "?select=id,title,description,price,category" +
+        "&id=eq." +
+        encodeURIComponent(productId) +
+        "&is_active=eq.true",
 
-        method: "GET",
-
-        headers: {
-
-          "apikey":
-            SUPABASE_PUBLISHABLE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_PUBLISHABLE_KEY
-
+        {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization:
+              "Bearer " + SUPABASE_KEY
+          }
         }
 
-      });
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Erreur Supabase : " +
-        response.status
       );
 
-    }
 
+      if (!response.ok) {
 
-    const products =
-      await response.json();
-
-
-    if (!products.length) {
-
-      throw new Error(
-        "Produit introuvable."
-      );
-
-    }
-
-
-    const product =
-      products[0];
-
-
-    let imageHTML = `
-      <div class="placeholder">
-        📚
-      </div>
-    `;
-
-
-    if (product.image_url) {
-
-      imageHTML = `
-        <img
-          src="${escapeHTML(product.image_url)}"
-          alt="${escapeHTML(product.title)}"
-        >
-      `;
-
-    }
-
-
-    document.title =
-      product.title +
-      " — MindFlow";
-
-
-    container.innerHTML = `
-
-      <div class="product-card">
-
-        <div class="product-grid">
-
-          <div class="product-image">
-
-            ${imageHTML}
-
-          </div>
-
-
-          <div class="product-info">
-
-            <div class="category">
-
-              ${escapeHTML(product.category)}
-
-            </div>
-
-
-            <h1>
-
-              ${escapeHTML(product.title)}
-
-            </h1>
-
-
-            <p class="description">
-
-              ${
-                escapeHTML(
-                  product.description ||
-                  "Ressource éducative MindFlow."
-                )
-              }
-
-            </p>
-
-
-            <div class="price">
-
-              ${formatPrice(product.price)}
-
-            </div>
-
-
-            <button
-              class="buy-button"
-              id="buyButton"
-            >
-              Acheter maintenant
-            </button>
-
-
-            <div class="info-box">
-
-              🔒 Paiement sécurisé et
-              téléchargement numérique.
-              <br><br>
-
-              Le paiement sera bientôt disponible
-              sur MindFlow.
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-
-    document
-      .getElementById("buyButton")
-      .addEventListener("click", function() {
-
-        alert(
-          "Le paiement de ce produit sera bientôt disponible."
+        throw new Error(
+          "Erreur Supabase"
         );
 
-      });
+      }
+
+
+      const products =
+        await response.json();
+
+
+      if (!products.length) {
+
+        throw new Error(
+          "Produit introuvable"
+        );
+
+      }
+
+
+      const product =
+        products[0];
+
+
+      document.getElementById(
+        "category"
+      ).textContent =
+        product.category;
+
+
+      document.getElementById(
+        "title"
+      ).textContent =
+        product.title;
+
+
+      document.getElementById(
+        "description"
+      ).textContent =
+        product.description || "";
+
+
+      document.getElementById(
+        "price"
+      ).textContent =
+        Number(product.price)
+        .toLocaleString("fr-FR") +
+        " FCFA";
+
+
+      document.getElementById(
+        "buyButton"
+      ).href =
+        "paiement.html?id=" +
+        encodeURIComponent(product.id);
+
+
+      loading.style.display =
+        "none";
+
+      productBox.style.display =
+        "block";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      loading.style.display =
+        "none";
+
+      errorBox.textContent =
+        "Impossible de charger ce produit.";
+
+      errorBox.style.display =
+        "block";
+
+    }
 
   }
 
-  catch (error) {
 
-    console.error(error);
-
-    container.innerHTML = `
-
-      <div class="error">
-
-        <h2>
-          Impossible de charger le produit
-        </h2>
-
-        <br>
-
-        <p>
-          ${escapeHTML(error.message)}
-        </p>
-
-        <br>
-
-        <a
-          href="index.html#catalogue"
-          class="back"
-        >
-          ← Retour au catalogue
-        </a>
-
-      </div>
-
-    `;
-
-  }
-
-}
-
-
-loadProduct();
+  loadProduct();
 
 </script>
 
