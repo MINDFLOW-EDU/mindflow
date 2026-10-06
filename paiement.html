@@ -7,7 +7,7 @@
   <title>Paiement — MindFlow</title>
   <meta
     name="description"
-    content="Finalisez votre achat sur MindFlow."
+    content="Finalisez votre commande sur MindFlow."
   >
 
   <style>
@@ -18,200 +18,215 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f6f8fb;
-      color: #111827;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
       min-height: 100vh;
     }
 
     header {
       background: #ffffff;
       border-bottom: 1px solid #e5e7eb;
-      padding: 18px 6%;
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
     }
 
     .logo {
       font-size: 24px;
       font-weight: 800;
       color: #111827;
+    }
+
+    .back-btn {
       text-decoration: none;
-    }
-
-    .logo span {
-      color: #2563eb;
-    }
-
-    main {
-      width: min(900px, 92%);
-      margin: 45px auto;
-    }
-
-    .back {
-      display: inline-block;
-      margin-bottom: 25px;
-      color: #2563eb;
-      text-decoration: none;
+      color: #374151;
+      font-size: 14px;
       font-weight: 600;
     }
 
-    .payment-box {
-      background: white;
-      border-radius: 22px;
-      padding: 30px;
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
-    h1 {
+    .page-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .page-title h1 {
       font-size: 32px;
-      margin-bottom: 10px;
-    }
-
-    .intro {
-      color: #6b7280;
-      margin-bottom: 30px;
-    }
-
-    .product-summary {
-      background: #f8fafc;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-
-    .product-summary h2 {
-      font-size: 21px;
       margin-bottom: 8px;
     }
 
+    .page-title p {
+      color: #6b7280;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
     .category {
-      color: #2563eb;
-      font-size: 14px;
+      display: inline-block;
+      background: #eef2ff;
+      color: #4f46e5;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .product-title {
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .description {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 25px;
     }
 
     .price {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
-      margin-top: 12px;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
+      font-weight: 600;
+      font-size: 14px;
     }
 
-    input,
-    select {
+    input {
       width: 100%;
-      padding: 14px 15px;
+      padding: 13px 14px;
       border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 16px;
+      border-radius: 10px;
+      font-size: 15px;
       outline: none;
-      background: white;
     }
 
-    input:focus,
-    select:focus {
-      border-color: #2563eb;
+    input:focus {
+      border-color: #4f46e5;
     }
 
     .payment-methods {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      gap: 10px;
       margin-top: 10px;
     }
 
-    .method {
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 13px;
       cursor: pointer;
-      background: white;
     }
 
-    .method:hover {
-      border-color: #2563eb;
-    }
-
-    .method strong {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .method small {
-      color: #6b7280;
-    }
-
-    .method input {
+    .payment-option input {
       width: auto;
-      margin-right: 8px;
     }
 
-    .pay-button {
+    .payment-option span {
+      font-weight: 600;
+    }
+
+    button {
       width: 100%;
       border: none;
-      background: #2563eb;
+      background: #111827;
       color: white;
-      padding: 16px;
-      border-radius: 14px;
-      font-size: 17px;
-      font-weight: 800;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 25px;
+      margin-top: 10px;
     }
 
-    .pay-button:hover {
-      background: #1d4ed8;
+    button:hover {
+      background: #000000;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .notice {
-      margin-top: 20px;
-      padding: 15px;
-      background: #eff6ff;
-      color: #1e40af;
-      border-radius: 12px;
+      margin-top: 18px;
+      padding: 13px;
+      background: #f3f4f6;
+      border-radius: 10px;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 10px;
       font-size: 14px;
       line-height: 1.5;
     }
 
-    .error {
-      display: none;
+    .message.success {
+      display: block;
+      background: #ecfdf5;
+      color: #047857;
+    }
+
+    .message.error {
+      display: block;
       background: #fef2f2;
       color: #b91c1c;
-      padding: 14px;
-      border-radius: 12px;
-      margin-bottom: 20px;
     }
 
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #6b7280;
-    }
-
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       main {
         margin: 25px auto;
       }
 
-      .payment-box {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 27px;
-      }
-
-      .payment-methods {
+      .grid {
         grid-template-columns: 1fr;
+      }
+
+      .page-title h1 {
+        font-size: 27px;
       }
     }
   </style>
@@ -220,40 +235,48 @@
 <body>
 
 <header>
-  <a href="index.html" class="logo">Mind<span>Flow</span></a>
+  <div class="header-inner">
+    <div class="logo">MindFlow</div>
+
+    <a href="javascript:history.back()" class="back-btn">
+      ← Retour
+    </a>
+  </div>
 </header>
 
 <main>
 
-  <a href="javascript:history.back()" class="back">
-    ← Retour
-  </a>
+  <div class="page-title">
+    <h1>Finaliser votre commande</h1>
+    <p>Remplissez vos informations pour continuer.</p>
+  </div>
 
-  <div class="payment-box">
+  <div class="grid">
 
-    <div id="loading" class="loading">
-      Chargement du produit...
+    <!-- PRODUIT -->
+    <div class="card">
+
+      <div id="productLoading">
+        Chargement du produit...
+      </div>
+
+      <div id="productContent" style="display:none;">
+
+        <div class="category" id="productCategory"></div>
+
+        <h2 class="product-title" id="productTitle"></h2>
+
+        <p class="description" id="productDescription"></p>
+
+        <div class="price" id="productPrice"></div>
+
+      </div>
+
     </div>
 
-    <div id="content" style="display:none;">
 
-      <h1>Finaliser votre achat</h1>
-
-      <p class="intro">
-        Remplissez vos informations pour continuer vers le paiement sécurisé.
-      </p>
-
-      <div id="error" class="error"></div>
-
-      <div class="product-summary">
-        <div id="productCategory" class="category"></div>
-
-        <h2 id="productTitle"></h2>
-
-        <p id="productDescription"></p>
-
-        <div id="productPrice" class="price"></div>
-      </div>
+    <!-- FORMULAIRE -->
+    <div class="card">
 
       <form id="paymentForm">
 
@@ -265,10 +288,11 @@
           <input
             type="text"
             id="customerName"
-            placeholder="Ex. Louis Curtis Minko"
+            placeholder="Votre nom complet"
             required
           >
         </div>
+
 
         <div class="form-group">
           <label for="customerEmail">
@@ -278,10 +302,11 @@
           <input
             type="email"
             id="customerEmail"
-            placeholder="exemple@gmail.com"
+            placeholder="exemple@email.com"
             required
           >
         </div>
+
 
         <div class="form-group">
           <label for="customerPhone">
@@ -291,69 +316,70 @@
           <input
             type="tel"
             id="customerPhone"
-            placeholder="Ex. 07 XX XX XX"
+            placeholder="07 XX XX XX XX"
             required
           >
         </div>
 
+
         <div class="form-group">
 
           <label>
-            Mode de paiement
+            Moyen de paiement
           </label>
 
           <div class="payment-methods">
 
-            <label class="method">
+            <label class="payment-option">
               <input
                 type="radio"
                 name="paymentMethod"
-                value="Airtel Money"
+                value="airtel_money"
                 required
               >
 
-              <strong>Airtel Money</strong>
-
-              <small>
-                Paiement mobile
-              </small>
+              <span>Airtel Money</span>
             </label>
 
-            <label class="method">
+
+            <label class="payment-option">
               <input
                 type="radio"
                 name="paymentMethod"
-                value="Moov Money"
+                value="moov_money"
+                required
               >
 
-              <strong>Moov Money</strong>
-
-              <small>
-                Paiement mobile
-              </small>
+              <span>Moov Money</span>
             </label>
 
           </div>
 
         </div>
 
-        <button type="submit" class="pay-button">
+
+        <button type="submit" id="submitButton">
           Continuer vers le paiement
         </button>
 
-      </form>
 
-      <div class="notice">
-        🔒 Vos informations seront utilisées uniquement pour traiter
-        votre commande. Le paiement sera prochainement connecté à
-        <strong>E-Billing</strong>.
-      </div>
+        <div id="message" class="message"></div>
+
+
+        <div class="notice">
+          Votre commande sera enregistrée avant le lancement du
+          paiement. La connexion à E-Billing sera ajoutée dans
+          l'étape suivante.
+        </div>
+
+      </form>
 
     </div>
 
   </div>
 
 </main>
+
 
 <script>
 
@@ -363,24 +389,56 @@
   const SUPABASE_KEY =
     "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
+
   const params = new URLSearchParams(window.location.search);
 
   const productId = params.get("id");
 
-  const loading = document.getElementById("loading");
-  const content = document.getElementById("content");
-  const errorBox = document.getElementById("error");
 
-  let product = null;
+  const productLoading =
+    document.getElementById("productLoading");
+
+  const productContent =
+    document.getElementById("productContent");
+
+  const productCategory =
+    document.getElementById("productCategory");
+
+  const productTitle =
+    document.getElementById("productTitle");
+
+  const productDescription =
+    document.getElementById("productDescription");
+
+  const productPrice =
+    document.getElementById("productPrice");
+
+  const paymentForm =
+    document.getElementById("paymentForm");
+
+  const submitButton =
+    document.getElementById("submitButton");
+
+  const message =
+    document.getElementById("message");
 
 
-  function showError(message) {
+  let currentProduct = null;
 
-    loading.style.display = "none";
 
-    errorBox.textContent = message;
+  function showMessage(text, type) {
 
-    errorBox.style.display = "block";
+    message.textContent = text;
+
+    message.className =
+      "message " + type;
+  }
+
+
+  function formatPrice(price) {
+
+    return new Intl.NumberFormat("fr-FR").format(price)
+      + " FCFA";
   }
 
 
@@ -388,125 +446,253 @@
 
     if (!productId) {
 
-      showError(
-        "Aucun produit n'a été sélectionné."
-      );
+      productLoading.textContent =
+        "Produit introuvable.";
 
       return;
     }
 
+
     try {
 
-      const response = await fetch(
+      const url =
         SUPABASE_URL +
         "/rest/v1/products" +
         "?select=id,title,description,price,category" +
         "&id=eq." +
         encodeURIComponent(productId) +
-        "&is_active=eq.true",
-        {
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization:
-              "Bearer " + SUPABASE_KEY
-          }
+        "&is_active=eq.true";
+
+
+      const response = await fetch(url, {
+
+        headers: {
+
+          "apikey": SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+
         }
-      );
+
+      });
+
 
       if (!response.ok) {
         throw new Error(
-          "Impossible de récupérer le produit."
+          "Impossible de charger le produit."
         );
       }
 
+
       const products = await response.json();
+
 
       if (!products.length) {
 
-        showError(
-          "Ce produit n'existe pas ou n'est plus disponible."
-        );
+        productLoading.textContent =
+          "Ce produit n'existe pas ou n'est plus disponible.";
 
         return;
       }
 
-      product = products[0];
 
-      document.getElementById(
-        "productCategory"
-      ).textContent = product.category;
+      currentProduct = products[0];
 
-      document.getElementById(
-        "productTitle"
-      ).textContent = product.title;
 
-      document.getElementById(
-        "productDescription"
-      ).textContent =
-        product.description || "";
+      productCategory.textContent =
+        currentProduct.category || "Produit";
 
-      document.getElementById(
-        "productPrice"
-      ).textContent =
-        Number(product.price).toLocaleString("fr-FR") +
-        " FCFA";
+      productTitle.textContent =
+        currentProduct.title;
 
-      loading.style.display = "none";
+      productDescription.textContent =
+        currentProduct.description ||
+        "Aucune description disponible.";
 
-      content.style.display = "block";
+      productPrice.textContent =
+        formatPrice(currentProduct.price);
+
+
+      productLoading.style.display = "none";
+
+      productContent.style.display = "block";
+
 
     } catch (error) {
 
       console.error(error);
 
-      showError(
-        "Une erreur est survenue lors du chargement du produit."
-      );
+      productLoading.textContent =
+        "Une erreur est survenue lors du chargement du produit.";
+
     }
+
   }
 
 
-  document
-    .getElementById("paymentForm")
-    .addEventListener("submit", function(event) {
+  paymentForm.addEventListener("submit", async function(event) {
 
-      event.preventDefault();
+    event.preventDefault();
 
-      const name =
-        document.getElementById("customerName").value.trim();
 
-      const email =
-        document.getElementById("customerEmail").value.trim();
+    if (!currentProduct) {
 
-      const phone =
-        document.getElementById("customerPhone").value.trim();
-
-      const method =
-        document.querySelector(
-          'input[name="paymentMethod"]:checked'
-        );
-
-      if (!name || !email || !phone || !method) {
-
-        alert(
-          "Veuillez remplir tous les champs."
-        );
-
-        return;
-      }
-
-      alert(
-        "Les informations sont prêtes.\n\n" +
-        "Produit : " + product.title + "\n" +
-        "Montant : " +
-        Number(product.price).toLocaleString("fr-FR") +
-        " FCFA\n" +
-        "Mode : " + method.value +
-        "\n\n" +
-        "La connexion avec E-Billing sera ajoutée à l'étape suivante."
+      showMessage(
+        "Le produit n'est pas encore chargé.",
+        "error"
       );
 
-    });
+      return;
+    }
+
+
+    const customerName =
+      document.getElementById("customerName").value.trim();
+
+    const customerEmail =
+      document.getElementById("customerEmail").value.trim();
+
+    const customerPhone =
+      document.getElementById("customerPhone").value.trim();
+
+
+    const selectedMethod =
+      document.querySelector(
+        'input[name="paymentMethod"]:checked'
+      );
+
+
+    if (!selectedMethod) {
+
+      showMessage(
+        "Veuillez choisir un moyen de paiement.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    submitButton.disabled = true;
+
+    submitButton.textContent =
+      "Création de la commande...";
+
+    message.className = "message";
+
+
+    try {
+
+      const order = {
+
+        product_id: currentProduct.id,
+
+        customer_name: customerName,
+
+        customer_email: customerEmail,
+
+        customer_phone: customerPhone,
+
+        payment_method: selectedMethod.value,
+
+        amount: Number(currentProduct.price),
+
+        status: "pending"
+
+      };
+
+
+      const response = await fetch(
+
+        SUPABASE_URL + "/rest/v1/orders",
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "apikey": SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_KEY,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=representation"
+
+          },
+
+          body: JSON.stringify(order)
+
+        }
+
+      );
+
+
+      if (!response.ok) {
+
+        const errorData =
+          await response.json().catch(() => null);
+
+        console.error(
+          "Erreur Supabase :",
+          errorData
+        );
+
+        throw new Error(
+          "Impossible de créer la commande."
+        );
+      }
+
+
+      const createdOrders =
+        await response.json();
+
+
+      const createdOrder =
+        createdOrders[0];
+
+
+      showMessage(
+
+        "Commande créée avec succès. Référence : "
+        + createdOrder.id
+        + ". Le paiement sera connecté à E-Billing à l'étape suivante.",
+
+        "success"
+
+      );
+
+
+      submitButton.textContent =
+        "Commande enregistrée";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+
+        "Une erreur est survenue lors de la création de la commande. Vérifiez votre connexion puis réessayez.",
+
+        "error"
+
+      );
+
+
+      submitButton.disabled = false;
+
+      submitButton.textContent =
+        "Continuer vers le paiement";
+
+    }
+
+  });
 
 
   loadProduct();
