@@ -49,7 +49,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid #e5e7eb;
     }
@@ -476,6 +476,7 @@
     /* ================= RESPONSIVE ================= */
 
     @media (max-width: 850px) {
+
       nav {
         display: none;
       }
@@ -502,6 +503,7 @@
     }
 
     @media (max-width: 550px) {
+
       .hero {
         padding-top: 55px;
       }
@@ -531,9 +533,10 @@
   <!-- ================= HEADER ================= -->
 
   <header>
+
     <div class="container nav">
 
-      <a href="#" class="logo">
+      <a href="index.html" class="logo">
         Mind<span>Flow</span>
       </a>
 
@@ -549,14 +552,19 @@
       </a>
 
     </div>
+
   </header>
 
 
-  <!-- ================= HERO ================= -->
+  <!-- ================= CONTENU ================= -->
 
   <main id="accueil">
 
+
+    <!-- HERO -->
+
     <section class="hero">
+
       <div class="container hero-grid">
 
         <div>
@@ -578,11 +586,17 @@
 
           <div class="hero-buttons">
 
-            <a href="#catalogue" class="btn btn-primary">
+            <a
+              href="#catalogue"
+              class="btn btn-primary"
+            >
               Découvrir les ressources
             </a>
 
-            <a href="#categories" class="btn btn-secondary">
+            <a
+              href="#categories"
+              class="btn btn-secondary"
+            >
               Voir les catégories
             </a>
 
@@ -593,7 +607,9 @@
 
         <div class="hero-card">
 
-          <small>BIENVENUE SUR MINDFLOW</small>
+          <small>
+            BIENVENUE SUR MINDFLOW
+          </small>
 
           <h2>
             Apprendre autrement.
@@ -623,16 +639,20 @@
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- ================= SEARCH ================= -->
+    <!-- RECHERCHE -->
 
     <section class="search-section">
 
       <div class="container">
 
-        <form class="search-box" id="searchForm">
+        <form
+          class="search-box"
+          id="searchForm"
+        >
 
           <input
             type="search"
@@ -641,7 +661,10 @@
             autocomplete="off"
           >
 
-          <button type="submit" class="btn btn-primary">
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
             Rechercher
           </button>
 
@@ -652,9 +675,12 @@
     </section>
 
 
-    <!-- ================= CATEGORIES ================= -->
+    <!-- CATEGORIES -->
 
-    <section class="section" id="categories">
+    <section
+      class="section"
+      id="categories"
+    >
 
       <div class="container">
 
@@ -673,7 +699,10 @@
 
         <div class="categories">
 
-          <div class="category" data-category="Mathématiques">
+          <div
+            class="category"
+            data-category="Mathématiques"
+          >
 
             <div class="category-icon">
               📐
@@ -690,7 +719,10 @@
           </div>
 
 
-          <div class="category" data-category="SVT">
+          <div
+            class="category"
+            data-category="SVT"
+          >
 
             <div class="category-icon">
               🧬
@@ -707,7 +739,10 @@
           </div>
 
 
-          <div class="category" data-category="Physique">
+          <div
+            class="category"
+            data-category="Physique"
+          >
 
             <div class="category-icon">
               ⚛️
@@ -724,7 +759,10 @@
           </div>
 
 
-          <div class="category" data-category="Informatique">
+          <div
+            class="category"
+            data-category="Informatique"
+          >
 
             <div class="category-icon">
               💻
@@ -747,9 +785,12 @@
     </section>
 
 
-    <!-- ================= CATALOGUE ================= -->
+    <!-- CATALOGUE -->
 
-    <section class="section" id="catalogue">
+    <section
+      class="section"
+      id="catalogue"
+    >
 
       <div class="container">
 
@@ -782,9 +823,12 @@
     </section>
 
 
-    <!-- ================= WHY ================= -->
+    <!-- POURQUOI -->
 
-    <section class="section dark-section" id="pourquoi">
+    <section
+      class="section dark-section"
+      id="pourquoi"
+    >
 
       <div class="container">
 
@@ -892,9 +936,17 @@
             Navigation
           </h3>
 
-          <a href="#accueil">Accueil</a>
-          <a href="#categories">Catégories</a>
-          <a href="#catalogue">Catalogue</a>
+          <a href="index.html">
+            Accueil
+          </a>
+
+          <a href="#categories">
+            Catégories
+          </a>
+
+          <a href="#catalogue">
+            Catalogue
+          </a>
 
         </div>
 
@@ -905,8 +957,13 @@
             MindFlow
           </h3>
 
-          <a href="#pourquoi">À propos</a>
-          <a href="#catalogue">Ressources</a>
+          <a href="#pourquoi">
+            À propos
+          </a>
+
+          <a href="#catalogue">
+            Ressources
+          </a>
 
         </div>
 
@@ -932,14 +989,6 @@
       ==================================================
       CONFIGURATION SUPABASE
       ==================================================
-
-      Cette clé est la clé PUBLIABLE.
-      Elle peut être utilisée dans le navigateur.
-
-      NE JAMAIS mettre ici :
-      - clé service_role Supabase
-      - secret E-Billing
-      - clé privée Google Drive
     */
 
     const SUPABASE_URL =
@@ -956,27 +1005,38 @@
     */
 
     const productsContainer =
-      document.getElementById("productsContainer");
+      document.getElementById(
+        "productsContainer"
+      );
 
     const searchInput =
-      document.getElementById("searchInput");
+      document.getElementById(
+        "searchInput"
+      );
 
     const searchForm =
-      document.getElementById("searchForm");
+      document.getElementById(
+        "searchForm"
+      );
 
     let allProducts = [];
 
 
     /*
       ==================================================
-      ÉCHAPPER LE HTML
+      SÉCURISATION DU TEXTE
       ==================================================
     */
 
     function escapeHTML(value) {
 
-      if (value === null || value === undefined) {
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
         return "";
+
       }
 
       return String(value)
@@ -991,20 +1051,22 @@
 
     /*
       ==================================================
-      FORMATAGE DU PRIX
+      PRIX
       ==================================================
     */
 
     function formatPrice(price) {
 
-      return Number(price).toLocaleString("fr-FR") + " FCFA";
+      return Number(price)
+        .toLocaleString("fr-FR")
+        + " FCFA";
 
     }
 
 
     /*
       ==================================================
-      CHARGEMENT DES PRODUITS SUPABASE
+      CHARGER LES PRODUITS
       ==================================================
     */
 
@@ -1027,39 +1089,47 @@
           "&order=created_at.desc";
 
 
-        const response = await fetch(endpoint, {
+        const response =
+          await fetch(
+            endpoint,
+            {
+              method: "GET",
 
-          method: "GET",
+              headers: {
 
-          headers: {
+                "apikey":
+                  SUPABASE_PUBLISHABLE_KEY,
 
-            "apikey": SUPABASE_PUBLISHABLE_KEY,
+                "Authorization":
+                  "Bearer " +
+                  SUPABASE_PUBLISHABLE_KEY
 
-            "Authorization":
-              "Bearer " + SUPABASE_PUBLISHABLE_KEY,
-
-            "Content-Type":
-              "application/json"
-
-          }
-
-        });
+              }
+            }
+          );
 
 
         if (!response.ok) {
 
           throw new Error(
-            "Erreur Supabase : " + response.status
+            "Erreur Supabase : " +
+            response.status
           );
 
         }
 
 
-        const products = await response.json();
+        const products =
+          await response.json();
 
-        allProducts = products;
 
-        renderProducts(products);
+        allProducts =
+          products;
+
+
+        renderProducts(
+          products
+        );
 
       }
 
@@ -1068,11 +1138,19 @@
         console.error(error);
 
         productsContainer.innerHTML = `
+
           <div class="empty">
-            <strong>Impossible de charger le catalogue.</strong>
+
+            <strong>
+              Impossible de charger le catalogue.
+            </strong>
+
             <br><br>
+
             Vérifie la connexion à Supabase.
+
           </div>
+
         `;
 
       }
@@ -1082,18 +1160,28 @@
 
     /*
       ==================================================
-      AFFICHAGE DES PRODUITS
+      AFFICHER LES PRODUITS
       ==================================================
     */
 
-    function renderProducts(products) {
+    function renderProducts(
+      products
+    ) {
 
-      if (!products || products.length === 0) {
+      if (
+        !products ||
+        products.length === 0
+      ) {
 
         productsContainer.innerHTML = `
+
           <div class="empty">
-            Aucun produit disponible pour le moment.
+
+            Aucun produit disponible
+            pour le moment.
+
           </div>
+
         `;
 
         return;
@@ -1104,117 +1192,151 @@
       productsContainer.innerHTML = "";
 
 
-      products.forEach(product => {
+      products.forEach(
+        product => {
 
-        const card =
-          document.createElement("article");
-
-        card.className = "product";
-
-
-        let imageHTML = `
-          <div class="product-placeholder">
-            📚
-          </div>
-        `;
+          const card =
+            document.createElement(
+              "article"
+            );
 
 
-        if (product.image_url) {
+          card.className =
+            "product";
 
-          imageHTML = `
-            <img
-              src="${escapeHTML(product.image_url)}"
-              alt="${escapeHTML(product.title)}"
-              loading="lazy"
-            >
+
+          let imageHTML = `
+
+            <div class="product-placeholder">
+              📚
+            </div>
+
           `;
 
-        }
 
+          if (
+            product.image_url
+          ) {
 
-        card.innerHTML = `
+            imageHTML = `
 
-          <div class="product-image">
-            ${imageHTML}
-          </div>
-
-          <div class="product-content">
-
-            <div class="product-category">
-              ${escapeHTML(product.category)}
-            </div>
-
-            <h3>
-              ${escapeHTML(product.title)}
-            </h3>
-
-            <p class="product-description">
-              ${
-                escapeHTML(
-                  product.description ||
-                  "Ressource éducative MindFlow."
-                )
-              }
-            </p>
-
-            <div class="product-bottom">
-
-              <span class="price">
-                ${formatPrice(product.price)}
-              </span>
-
-              <button
-                class="product-btn"
-                type="button"
-                data-product-id="${escapeHTML(product.id)}"
+              <img
+                src="${escapeHTML(product.image_url)}"
+                alt="${escapeHTML(product.title)}"
+                loading="lazy"
               >
-                Découvrir
-              </button>
 
-            </div>
-
-          </div>
-
-        `;
-
-
-        const button =
-          card.querySelector(".product-btn");
-
-
-        button.addEventListener(
-          "click",
-          function () {
-
-            openProduct(product);
+            `;
 
           }
-        );
 
 
-        productsContainer.appendChild(card);
+          card.innerHTML = `
 
-      });
+            <div class="product-image">
 
-    }
+              ${imageHTML}
+
+            </div>
 
 
-    /*
-      ==================================================
-      PAGE PRODUIT
-      ==================================================
+            <div class="product-content">
 
-      Pour l'instant, le paiement n'est pas encore branché.
-    */
+              <div class="product-category">
 
-    function openProduct(product) {
+                ${escapeHTML(
+                  product.category
+                )}
 
-      alert(
-        product.title +
-        "\n\n" +
-        formatPrice(product.price) +
-        "\n\n" +
-        "La page produit et le paiement seront bientôt disponibles."
+              </div>
+
+
+              <h3>
+
+                ${escapeHTML(
+                  product.title
+                )}
+
+              </h3>
+
+
+              <p class="product-description">
+
+                ${
+                  escapeHTML(
+                    product.description ||
+                    "Ressource éducative MindFlow."
+                  )
+                }
+
+              </p>
+
+
+              <div class="product-bottom">
+
+                <span class="price">
+
+                  ${formatPrice(
+                    product.price
+                  )}
+
+                </span>
+
+
+                <button
+                  class="product-btn"
+                  type="button"
+                >
+
+                  Découvrir
+
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          /*
+            ============================================
+            BOUTON DÉCOUVRIR
+            ============================================
+
+            Le bouton transmet automatiquement
+            l'identifiant du produit à produit.html.
+
+            Exemple :
+
+            produit.html?id=xxxxxxxx
+          */
+
+          const button =
+            card.querySelector(
+              ".product-btn"
+            );
+
+
+          button.addEventListener(
+            "click",
+            function() {
+
+              window.location.href =
+                "produit.html?id=" +
+                encodeURIComponent(
+                  product.id
+                );
+
+            }
+          );
+
+
+          productsContainer.appendChild(
+            card
+          );
+
+        }
       );
 
     }
@@ -1236,7 +1358,9 @@
 
       if (!query) {
 
-        renderProducts(allProducts);
+        renderProducts(
+          allProducts
+        );
 
         return;
 
@@ -1244,31 +1368,66 @@
 
 
       const filtered =
-        allProducts.filter(product => {
+        allProducts.filter(
+          product => {
 
-          const title =
-            (product.title || "").toLowerCase();
-
-          const description =
-            (product.description || "").toLowerCase();
-
-          const category =
-            (product.category || "").toLowerCase();
+            const title =
+              (
+                product.title ||
+                ""
+              ).toLowerCase();
 
 
-          return (
-            title.includes(query) ||
-            description.includes(query) ||
-            category.includes(query)
-          );
-
-        });
+            const description =
+              (
+                product.description ||
+                ""
+              ).toLowerCase();
 
 
-      renderProducts(filtered);
+            const category =
+              (
+                product.category ||
+                ""
+              ).toLowerCase();
+
+
+            return (
+
+              title.includes(
+                query
+              )
+
+              ||
+
+              description.includes(
+                query
+              )
+
+              ||
+
+              category.includes(
+                query
+              )
+
+            );
+
+          }
+        );
+
+
+      renderProducts(
+        filtered
+      );
 
     }
 
+
+    /*
+      ==================================================
+      FORMULAIRE DE RECHERCHE
+      ==================================================
+    */
 
     searchForm.addEventListener(
       "submit",
@@ -1279,7 +1438,9 @@
         searchProducts();
 
         document
-          .getElementById("catalogue")
+          .getElementById(
+            "catalogue"
+          )
           .scrollIntoView({
             behavior: "smooth"
           });
@@ -1290,45 +1451,59 @@
 
     /*
       ==================================================
-      FILTRE PAR CATÉGORIE
+      CATÉGORIES
       ==================================================
     */
 
     document
-      .querySelectorAll(".category")
-      .forEach(categoryElement => {
+      .querySelectorAll(
+        ".category"
+      )
+      .forEach(
+        categoryElement => {
 
-        categoryElement.addEventListener(
-          "click",
-          function() {
+          categoryElement.addEventListener(
+            "click",
+            function() {
 
-            const category =
-              categoryElement.dataset.category;
+              const category =
+                categoryElement.dataset
+                  .category;
 
 
-            const filtered =
-              allProducts.filter(product =>
+              const filtered =
+                allProducts.filter(
+                  product =>
 
-                (product.category || "")
-                  .toLowerCase() ===
-                category.toLowerCase()
+                    (
+                      product.category ||
+                      ""
+                    )
+                    .toLowerCase()
+                    ===
+                    category.toLowerCase()
 
+                );
+
+
+              renderProducts(
+                filtered
               );
 
 
-            renderProducts(filtered);
+              document
+                .getElementById(
+                  "catalogue"
+                )
+                .scrollIntoView({
+                  behavior: "smooth"
+                });
 
+            }
+          );
 
-            document
-              .getElementById("catalogue")
-              .scrollIntoView({
-                behavior: "smooth"
-              });
-
-          }
-        );
-
-      });
+        }
+      );
 
 
     /*
@@ -1342,4 +1517,4 @@
   </script>
 
 </body>
-  </html>
+</html>
