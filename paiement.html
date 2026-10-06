@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Paiement — MindFlow</title>
+  <meta
+    name="description"
+    content="Finalisez votre achat sur MindFlow."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f6f8fb;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 18px 6%;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #111827;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: #2563eb;
+    }
+
+    main {
+      width: min(900px, 92%);
+      margin: 45px auto;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .payment-box {
+      background: white;
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    .product-summary {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .product-summary h2 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .category {
+      color: #2563eb;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: 800;
+      margin-top: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #2563eb;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .method {
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      background: white;
+    }
+
+    .method:hover {
+      border-color: #2563eb;
+    }
+
+    .method strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .method small {
+      color: #6b7280;
+    }
+
+    .method input {
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .pay-button {
+      width: 100%;
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 25px;
+    }
+
+    .pay-button:hover {
+      background: #1d4ed8;
+    }
+
+    .notice {
+      margin-top: 20px;
+      padding: 15px;
+      background: #eff6ff;
+      color: #1e40af;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .error {
+      display: none;
+      background: #fef2f2;
+      color: #b91c1c;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 25px auto;
+      }
+
+      .payment-box {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="logo">Mind<span>Flow</span></a>
+</header>
+
+<main>
+
+  <a href="javascript:history.back()" class="back">
+    ← Retour
+  </a>
+
+  <div class="payment-box">
+
+    <div id="loading" class="loading">
+      Chargement du produit...
+    </div>
+
+    <div id="content" style="display:none;">
+
+      <h1>Finaliser votre achat</h1>
+
+      <p class="intro">
+        Remplissez vos informations pour continuer vers le paiement sécurisé.
+      </p>
+
+      <div id="error" class="error"></div>
+
+      <div class="product-summary">
+        <div id="productCategory" class="category"></div>
+
+        <h2 id="productTitle"></h2>
+
+        <p id="productDescription"></p>
+
+        <div id="productPrice" class="price"></div>
+      </div>
+
+      <form id="paymentForm">
+
+        <div class="form-group">
+          <label for="customerName">
+            Nom complet
+          </label>
+
+          <input
+            type="text"
+            id="customerName"
+            placeholder="Ex. Louis Curtis Minko"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="customerEmail">
+            Adresse e-mail
+          </label>
+
+          <input
+            type="email"
+            id="customerEmail"
+            placeholder="exemple@gmail.com"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="customerPhone">
+            Numéro de téléphone
+          </label>
+
+          <input
+            type="tel"
+            id="customerPhone"
+            placeholder="Ex. 07 XX XX XX"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Mode de paiement
+          </label>
+
+          <div class="payment-methods">
+
+            <label class="method">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="Airtel Money"
+                required
+              >
+
+              <strong>Airtel Money</strong>
+
+              <small>
+                Paiement mobile
+              </small>
+            </label>
+
+            <label class="method">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="Moov Money"
+              >
+
+              <strong>Moov Money</strong>
+
+              <small>
+                Paiement mobile
+              </small>
+            </label>
+
+          </div>
+
+        </div>
+
+        <button type="submit" class="pay-button">
+          Continuer vers le paiement
+        </button>
+
+      </form>
+
+      <div class="notice">
+        🔒 Vos informations seront utilisées uniquement pour traiter
+        votre commande. Le paiement sera prochainement connecté à
+        <strong>E-Billing</strong>.
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+
+  const SUPABASE_URL =
+    "https://ejjmluesrrrbktgstlqm.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+
+  const params = new URLSearchParams(window.location.search);
+
+  const productId = params.get("id");
+
+  const loading = document.getElementById("loading");
+  const content = document.getElementById("content");
+  const errorBox = document.getElementById("error");
+
+  let product = null;
+
+
+  function showError(message) {
+
+    loading.style.display = "none";
+
+    errorBox.textContent = message;
+
+    errorBox.style.display = "block";
+  }
+
+
+  async function loadProduct() {
+
+    if (!productId) {
+
+      showError(
+        "Aucun produit n'a été sélectionné."
+      );
+
+      return;
+    }
+
+    try {
+
+      const response = await fetch(
+        SUPABASE_URL +
+        "/rest/v1/products" +
+        "?select=id,title,description,price,category" +
+        "&id=eq." +
+        encodeURIComponent(productId) +
+        "&is_active=eq.true",
+        {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization:
+              "Bearer " + SUPABASE_KEY
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Impossible de récupérer le produit."
+        );
+      }
+
+      const products = await response.json();
+
+      if (!products.length) {
+
+        showError(
+          "Ce produit n'existe pas ou n'est plus disponible."
+        );
+
+        return;
+      }
+
+      product = products[0];
+
+      document.getElementById(
+        "productCategory"
+      ).textContent = product.category;
+
+      document.getElementById(
+        "productTitle"
+      ).textContent = product.title;
+
+      document.getElementById(
+        "productDescription"
+      ).textContent =
+        product.description || "";
+
+      document.getElementById(
+        "productPrice"
+      ).textContent =
+        Number(product.price).toLocaleString("fr-FR") +
+        " FCFA";
+
+      loading.style.display = "none";
+
+      content.style.display = "block";
+
+    } catch (error) {
+
+      console.error(error);
+
+      showError(
+        "Une erreur est survenue lors du chargement du produit."
+      );
+    }
+  }
+
+
+  document
+    .getElementById("paymentForm")
+    .addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const name =
+        document.getElementById("customerName").value.trim();
+
+      const email =
+        document.getElementById("customerEmail").value.trim();
+
+      const phone =
+        document.getElementById("customerPhone").value.trim();
+
+      const method =
+        document.querySelector(
+          'input[name="paymentMethod"]:checked'
+        );
+
+      if (!name || !email || !phone || !method) {
+
+        alert(
+          "Veuillez remplir tous les champs."
+        );
+
+        return;
+      }
+
+      alert(
+        "Les informations sont prêtes.\n\n" +
+        "Produit : " + product.title + "\n" +
+        "Montant : " +
+        Number(product.price).toLocaleString("fr-FR") +
+        " FCFA\n" +
+        "Mode : " + method.value +
+        "\n\n" +
+        "La connexion avec E-Billing sera ajoutée à l'étape suivante."
+      );
+
+    });
+
+
+  loadProduct();
+
+</script>
+
+</body>
+</html>
