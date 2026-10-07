@@ -329,14 +329,19 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
+
+/*
+ * FONCTIONS SUPABASE EDGE
+ */
+
 const CREATE_INVOICE_FUNCTION =
   `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
 
 const START_USSD_FUNCTION =
-  `${SUPABASE_URL}/functions/v1/start-usdd-payment`;
+  `${SUPABASE_URL}/functions/v1/create-ebilling-ussd`;
 
 const CHECK_USSD_FUNCTION =
-  `${SUPABASE_URL}/functions/v1/check-usdd-payment`;
+  `${SUPABASE_URL}/functions/v1/check-ebilling-payment`;
 
 
 let currentProduct = null;
@@ -547,7 +552,7 @@ async function createOrder(customerData) {
 
 
 /* =========================================================
-   CREATION FACTURE
+   CREATION FACTURE E-BILLING
 ========================================================= */
 
 async function createInvoice(orderId) {
@@ -582,8 +587,14 @@ async function createInvoice(orderId) {
   if (!response.ok ||
       !data.success) {
 
+    console.error(
+      "Erreur création facture :",
+      data
+    );
+
     throw new Error(
       data.message ||
+      data.error ||
       "Impossible de créer la facture E-Billing."
     );
   }
@@ -598,7 +609,6 @@ async function createInvoice(orderId) {
 
 async function startUssdPayment(
   orderId,
-  phone,
   paymentMethod
 ) {
 
@@ -625,9 +635,6 @@ async function startUssdPayment(
             order_id:
               orderId,
 
-            phone:
-              normalizePhone(phone),
-
             payment_method:
               paymentMethod
 
@@ -641,8 +648,14 @@ async function startUssdPayment(
   if (!response.ok ||
       !data.success) {
 
+    console.error(
+      "Erreur USSD Push :",
+      data
+    );
+
     throw new Error(
       data.message ||
+      data.error ||
       "Impossible d'envoyer le USSD Push."
     );
   }
@@ -657,10 +670,7 @@ async function startUssdPayment(
 
 async function checkPayment() {
 
-  if (
-    !currentOrderId ||
-    !currentPushId
-  ) {
+  if (!currentOrderId) {
     return;
   }
 
@@ -685,13 +695,8 @@ async function checkPayment() {
 
           body:
             JSON.stringify({
-
               order_id:
-                currentOrderId,
-
-              push_id:
-                currentPushId
-
+                currentOrderId
             })
         }
       );
@@ -715,37 +720,73 @@ async function checkPayment() {
       data
     );
 
-    if (data.paid === true) {
+
+    /*
+     * PAIEMENT CONFIRMÉ
+     */
+
+    const paymentStatus =
+      String(
+        data.status ||
+        data.payment_state ||
+        ""
+      ).toLowerCase();
+
+    const successfulStates = [
+      "paid",
+      "success",
+      "successful"
+    ];
+
+    if (
+      successfulStates.includes(
+        paymentStatus
+      )
+    ) {
 
       stopPaymentPolling();
 
-      document.getElementById(
-        "payButton"
-      ).disabled = false;
+      const button =
+        document.getElementById(
+          "payButton"
+        );
+
+      button.disabled = false;
+
+      button.innerHTML =
+        "Paiement confirmé";
+
 
       showMessage(
         `
         <strong>Paiement confirmé !</strong><br><br>
         Votre paiement a bien été reçu.
-        Vous pouvez maintenant accéder à votre contenu.
         `,
         "success"
       );
+
 
       document.getElementById(
         "details"
       ).classList.remove("hidden");
 
+
       document.getElementById(
         "details"
       ).innerHTML = `
         Commande : ${currentOrderId}<br>
-        Facture : ${data.bill_id}<br>
+        Facture : ${data.bill_id || "—"}<br>
+        USSD Push : ${data.ussd_push_id || currentPushId || "—"}<br>
         Statut : payé
       `;
 
       return;
     }
+
+
+    /*
+     * PAIEMENT ÉCHOUÉ
+     */
 
     const failedStates = [
       "failed",
@@ -753,27 +794,31 @@ async function checkPayment() {
       "cancelled",
       "canceled",
       "rejected",
-      "declined",
-      "ambiguous"
+      "declined"
     ];
 
     if (
       failedStates.includes(
-        String(
-          data.payment_state || ""
-        ).toLowerCase()
+        paymentStatus
       )
     ) {
 
       stopPaymentPolling();
 
-      document.getElementById(
-        "payButton"
-      ).disabled = false;
+      const button =
+        document.getElementById(
+          "payButton"
+        );
+
+      button.disabled = false;
+
+      button.innerHTML =
+        "Payer maintenant";
+
 
       showMessage(
         `
-        Le paiement n'a pas pu être confirmé.
+        Le paiement n'a pas pu être confirmé.<br><br>
         Vous pouvez réessayer.
         `,
         "error"
@@ -781,6 +826,20 @@ async function checkPayment() {
 
       return;
     }
+
+
+    /*
+     * PAIEMENT TOUJOURS EN ATTENTE
+     */
+
+    showMessage(
+      `
+      <strong>Paiement en attente...</strong><br><br>
+      Validez la demande sur votre téléphone.
+      Nous vérifions automatiquement le paiement.
+      `,
+      "info"
+    );
 
   } catch (error) {
 
@@ -836,6 +895,7 @@ document
 
       event.preventDefault();
 
+
       if (!currentProduct) {
 
         showMessage(
@@ -846,35 +906,43 @@ document
         return;
       }
 
+
       const button =
         document.getElementById(
           "payButton"
         );
+
 
       const name =
         document.getElementById(
           "customerName"
         ).value.trim();
 
+
       const email =
         document.getElementById(
           "customerEmail"
         ).value.trim();
+
 
       const phone =
         document.getElementById(
           "customerPhone"
         ).value.trim();
 
+
       const paymentMethod =
         document.querySelector(
           'input[name="paymentMethod"]:checked'
         )?.value;
 
-      if (!name ||
-          !email ||
-          !phone ||
-          !paymentMethod) {
+
+      if (
+        !name ||
+        !email ||
+        !phone ||
+        !paymentMethod
+      ) {
 
         showMessage(
           "Veuillez remplir tous les champs.",
@@ -884,8 +952,10 @@ document
         return;
       }
 
+
       const normalizedPhone =
         normalizePhone(phone);
+
 
       if (
         !/^0\d{8}$/.test(
@@ -901,6 +971,7 @@ document
         return;
       }
 
+
       try {
 
         button.disabled = true;
@@ -911,19 +982,22 @@ document
           Préparation du paiement...
           `;
 
+
         showMessage(
           "Création de votre commande...",
           "info"
         );
 
+
         /*
-         * 1. Création commande
+         * 1. CREATION COMMANDE
          */
 
         const order =
           await createOrder({
 
             name,
+
             email,
 
             phone:
@@ -931,11 +1005,13 @@ document
 
           });
 
+
         currentOrderId =
           order.id;
 
+
         /*
-         * 2. Création facture E-Billing
+         * 2. CREATION FACTURE
          */
 
         showMessage(
@@ -943,35 +1019,44 @@ document
           "info"
         );
 
+
         const invoice =
           await createInvoice(
             order.id
           );
 
+
         /*
-         * 3. USSD Push
+         * 3. USSD PUSH
          */
 
         showMessage(
           `
           <strong>Facture créée.</strong><br><br>
+
           Préparation de votre paiement
-          ${paymentMethod === "airtelmoney"
-            ? "Airtel Money"
-            : "Moov Money"}...
+          ${
+            paymentMethod === "airtelmoney"
+              ? "Airtel Money"
+              : "Moov Money"
+          }...
           `,
           "info"
         );
 
+
         const push =
           await startUssdPayment(
             order.id,
-            normalizedPhone,
             paymentMethod
           );
 
+
         currentPushId =
-          push?.ussd_push?.id;
+          push?.ussd_push_id ||
+          push?.ussd_push?.id ||
+          null;
+
 
         if (!currentPushId) {
 
@@ -980,8 +1065,9 @@ document
           );
         }
 
+
         /*
-         * 4. Demande au client de valider
+         * 4. DEMANDE DE VALIDATION
          */
 
         showMessage(
@@ -990,9 +1076,12 @@ document
 
           Vérifiez votre téléphone
           et validez la demande
-          ${paymentMethod === "airtelmoney"
-            ? "Airtel Money"
-            : "Moov Money"}.
+          ${
+            paymentMethod === "airtelmoney"
+              ? "Airtel Money"
+              : "Moov Money"
+          }.
+
           <br><br>
 
           Nous vérifions automatiquement
@@ -1001,9 +1090,11 @@ document
           "info"
         );
 
+
         document.getElementById(
           "details"
         ).classList.remove("hidden");
+
 
         document.getElementById(
           "details"
@@ -1019,14 +1110,17 @@ document
           }
         `;
 
+
         button.innerHTML =
           "Paiement en attente...";
 
+
         /*
-         * 5. Vérification automatique
+         * 5. VERIFICATION AUTOMATIQUE
          */
 
         startPaymentPolling();
+
 
       } catch (error) {
 
@@ -1038,6 +1132,7 @@ document
 
         button.innerHTML =
           "Payer maintenant";
+
 
         showMessage(
           error.message ||
