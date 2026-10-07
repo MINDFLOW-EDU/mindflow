@@ -1,2249 +1,2095 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MindFlow — Apprendre autrement</title>
-
-<meta
-  name="description"
-  content="MindFlow — plateforme éducative numérique pour apprendre, réviser et progresser."
->
-
-<style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:
-    Inter,
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  background:#060713;
-  color:#f8fafc;
-  line-height:1.6;
-  overflow-x:hidden;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-button,
-input{
-  font:inherit;
-}
-
-.container{
-  width:min(1180px,92%);
-  margin:auto;
-}
-
-/* =========================
-   VARIABLES
-========================= */
-
-:root{
-
-  --bg:#060713;
-  --bg2:#090a19;
-  --card:#10111f;
-  --card2:#131426;
-
-  --white:#ffffff;
-  --muted:#9699b2;
-
-  --cyan:#18cfff;
-  --blue:#397cff;
-  --violet:#7655ff;
-  --pink:#d92cff;
-
-  --border:rgba(255,255,255,.09);
-
-  --gradient:
-    linear-gradient(
-      110deg,
-      #18cfff,
-      #397cff 45%,
-      #d92cff
-    );
-
-}
-
-/* =========================
-   HEADER
-========================= */
-
-header{
-
-  position:sticky;
-  top:0;
-  z-index:1000;
-
-  background:
-    rgba(6,7,19,.82);
-
-  backdrop-filter:blur(18px);
-
-  border-bottom:
-    1px solid rgba(255,255,255,.07);
-}
-
-.nav{
-
-  min-height:74px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:25px;
-}
-
-.logo{
-
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  font-size:1.35rem;
-  font-weight:800;
-}
-
-.logo img{
-
-  width:42px;
-  height:42px;
-
-  object-fit:contain;
-
-  filter:
-    drop-shadow(0 0 12px rgba(58,124,255,.4));
-}
-
-.logo span{
-
-  background:var(--gradient);
-
-  -webkit-background-clip:text;
-  background-clip:text;
-
-  color:transparent;
-}
-
-nav{
-
-  display:flex;
-  align-items:center;
-  gap:27px;
-}
-
-nav a{
-
-  color:#a7a9bc;
-
-  font-size:.88rem;
-  font-weight:600;
-
-  transition:.25s;
-}
-
-nav a:hover{
-  color:white;
-}
-
-.nav-button{
-
-  padding:11px 18px;
-
-  border-radius:11px;
-
-  background:var(--gradient);
-
-  color:white;
-
-  font-weight:700;
-
-  box-shadow:
-    0 8px 25px rgba(89,73,255,.28);
-
-  transition:.25s;
-}
-
-.nav-button:hover{
-  transform:translateY(-2px);
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-
-  position:relative;
-
-  padding:
-    82px
-    0
-    45px;
-
-  overflow:hidden;
-
-  background:
-
-    radial-gradient(
-      circle at 15% 45%,
-      rgba(0,210,255,.13),
-      transparent 32%
-    ),
-
-    radial-gradient(
-      circle at 90% 20%,
-      rgba(164,45,255,.20),
-      transparent 35%
-    );
-
-}
-
-.hero:before{
-
-  content:"";
-
-  position:absolute;
-
-  width:450px;
-  height:450px;
-
-  right:-200px;
-  top:-180px;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(104,63,255,.20),
-      transparent 70%
-    );
-
-  pointer-events:none;
-}
-
-.hero-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    1.05fr .95fr;
-
-  gap:65px;
-
-  align-items:center;
-}
-
-.badge{
-
-  display:inline-flex;
-
-  align-items:center;
-  gap:8px;
-
-  padding:8px 13px;
-
-  border-radius:999px;
-
-  background:
-    rgba(18,205,255,.07);
-
-  border:
-    1px solid rgba(18,205,255,.18);
-
-  color:#a9eaff;
-
-  font-size:.78rem;
-
-  font-weight:700;
-
-  margin-bottom:20px;
-}
-
-.badge:before{
-
-  content:"";
-
-  width:6px;
-  height:6px;
-
-  border-radius:50%;
-
-  background:var(--cyan);
-
-  box-shadow:
-    0 0 12px var(--cyan);
-}
-
-.hero h1{
-
-  font-size:
-    clamp(
-      3rem,
-      6vw,
-      5.4rem
-    );
-
-  line-height:.98;
-
-  letter-spacing:-4px;
-
-  margin-bottom:25px;
-}
-
-.hero h1 span{
-
-  background:var(--gradient);
-
-  -webkit-background-clip:text;
-  background-clip:text;
-
-  color:transparent;
-
-}
-
-.hero p{
-
-  color:#9b9eb3;
-
-  font-size:1rem;
-
-  max-width:590px;
-
-  margin-bottom:30px;
-}
-
-.hero-buttons{
-
-  display:flex;
-
-  gap:12px;
-
-  flex-wrap:wrap;
-}
-
-.btn{
-
-  display:inline-flex;
-
-  align-items:center;
-  justify-content:center;
-
-  border:none;
-
-  cursor:pointer;
-
-  padding:14px 20px;
-
-  border-radius:12px;
-
-  font-weight:700;
-
-  transition:.25s;
-}
-
-.btn-primary{
-
-  background:var(--gradient);
-
-  color:white;
-
-  box-shadow:
-    0 10px 30px rgba(100,64,255,.3);
-}
-
-.btn-primary:hover{
-
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 15px 35px rgba(100,64,255,.42);
-}
-
-.btn-secondary{
-
-  background:#11121f;
-
-  border:
-    1px solid var(--border);
-
-  color:white;
-}
-
-.btn-secondary:hover{
-
-  border-color:
-    rgba(120,90,255,.45);
-
-  background:#17182a;
-}
-
-/* =========================
-   HERO VISUAL
-========================= */
-
-.hero-visual{
-
-  position:relative;
-
-  display:flex;
-  justify-content:center;
-}
-
-.hero-card{
-
-  position:relative;
-
-  width:min(470px,100%);
-
-  min-height:390px;
-
-  padding:25px;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  border-radius:28px;
-
-  background:
-
-    linear-gradient(
-      145deg,
-      rgba(31,32,53,.88),
-      rgba(12,13,28,.95)
-    );
-
-  border:
-    1px solid rgba(255,255,255,.10);
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.45),
-
-    inset 0 1px 0
-    rgba(255,255,255,.06);
-
-  overflow:hidden;
-}
-
-.hero-card:before{
-
-  content:"";
-
-  position:absolute;
-
-  width:280px;
-  height:280px;
-
-  top:-100px;
-  right:-100px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(181,39,255,.28),
-      transparent 70%
-    );
-}
-
-.hero-card:after{
-
-  content:"";
-
-  position:absolute;
-
-  width:220px;
-  height:220px;
-
-  bottom:-130px;
-  left:-90px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,203,255,.20),
-      transparent 70%
-    );
-}
-
-.hero-card img{
-
-  position:relative;
-
-  z-index:2;
-
-  width:88%;
-
-  max-height:340px;
-
-  object-fit:contain;
-
-  filter:
-    drop-shadow(
-      0 20px 30px
-      rgba(0,0,0,.35)
-    );
-}
-
-/* =========================
-   TRUST STRIP
-========================= */
-
-.trust-strip{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:12px;
-
-  margin-top:30px;
-}
-
-.trust-item{
-
-  padding:19px;
-
-  border-radius:15px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.015)
-    );
-
-  border:
-    1px solid var(--border);
-
-  transition:.25s;
-}
-
-.trust-item:hover{
-
-  transform:translateY(-3px);
-
-  border-color:
-    rgba(82,122,255,.25);
-}
-
-.trust-icon{
-
-  font-size:1.2rem;
-
-  margin-bottom:8px;
-}
-
-.trust-item strong{
-
-  display:block;
-
-  font-size:.88rem;
-
-  margin-bottom:3px;
-}
-
-.trust-item span{
-
-  color:#85889f;
-
-  font-size:.75rem;
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-.search-section{
-
-  padding:
-    35px
-    0
-    20px;
-}
-
-.search-box{
-
-  display:flex;
-
-  gap:10px;
-
-  padding:8px;
-
-  border-radius:15px;
-
-  background:#10111e;
-
-  border:
-    1px solid var(--border);
-
-  box-shadow:
-    0 15px 45px
-    rgba(0,0,0,.15);
-}
-
-.search-box input{
-
-  flex:1;
-
-  min-width:0;
-
-  border:none;
-  outline:none;
-
-  background:transparent;
-
-  color:white;
-
-  padding:13px;
-
-}
-
-.search-box input::placeholder{
-  color:#70748d;
-}
-
-/* =========================
-   SECTION
-========================= */
-
-.section{
-
-  padding:80px 0;
-}
-
-.section-header{
-
-  margin-bottom:32px;
-}
-
-.section-label{
-
-  color:#8e75ff;
-
-  font-size:.7rem;
-
-  font-weight:800;
-
-  letter-spacing:2px;
-
-  text-transform:uppercase;
-
-  margin-bottom:10px;
-}
-
-.section-header h2{
-
-  font-size:
-    clamp(
-      2rem,
-      4vw,
-      2.8rem
-    );
-
-  line-height:1.05;
-
-  letter-spacing:-1.5px;
-
-  margin-bottom:9px;
-}
-
-.section-header p{
-
-  color:#8d91a8;
-
-  max-width:650px;
-}
-
-/* =========================
-   CATEGORIES
-========================= */
-
-.categories{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:15px;
-}
-
-.category{
-
-  position:relative;
-
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      #111321,
-      #0d0e1b
-    );
-
-  border:
-    1px solid var(--border);
-
-  border-radius:18px;
-
-  padding:24px;
-
-  cursor:pointer;
-
-  transition:.3s;
-}
-
-.category:after{
-
-  content:"";
-
-  position:absolute;
-
-  width:120px;
-  height:120px;
-
-  right:-60px;
-  bottom:-60px;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(126,64,255,.18),
-      transparent 70%
-    );
-}
-
-.category:hover{
-
-  transform:translateY(-5px);
-
-  border-color:
-    rgba(103,92,255,.35);
-
-  box-shadow:
-    0 20px 40px
-    rgba(0,0,0,.22);
-}
-
-.category-icon{
-
-  width:48px;
-  height:48px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:13px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(42,177,255,.12),
-      rgba(167,50,255,.15)
-    );
-
-  margin-bottom:18px;
-
-  font-size:1.3rem;
-}
-
-.category h3{
-
-  font-size:1rem;
-
-  margin-bottom:6px;
-}
-
-.category p{
-
-  color:#85889f;
-
-  font-size:.8rem;
-}
-
-/* =========================
-   PRODUCTS
-========================= */
-
-.products-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:20px;
-}
-
-.product{
-
-  overflow:hidden;
-
-  border-radius:19px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #111321,
-      #0d0e1b
-    );
-
-  border:
-    1px solid var(--border);
-
-  transition:.3s;
-}
-
-.product:hover{
-
-  transform:translateY(-5px);
-
-  border-color:
-    rgba(110,88,255,.35);
-
-  box-shadow:
-    0 20px 45px
-    rgba(0,0,0,.25);
-}
-
-.product-image{
-
-  height:185px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:
-    linear-gradient(
-      135deg,
-      #101c3b,
-      #1d1033
-    );
-
-  overflow:hidden;
-}
-
-.product-image img{
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-}
-
-.product-placeholder{
-
-  font-size:3rem;
-
-  opacity:.7;
-}
-
-.product-content{
-
-  padding:20px;
-}
-
-.product-category{
-
-  color:#8c78ff;
-
-  font-size:.7rem;
-
-  font-weight:800;
-
-  text-transform:uppercase;
-
-  letter-spacing:.6px;
-
-  margin-bottom:8px;
-}
-
-.product h3{
-
-  font-size:1.05rem;
-
-  margin-bottom:8px;
-}
-
-.product-description{
-
-  color:#85899f;
-
-  font-size:.82rem;
-
-  min-height:48px;
-
-  margin-bottom:17px;
-}
-
-.product-bottom{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:10px;
-}
-
-.price{
-
-  font-size:1rem;
-
-  font-weight:800;
-}
-
-.product-btn{
-
-  border:none;
-
-  cursor:pointer;
-
-  padding:10px 14px;
-
-  border-radius:10px;
-
-  color:white;
-
-  background:#1a1b2b;
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  font-weight:700;
-
-  transition:.25s;
-}
-
-.product-btn:hover{
-
-  background:var(--gradient);
-
-  border-color:transparent;
-}
-
-/* =========================
-   CATALOG CTA
-========================= */
-
-.catalog-cta{
-
-  position:relative;
-
-  overflow:hidden;
-
-  margin-top:38px;
-
-  padding:30px;
-
-  border-radius:22px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:25px;
-
-  background:
-
-    linear-gradient(
-      110deg,
-      rgba(21,159,255,.08),
-      rgba(141,45,255,.13)
-    );
-
-  border:
-    1px solid rgba(112,92,255,.2);
-}
-
-.catalog-cta h3{
-
-  font-size:1.3rem;
-
-  margin-bottom:4px;
-}
-
-.catalog-cta p{
-
-  color:#85899f;
-
-  font-size:.85rem;
-}
-
-/* =========================
-   WHY
-========================= */
-
-.dark-section{
-
-  background:
-    linear-gradient(
-      180deg,
-      #090a18,
-      #050610
-    );
-
-  border-top:
-    1px solid rgba(255,255,255,.04);
-
-  border-bottom:
-    1px solid rgba(255,255,255,.04);
-}
-
-.why-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:18px;
-}
-
-.why-card{
-
-  padding:27px;
-
-  border-radius:18px;
-
-  background:
-    rgba(255,255,255,.025);
-
-  border:
-    1px solid var(--border);
-}
-
-.why-icon{
-
-  font-size:1.5rem;
-
-  margin-bottom:12px;
-}
-
-.why-card h3{
-
-  font-size:1rem;
-
-  margin-bottom:7px;
-}
-
-.why-card p{
-
-  color:#85899f;
-
-  font-size:.84rem;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-
-  background:#04050d;
-
-  padding:55px 0 30px;
-
-  color:#85889d;
-}
-
-.footer-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    2fr 1fr 1fr;
-
-  gap:40px;
-}
-
-.footer-brand{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:9px;
-
-  color:white;
-
-  font-size:1.25rem;
-
-  font-weight:800;
-
-  margin-bottom:12px;
-}
-
-.footer-brand img{
-
-  width:35px;
-  height:35px;
-
-  object-fit:contain;
-}
-
-footer h3{
-
-  color:white;
-
-  font-size:.95rem;
-
-  margin-bottom:12px;
-}
-
-footer a{
-
-  display:block;
-
-  font-size:.82rem;
-
-  margin-bottom:8px;
-
-  transition:.2s;
-}
-
-footer a:hover{
-  color:white;
-}
-
-.copyright{
-
-  margin-top:40px;
-
-  padding-top:20px;
-
-  border-top:
-    1px solid rgba(255,255,255,.07);
-
-  font-size:.75rem;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-.loading,
-.empty{
-
-  grid-column:1/-1;
-
-  padding:55px;
-
-  text-align:center;
-
-  color:#777b92;
-
-  border:
-    1px solid var(--border);
-
-  border-radius:18px;
-
-  background:#0d0e1b;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:900px){
-
-  nav{
-    display:none;
-  }
-
-  .hero-grid{
-
-    grid-template-columns:1fr;
-
-    gap:45px;
-  }
-
-  .hero{
-    padding-top:60px;
-  }
-
-  .hero h1{
-    letter-spacing:-2.5px;
-  }
-
-  .trust-strip{
-
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-  .categories{
-
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-  .products-grid{
-
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-  .why-grid{
-
-    grid-template-columns:1fr;
-  }
-
-  .footer-grid{
-
-    grid-template-columns:1fr;
-  }
-
-}
-
-@media(max-width:560px){
-
-  .hero h1{
-
-    font-size:3.1rem;
-
-    letter-spacing:-2px;
-  }
-
-  .hero-card{
-
-    min-height:310px;
-  }
-
-  .trust-strip{
-
-    grid-template-columns:1fr;
-  }
-
-  .categories,
-  .products-grid{
-
-    grid-template-columns:1fr;
-  }
-
-  .search-box{
-
-    flex-direction:column;
-  }
-
-  .search-box button{
-
-    width:100%;
-  }
-
-  .catalog-cta{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-  }
-
-}
-
-</style>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>MindFlow — Apprendre autrement</title>
+
+  <meta name="description"
+        content="MindFlow — plateforme éducative numérique pour apprendre, réviser et progresser.">
+
+  <link rel="icon"
+        type="image/png"
+        href="assets/favicon-mindflow.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050711;
+      --bg-soft: #090d1b;
+      --card: rgba(13, 18, 36, 0.82);
+      --card-hover: rgba(19, 26, 50, 0.95);
+
+      --blue: #35a9ff;
+      --blue-light: #67c5ff;
+      --purple: #8b5cf6;
+      --pink: #d946ef;
+
+      --text: #f5f7ff;
+      --muted: #a7afc4;
+      --border: rgba(255,255,255,0.09);
+
+      --radius: 22px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 15% 10%,
+          rgba(53,169,255,0.13),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(139,92,246,0.12),
+          transparent 30%
+        ),
+        var(--bg);
+
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       BACKGROUND ANIMATION
+    ========================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+
+      background-image:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,0.5) 1px,
+          transparent 1px
+        );
+
+      background-size: 95px 95px;
+      opacity: 0.12;
+
+      animation: starsMove 25s linear infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(53,169,255,0.08),
+          transparent 65%
+        );
+
+      top: 35%;
+      left: -180px;
+
+      pointer-events: none;
+      z-index: -1;
+
+      animation: floatingGlow 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes starsMove {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(95px);
+      }
+    }
+
+    @keyframes floatingGlow {
+      from {
+        transform: translate(0,0) scale(1);
+      }
+
+      to {
+        transform: translate(120px,-50px) scale(1.25);
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      background: rgba(5,7,17,0.78);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 76px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 150px;
+      max-width: 42vw;
+      height: auto;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: 0.25s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .nav-button {
+      padding: 11px 17px;
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      color: white;
+      font-weight: 700;
+
+      box-shadow:
+        0 8px 25px rgba(53,169,255,0.16);
+    }
+
+    .mobile-menu {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      padding: 85px 0 60px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 13px;
+      border: 1px solid rgba(53,169,255,0.22);
+      border-radius: 999px;
+
+      background: rgba(53,169,255,0.07);
+      color: var(--blue-light);
+
+      font-size: 0.82rem;
+      font-weight: 700;
+
+      margin-bottom: 22px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 12px var(--blue);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.7rem);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+
+      max-width: 760px;
+    }
+
+    .gradient-text {
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff,
+          var(--blue-light),
+          #b794ff
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      margin-top: 23px;
+      max-width: 640px;
+
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 30px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      padding: 14px 20px;
+      border-radius: 14px;
+
+      transition:
+        transform 0.25s,
+        box-shadow 0.25s,
+        background 0.25s;
+    }
+
+    .primary-button {
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      color: white;
+      font-weight: 800;
+
+      box-shadow:
+        0 12px 35px rgba(53,169,255,0.18);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.035);
+      color: white;
+    }
+
+    .primary-button:hover,
+    .secondary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .secondary-button:hover {
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* =========================
+       HERO VISUAL
+    ========================= */
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 390px;
+
+      padding: 35px;
+
+      border-radius: 30px;
+
+      border: 1px solid rgba(255,255,255,0.1);
+
+      background:
+        radial-gradient(
+          circle at 30% 20%,
+          rgba(53,169,255,0.15),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 80% 80%,
+          rgba(139,92,246,0.16),
+          transparent 35%
+        ),
+        rgba(9,13,27,0.9);
+
+      box-shadow:
+        0 30px 100px rgba(0,0,0,0.35);
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+
+      border-radius: 29px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(53,169,255,0.07),
+          transparent 45%,
+          rgba(139,92,246,0.07)
+        );
+
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      width: min(290px, 80%);
+      position: relative;
+      z-index: 2;
+
+      filter:
+        drop-shadow(0 0 30px rgba(53,169,255,0.16));
+    }
+
+    .hero-card h2 {
+      position: relative;
+      z-index: 2;
+
+      margin-top: 25px;
+      font-size: 1.35rem;
+    }
+
+    .hero-card p {
+      position: relative;
+      z-index: 2;
+
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero-tags {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .hero-tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+
+      color: #cbd3e8;
+      font-size: 0.76rem;
+    }
+
+    /* =========================
+       VALUE STRIP
+    ========================= */
+
+    .value-section {
+      padding: 15px 0 65px;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+    }
+
+    .value-card {
+      padding: 19px;
+
+      border: 1px solid var(--border);
+      border-radius: 17px;
+
+      background: rgba(255,255,255,0.025);
+
+      transition: 0.25s;
+    }
+
+    .value-card:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.045);
+    }
+
+    .value-icon {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .value-card h3 {
+      font-size: 0.94rem;
+      margin-bottom: 5px;
+    }
+
+    .value-card p {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       SECTION HEAD
+    ========================= */
+
+    .section {
+      padding: 75px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 25px;
+
+      margin-bottom: 30px;
+    }
+
+    .section-kicker {
+      color: var(--blue-light);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      letter-spacing: -0.035em;
+    }
+
+    .section-description {
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 600px;
+    }
+
+    .section-link {
+      color: var(--blue-light);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-wrapper {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    #searchInput {
+      width: 100%;
+
+      padding: 17px 20px 17px 50px;
+
+      border-radius: 17px;
+
+      border: 1px solid var(--border);
+      outline: none;
+
+      background: rgba(9,13,27,0.82);
+      color: white;
+
+      font-size: 0.95rem;
+
+      transition: 0.25s;
+    }
+
+    #searchInput::placeholder {
+      color: #737d96;
+    }
+
+    #searchInput:focus {
+      border-color: rgba(53,169,255,0.5);
+
+      box-shadow:
+        0 0 0 4px rgba(53,169,255,0.07);
+    }
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .category-card {
+      position: relative;
+
+      min-height: 160px;
+      padding: 22px;
+
+      border-radius: 21px;
+
+      border: 1px solid var(--border);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.018)
+        );
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.25s,
+        border-color 0.25s;
+    }
+
+    .category-card::after {
+      content: "";
+      position: absolute;
+
+      width: 120px;
+      height: 120px;
+
+      border-radius: 50%;
+
+      right: -40px;
+      bottom: -55px;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(53,169,255,0.16),
+          transparent 70%
+        );
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(53,169,255,0.3);
+    }
+
+    .category-emoji {
+      font-size: 2.15rem;
+      margin-bottom: 20px;
+    }
+
+    .category-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .category-card p {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* =========================
+       PRODUCTS
+    ========================= */
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      overflow: hidden;
+
+      border-radius: 21px;
+
+      border: 1px solid var(--border);
+
+      background:
+        rgba(9,13,27,0.82);
+
+      transition:
+        transform 0.25s,
+        border-color 0.25s,
+        box-shadow 0.25s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+
+      border-color: rgba(53,169,255,0.25);
+
+      box-shadow:
+        0 20px 55px rgba(0,0,0,0.25);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+
+      background:
+        linear-gradient(
+          135deg,
+          #10172b,
+          #171126
+        );
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-placeholder {
+      font-size: 3rem;
+      opacity: 0.8;
+    }
+
+    .product-content {
+      padding: 19px;
+    }
+
+    .product-category {
+      color: var(--blue-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+
+      font-size: 0.67rem;
+      font-weight: 800;
+
+      margin-bottom: 8px;
+    }
+
+    .product-title {
+      font-size: 1.05rem;
+      line-height: 1.35;
+    }
+
+    .product-description {
+      margin-top: 8px;
+
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-top: 18px;
+    }
+
+    .product-price {
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    .product-button {
+      padding: 10px 14px;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
+
+      color: white;
+
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+
+      padding: 45px 20px;
+
+      text-align: center;
+
+      border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 20px;
+
+      color: var(--muted);
+    }
+
+    .loading {
+      grid-column: 1 / -1;
+
+      text-align: center;
+      padding: 35px;
+
+      color: var(--muted);
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      padding: 80px 0;
+    }
+
+    .cta-card {
+      position: relative;
+
+      padding: 55px 40px;
+
+      border-radius: 28px;
+
+      overflow: hidden;
+
+      border: 1px solid rgba(53,169,255,0.15);
+
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(53,169,255,0.14),
+          transparent 40%
+        ),
+        radial-gradient(
+          circle at 80% 80%,
+          rgba(139,92,246,0.15),
+          transparent 40%
+        ),
+        rgba(10,14,28,0.88);
+
+      text-align: center;
+    }
+
+    .cta-card h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 13px;
+    }
+
+    .cta-card p {
+      color: var(--muted);
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.65;
+    }
+
+    .cta-card .primary-button {
+      margin-top: 25px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 55px 0 30px;
+      background: rgba(3,5,12,0.75);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-logo {
+      width: 150px;
+      margin-bottom: 17px;
+    }
+
+    .footer-description {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.85rem;
+      max-width: 350px;
+    }
+
+    .footer-column h3 {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    .footer-column a {
+      display: block;
+
+      color: var(--muted);
+      font-size: 0.84rem;
+
+      margin-bottom: 11px;
+
+      transition: 0.2s;
+    }
+
+    .footer-column a:hover {
+      color: white;
+    }
+
+    .social-placeholder {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .social-placeholder a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 39px;
+      height: 39px;
+
+      margin: 0;
+
+      border-radius: 11px;
+
+      border: 1px solid var(--border);
+
+      background: rgba(255,255,255,0.035);
+
+      color: #cdd4e7;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+
+      margin-top: 40px;
+      padding-top: 22px;
+
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+
+      color: #737d96;
+      font-size: 0.75rem;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+
+      .hero-visual {
+        max-width: 600px;
+        width: 100%;
+        margin: auto;
+      }
+
+      .value-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+
+      .container {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .nav {
+        min-height: 67px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .nav-button {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .hero {
+        padding: 45px 0 45px;
+      }
+
+      h1 {
+        font-size: 2.55rem;
+      }
+
+      .hero-text {
+        font-size: 0.94rem;
+      }
+
+      .hero-card {
+        min-height: 330px;
+        padding: 25px;
+      }
+
+      .value-grid,
+      .category-grid,
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .value-card {
+        padding: 17px;
+      }
+
+      .section {
+        padding: 55px 0;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 22px;
+      }
+
+      .section-link {
+        font-size: 0.86rem;
+      }
+
+      .cta-card {
+        padding: 40px 22px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 430px) {
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .primary-button,
+      .secondary-button {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-brand {
+        grid-column: auto;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-<header>
+  <header>
+    <div class="container nav">
 
-  <div class="container nav">
-
-    <a href="index.html" class="logo">
-
-      <img
-        src="assets/logo.png"
-        alt="MindFlow"
-      >
-
-      <span>MindFlow</span>
-
-    </a>
-
-    <nav>
-
-      <a href="index.html">
-        Accueil
+      <a href="index.html" class="brand">
+        <img
+          src="assets/logo%20mindflow%20transparent.png"
+          alt="MindFlow"
+        >
       </a>
 
-      <a href="#categories">
-        Catégories
-      </a>
-
-      <a href="catalogue.html">
-        Catalogue
-      </a>
-
-      <a href="#pourquoi">
-        Pourquoi MindFlow
-      </a>
-
-    </nav>
-
-    <a
-      href="catalogue.html"
-      class="nav-button"
-    >
-      Explorer
-    </a>
-
-  </div>
-
-</header>
-
-
-<!-- ================= HERO ================= -->
-
-<main>
-
-<section class="hero">
-
-  <div class="container hero-grid">
-
-    <div>
-
-      <span class="badge">
-        Plateforme éducative numérique
-      </span>
-
-      <h1>
-
-        Apprends.<br>
-
-        Comprends.<br>
-
-        <span>Progresse.</span>
-
-      </h1>
-
-      <p>
-
-        MindFlow rassemble des ressources éducatives
-        conçues pour t'aider à apprendre plus efficacement,
-        réviser intelligemment et progresser à ton rythme.
-
-      </p>
-
-      <div class="hero-buttons">
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="#categories">Matières</a>
+        <a href="#apropos">À propos</a>
 
         <a
           href="catalogue.html"
-          class="btn btn-primary"
+          class="nav-button"
         >
-          Découvrir les ressources →
+          Explorer
         </a>
-
-        <a
-          href="#categories"
-          class="btn btn-secondary"
-        >
-          Explorer les matières
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="hero-visual">
-
-      <div class="hero-card">
-
-        <img
-          src="assets/hero.png"
-          alt="MindFlow — apprendre autrement"
-        >
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- TRUST -->
-
-  <div class="container">
-
-    <div class="trust-strip">
-
-      <div class="trust-item">
-
-        <div class="trust-icon">
-          📚
-        </div>
-
-        <strong>
-          Ressources étudiantes
-        </strong>
-
-        <span>
-          Des contenus pensés pour apprendre.
-        </span>
-
-      </div>
-
-
-      <div class="trust-item">
-
-        <div class="trust-icon">
-          ⚡
-        </div>
-
-        <strong>
-          Accès rapide
-        </strong>
-
-        <span>
-          Trouve rapidement ce dont tu as besoin.
-        </span>
-
-      </div>
-
-
-      <div class="trust-item">
-
-        <div class="trust-icon">
-          🔐
-        </div>
-
-        <strong>
-          Paiement sécurisé
-        </strong>
-
-        <span>
-          Des paiements intégrés progressivement.
-        </span>
-
-      </div>
-
-
-      <div class="trust-item">
-
-        <div class="trust-icon">
-          📱
-        </div>
-
-        <strong>
-          Compatible mobile
-        </strong>
-
-        <span>
-          Pensé pour smartphone, tablette et ordinateur.
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= SEARCH ================= -->
-
-<section class="search-section">
-
-  <div class="container">
-
-    <form
-      class="search-box"
-      id="searchForm"
-    >
-
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Que souhaites-tu apprendre aujourd'hui ?"
-        autocomplete="off"
-      >
-
-      <button
-        type="submit"
-        class="btn btn-primary"
-      >
-        Rechercher
-      </button>
-
-    </form>
-
-  </div>
-
-</section>
-
-
-<!-- ================= CATEGORIES ================= -->
-
-<section
-  class="section"
-  id="categories"
->
-
-  <div class="container">
-
-    <div class="section-header">
-
-      <div class="section-label">
-        Explorer
-      </div>
-
-      <h2>
-        Trouve ta matière.
-      </h2>
-
-      <p>
-        Explore les différentes catégories de ressources
-        disponibles sur MindFlow.
-      </p>
-
-    </div>
-
-
-    <div class="categories">
-
-
-      <div
-        class="category"
-        data-category="Mathématiques"
-      >
-
-        <div class="category-icon">
-          📐
-        </div>
-
-        <h3>
-          Mathématiques
-        </h3>
-
-        <p>
-          Exercices, annales et méthodes.
-        </p>
-
-      </div>
-
-
-      <div
-        class="category"
-        data-category="SVT"
-      >
-
-        <div class="category-icon">
-          🧬
-        </div>
-
-        <h3>
-          SVT
-        </h3>
-
-        <p>
-          Fiches et ressources scientifiques.
-        </p>
-
-      </div>
-
-
-      <div
-        class="category"
-        data-category="Physique"
-      >
-
-        <div class="category-icon">
-          ⚛️
-        </div>
-
-        <h3>
-          Physique
-        </h3>
-
-        <p>
-          Exercices et corrections.
-        </p>
-
-      </div>
-
-
-      <div
-        class="category"
-        data-category="Informatique"
-      >
-
-        <div class="category-icon">
-          💻
-        </div>
-
-        <h3>
-          Informatique
-        </h3>
-
-        <p>
-          Programmation et numérique.
-        </p>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= APERÇU CATALOGUE ================= -->
-
-<section
-  class="section"
-  id="catalogue"
->
-
-  <div class="container">
-
-    <div class="section-header">
-
-      <div class="section-label">
-        Catalogue
-      </div>
-
-      <h2>
-        Les ressources MindFlow
-      </h2>
-
-      <p>
-        Découvre une sélection de contenus disponibles
-        et choisis les ressources adaptées à tes besoins.
-      </p>
-
-    </div>
-
-
-    <div
-      class="products-grid"
-      id="productsContainer"
-    >
-
-      <div class="loading">
-        Chargement du catalogue...
-      </div>
-
-    </div>
-
-
-    <div class="catalog-cta">
-
-      <div>
-
-        <h3>
-          Prêt à apprendre autrement ?
-        </h3>
-
-        <p>
-          Explore l'ensemble des ressources disponibles
-          dans le catalogue MindFlow.
-        </p>
-
-      </div>
-
+      </nav>
 
       <a
         href="catalogue.html"
-        class="btn btn-primary"
+        class="mobile-menu"
+        aria-label="Ouvrir le catalogue"
       >
-        Explorer le catalogue →
+        ☰
       </a>
 
     </div>
-
-  </div>
-
-</section>
+  </header>
 
 
-<!-- ================= POURQUOI ================= -->
+  <main>
 
-<section
-  class="section dark-section"
-  id="pourquoi"
->
+    <!-- =========================
+         HERO
+    ========================== -->
 
-  <div class="container">
+    <section class="hero">
 
-    <div class="section-header">
+      <div class="container hero-grid">
 
-      <div class="section-label">
-        MindFlow
-      </div>
+        <div>
 
-      <h2>
-        Pourquoi MindFlow ?
-      </h2>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Plateforme éducative numérique
+          </div>
 
-      <p>
-        Une plateforme pensée pour rendre les ressources
-        éducatives plus simples à trouver et à utiliser.
-      </p>
+          <h1>
+            Apprends.
+            <span class="gradient-text">
+              Comprends.
+            </span>
+            Progresse.
+          </h1>
 
-    </div>
+          <p class="hero-text">
+            MindFlow rassemble des ressources numériques
+            conçues pour t'aider à apprendre plus simplement,
+            réviser efficacement et progresser à ton rythme.
+          </p>
 
+          <div class="hero-actions">
 
-    <div class="why-grid">
+            <a
+              href="catalogue.html"
+              class="primary-button"
+            >
+              Découvrir les ressources →
+            </a>
 
+            <a
+              href="#categories"
+              class="secondary-button"
+            >
+              Explorer les matières
+            </a>
 
-      <div class="why-card">
+          </div>
 
-        <div class="why-icon">
-          🎯
         </div>
 
-        <h3>
-          Simple
-        </h3>
 
-        <p>
-          Des ressources organisées pour aller
-          directement à l'essentiel.
+        <div class="hero-visual">
+
+          <div class="hero-card">
+
+            <img
+              class="hero-logo"
+              src="assets/logo%20mindflow%20transparent.png"
+              alt="MindFlow — Apprendre autrement"
+            >
+
+            <h2>
+              Ton espace pour apprendre.
+            </h2>
+
+            <p>
+              Fiches, exercices, cours et ressources
+              numériques réunis au même endroit.
+            </p>
+
+            <div class="hero-tags">
+              <span class="hero-tag">Simple</span>
+              <span class="hero-tag">Rapide</span>
+              <span class="hero-tag">Accessible</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         VALUE
+    ========================== -->
+
+    <section class="value-section">
+
+      <div class="container">
+
+        <div class="value-grid">
+
+          <div class="value-card">
+            <div class="value-icon">📚</div>
+            <h3>Ressources numériques</h3>
+            <p>
+              Cours, fiches et supports conçus pour apprendre.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">🎯</div>
+            <h3>Pensé pour apprendre</h3>
+            <p>
+              Une présentation claire pour retrouver rapidement
+              ce dont tu as besoin.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">🚀</div>
+            <h3>Une plateforme évolutive</h3>
+            <p>
+              Le catalogue pourra grandir avec de nouvelles
+              ressources.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">📱</div>
+            <h3>Compatible mobile</h3>
+            <p>
+              MindFlow est pensé pour fonctionner facilement
+              sur smartphone.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SEARCH
+    ========================== -->
+
+    <section class="section">
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+            <div class="section-kicker">
+              Trouver une ressource
+            </div>
+
+            <h2>
+              Que veux-tu apprendre ?
+            </h2>
+          </div>
+
+          <a
+            href="catalogue.html"
+            class="section-link"
+          >
+            Voir tout le catalogue →
+          </a>
+
+        </div>
+
+        <div class="search-wrapper">
+
+          <span class="search-icon">⌕</span>
+
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Rechercher : maths, fonction, physique, SVT..."
+            autocomplete="off"
+          >
+
+        </div>
+
+        <div
+          id="searchResults"
+          class="products-grid"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================== -->
+
+    <section
+      class="section"
+      id="categories"
+    >
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              Explorer
+            </div>
+
+            <h2>
+              Explore par matière
+            </h2>
+
+            <p class="section-description">
+              Choisis une matière pour retrouver plus facilement
+              les ressources qui t'intéressent.
+            </p>
+
+          </div>
+
+          <a
+            href="catalogue.html"
+            class="section-link"
+          >
+            Catalogue complet →
+          </a>
+
+        </div>
+
+
+        <div class="category-grid">
+
+          <a
+            href="catalogue.html?category=Mathematiques"
+            class="category-card"
+          >
+            <div class="category-emoji">🧮</div>
+            <h3>Mathématiques</h3>
+            <p>
+              Cours, exercices et fiches.
+            </p>
+          </a>
+
+
+          <a
+            href="catalogue.html?category=Physique"
+            class="category-card"
+          >
+            <div class="category-emoji">⚛️</div>
+            <h3>Physique</h3>
+            <p>
+              Comprendre les notions essentielles.
+            </p>
+          </a>
+
+
+          <a
+            href="catalogue.html?category=SVT"
+            class="category-card"
+          >
+            <div class="category-emoji">🧬</div>
+            <h3>SVT</h3>
+            <p>
+              Sciences de la vie et de la Terre.
+            </p>
+          </a>
+
+
+          <a
+            href="catalogue.html?category=Informatique"
+            class="category-card"
+          >
+            <div class="category-emoji">💻</div>
+            <h3>Informatique</h3>
+            <p>
+              Numérique, programmation et technologie.
+            </p>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PRODUCTS
+    ========================== -->
+
+    <section class="section">
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              Sélection
+            </div>
+
+            <h2>
+              Ressources disponibles
+            </h2>
+
+            <p class="section-description">
+              Découvre les dernières ressources ajoutées
+              au catalogue MindFlow.
+            </p>
+
+          </div>
+
+          <a
+            href="catalogue.html"
+            class="section-link"
+          >
+            Tout voir →
+          </a>
+
+        </div>
+
+
+        <div
+          id="productsGrid"
+          class="products-grid"
+        >
+
+          <div class="loading">
+            Chargement des ressources...
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================== -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-card">
+
+          <h2>
+            Prêt à apprendre autrement ?
+          </h2>
+
+          <p>
+            Explore le catalogue MindFlow et découvre
+            les ressources disponibles pour progresser.
+          </p>
+
+          <a
+            href="catalogue.html"
+            class="primary-button"
+          >
+            Explorer le catalogue →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section
+      class="section"
+      id="apropos"
+    >
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="section-kicker">
+              MindFlow
+            </div>
+
+            <h2>
+              Apprendre autrement.
+            </h2>
+
+          </div>
+
+        </div>
+
+        <p
+          class="section-description"
+          style="max-width:800px;"
+        >
+          MindFlow est pensé comme un espace numérique simple
+          et accessible où les apprenants peuvent découvrir,
+          consulter et acquérir des ressources éducatives
+          adaptées à leurs besoins.
         </p>
 
       </div>
 
+    </section>
 
-      <div class="why-card">
-
-        <div class="why-icon">
-          ⚡
-        </div>
-
-        <h3>
-          Rapide
-        </h3>
-
-        <p>
-          Trouve rapidement les ressources
-          dont tu as besoin.
-        </p>
-
-      </div>
+  </main>
 
 
-      <div class="why-card">
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
-        <div class="why-icon">
-          🚀
-        </div>
+  <footer>
 
-        <h3>
-          Évolutif
-        </h3>
+    <div class="container">
 
-        <p>
-          MindFlow évolue progressivement vers
-          une véritable marketplace éducative.
-        </p>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-  <div class="container">
-
-    <div class="footer-grid">
-
-
-      <div>
+      <div class="footer-grid">
 
         <div class="footer-brand">
 
           <img
-            src="assets/logo.png"
+            class="footer-logo"
+            src="assets/logo%20mindflow%20transparent.png"
             alt="MindFlow"
           >
 
-          MindFlow
+          <p class="footer-description">
+            Une plateforme éducative numérique pour apprendre,
+            réviser et progresser autrement.
+          </p>
 
         </div>
 
-        <p>
-          Apprendre autrement,
-          progresser intelligemment.
-        </p>
+
+        <div class="footer-column">
+
+          <h3>Navigation</h3>
+
+          <a href="index.html">
+            Accueil
+          </a>
+
+          <a href="catalogue.html">
+            Catalogue
+          </a>
+
+          <a href="#categories">
+            Matières
+          </a>
+
+          <a href="#apropos">
+            À propos
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>Informations</h3>
+
+          <a href="#">
+            Comment ça marche ?
+          </a>
+
+          <a href="#">
+            FAQ
+          </a>
+
+          <a href="#">
+            Conditions
+          </a>
+
+          <a href="#">
+            Confidentialité
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>Nous suivre</h3>
+
+          <div class="social-placeholder">
+
+            <!--
+              Liens à remplacer plus tard
+              par les vrais comptes MindFlow.
+            -->
+
+            <a
+              href="#"
+              aria-label="TikTok"
+              title="TikTok"
+            >
+              ♪
+            </a>
+
+            <a
+              href="#"
+              aria-label="Facebook"
+              title="Facebook"
+            >
+              f
+            </a>
+
+            <a
+              href="#"
+              aria-label="WhatsApp"
+              title="WhatsApp"
+            >
+              ☎
+            </a>
+
+            <a
+              href="#"
+              aria-label="Email"
+              title="Email"
+            >
+              ✉
+            </a>
+
+          </div>
+
+        </div>
 
       </div>
 
 
-      <div>
+      <div class="footer-bottom">
 
-        <h3>
-          Navigation
-        </h3>
+        <span>
+          © <span id="year"></span> MindFlow.
+          Tous droits réservés.
+        </span>
 
-        <a href="index.html">
-          Accueil
-        </a>
-
-        <a href="#categories">
-          Catégories
-        </a>
-
-        <a href="catalogue.html">
-          Catalogue
-        </a>
+        <span>
+          Apprendre autrement.
+        </span>
 
       </div>
-
-
-      <div>
-
-        <h3>
-          MindFlow
-        </h3>
-
-        <a href="#pourquoi">
-          À propos
-        </a>
-
-        <a href="catalogue.html">
-          Ressources
-        </a>
-
-      </div>
-
 
     </div>
 
-
-    <div class="copyright">
-
-      © 2026 MindFlow — Tous droits réservés.
-
-    </div>
-
-  </div>
-
-</footer>
+  </footer>
 
 
-<script>
+  <script>
 
-/* =========================
-   SUPABASE
-========================= */
+    /* =========================
+       CONFIGURATION SUPABASE
+    ========================== */
 
-const SUPABASE_URL =
-  "https://ejjmluesrrrbktgstlqm.supabase.co";
+    const SUPABASE_URL =
+      "https://ejjmluesrrrbktgstlqm.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
-
-
-const productsContainer =
-  document.getElementById(
-    "productsContainer"
-  );
-
-const searchInput =
-  document.getElementById(
-    "searchInput"
-  );
-
-const searchForm =
-  document.getElementById(
-    "searchForm"
-  );
-
-let allProducts = [];
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
 
-/* =========================
-   SECURITY
-========================= */
+    /* =========================
+       ELEMENTS
+    ========================== */
 
-function escapeHTML(value){
+    const productsGrid =
+      document.getElementById("productsGrid");
 
-  if(
-    value === null ||
-    value === undefined
-  ){
+    const searchResults =
+      document.getElementById("searchResults");
 
-    return "";
-
-  }
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
+    const searchInput =
+      document.getElementById("searchInput");
 
 
-/* =========================
-   PRICE
-========================= */
-
-function formatPrice(price){
-
-  return Number(price)
-    .toLocaleString("fr-FR")
-    + " FCFA";
-
-}
+    let products = [];
 
 
-/* =========================
-   LOAD PRODUCTS
-========================= */
+    /* =========================
+       NORMALISATION RECHERCHE
+    ========================== */
 
-async function loadProducts(){
+    function normalizeText(value) {
 
-  try{
-
-    const endpoint =
-      SUPABASE_URL +
-      "/rest/v1/products" +
-      "?select=id,title,description,price,category,product_type,image_url,is_active" +
-      "&is_active=eq.true" +
-      "&order=created_at.desc";
-
-
-    const response =
-      await fetch(
-        endpoint,
-        {
-
-          method:"GET",
-
-          headers:{
-
-            "apikey":
-              SUPABASE_PUBLISHABLE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              SUPABASE_PUBLISHABLE_KEY
-
-          }
-
-        }
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "Erreur Supabase : " +
-        response.status
-      );
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
 
     }
 
 
-    allProducts =
-      await response.json();
+    /* =========================
+       FORMAT PRIX
+    ========================== */
+
+    function formatPrice(price) {
+
+      if (
+        price === null ||
+        price === undefined ||
+        price === ""
+      ) {
+        return "Prix non indiqué";
+      }
+
+      const number =
+        Number(price);
+
+      if (Number.isNaN(number)) {
+        return price;
+      }
+
+      return number.toLocaleString("fr-FR") + " FCFA";
+    }
 
 
-    renderProducts(
-      allProducts.slice(0,6)
-    );
+    /* =========================
+       CREATION CARTE PRODUIT
+    ========================== */
 
-  }
+    function createProductCard(product) {
 
-  catch(error){
+      const card =
+        document.createElement("article");
 
-    console.error(error);
-
-    productsContainer.innerHTML = `
-
-      <div class="empty">
-
-        Impossible de charger
-        les ressources pour le moment.
-
-      </div>
-
-    `;
-
-  }
-
-}
+      card.className =
+        "product-card";
 
 
-/* =========================
-   RENDER PRODUCTS
-========================= */
-
-function renderProducts(products){
-
-  if(
-    !products ||
-    products.length === 0
-  ){
-
-    productsContainer.innerHTML = `
-
-      <div class="empty">
-
-        Aucun produit disponible
-        pour le moment.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+      const image =
+        product.image_url
+          ? `
+            <img
+              src="${escapeAttribute(product.image_url)}"
+              alt="${escapeAttribute(product.title || "Ressource MindFlow")}"
+              loading="lazy"
+            >
+          `
+          : `
+            <div class="product-placeholder">
+              📚
+            </div>
+          `;
 
 
-  productsContainer.innerHTML = "";
+      card.innerHTML = `
 
+        <div class="product-image">
+          ${image}
+        </div>
 
-  products.forEach(product => {
+        <div class="product-content">
 
-    const card =
-      document.createElement("article");
+          <div class="product-category">
+            ${escapeHtml(product.category || "Ressource")}
+          </div>
 
+          <h3 class="product-title">
+            ${escapeHtml(product.title || "Ressource sans titre")}
+          </h3>
 
-    card.className =
-      "product";
+          <p class="product-description">
+            ${escapeHtml(
+              product.description ||
+              "Découvrez cette ressource éducative MindFlow."
+            )}
+          </p>
 
+          <div class="product-bottom">
 
-    let imageHTML = `
+            <span class="product-price">
+              ${formatPrice(product.price)}
+            </span>
 
-      <div class="product-placeholder">
-        📚
-      </div>
+            <a
+              class="product-button"
+              href="produit.html?id=${encodeURIComponent(product.id)}"
+            >
+              Découvrir
+            </a>
 
-    `;
+          </div>
 
-
-    if(product.image_url){
-
-      imageHTML = `
-
-        <img
-          src="${escapeHTML(product.image_url)}"
-          alt="${escapeHTML(product.title)}"
-          loading="lazy"
-        >
-
+        </div>
       `;
 
+
+      return card;
     }
 
 
-    card.innerHTML = `
+    /* =========================
+       AFFICHER PRODUITS
+    ========================== */
 
-      <div class="product-image">
+    function renderProducts(list, container) {
 
-        ${imageHTML}
-
-      </div>
-
-
-      <div class="product-content">
-
-        <div class="product-category">
-
-          ${escapeHTML(
-            product.category ||
-            "Ressource"
-          )}
-
-        </div>
+      container.innerHTML = "";
 
 
-        <h3>
+      if (!list.length) {
 
-          ${escapeHTML(
-            product.title
-          )}
+        container.innerHTML = `
 
-        </h3>
+          <div class="empty-state">
 
+            <div style="font-size:2rem;margin-bottom:10px;">
+              🔎
+            </div>
 
-        <p class="product-description">
+            <strong>
+              Aucune ressource trouvée
+            </strong>
 
-          ${escapeHTML(
-            product.description ||
-            "Ressource éducative MindFlow."
-          )}
+            <p style="margin-top:8px;">
+              Essaie avec un autre mot-clé :
+              maths, fonction, physique, SVT...
+            </p>
 
-        </p>
+          </div>
 
+        `;
 
-        <div class="product-bottom">
-
-          <span class="price">
-
-            ${formatPrice(
-              product.price
-            )}
-
-          </span>
+        return;
+      }
 
 
-          <button
-            class="product-btn"
-            type="button"
-          >
+      list.forEach(product => {
 
-            Découvrir
+        container.appendChild(
+          createProductCard(product)
+        );
 
-          </button>
+      });
 
-        </div>
-
-      </div>
-
-    `;
+    }
 
 
-    const button =
-      card.querySelector(
-        ".product-btn"
-      );
+    /* =========================
+       CHARGER PRODUITS
+    ========================== */
 
+    async function loadProducts() {
 
-    button.addEventListener(
-      "click",
-      () => {
+      try {
 
-        window.location.href =
-          "produit.html?id=" +
-          encodeURIComponent(
-            product.id
+        const response =
+          await fetch(
+            SUPABASE_URL +
+            "/rest/v1/products" +
+            "?select=id,title,description,price,category,product_type,image_url,is_active" +
+            "&is_active=eq.true" +
+            "&order=created_at.desc",
+            {
+              headers: {
+                "apikey":
+                  SUPABASE_PUBLISHABLE_KEY,
+
+                "Authorization":
+                  "Bearer " +
+                  SUPABASE_PUBLISHABLE_KEY
+              }
+            }
           );
+
+
+        if (!response.ok) {
+          throw new Error(
+            "Impossible de charger les produits."
+          );
+        }
+
+
+        products =
+          await response.json();
+
+
+        /*
+          La homepage affiche seulement
+          quelques ressources.
+        */
+
+        renderProducts(
+          products.slice(0, 6),
+          productsGrid
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        productsGrid.innerHTML = `
+
+          <div class="empty-state">
+
+            <div style="font-size:2rem;margin-bottom:10px;">
+              ⚠️
+            </div>
+
+            <strong>
+              Les ressources ne sont pas disponibles pour le moment.
+            </strong>
+
+            <p style="margin-top:8px;">
+              Réessaie dans quelques instants.
+            </p>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    /* =========================
+       RECHERCHE
+    ========================== */
+
+    searchInput.addEventListener(
+      "input",
+      function () {
+
+        const query =
+          normalizeText(this.value);
+
+
+        /*
+          Si la recherche est vide,
+          on masque les résultats
+          et on remet la sélection.
+        */
+
+        if (!query) {
+
+          searchResults.innerHTML = "";
+
+          return;
+        }
+
+
+        const words =
+          query
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+        const results =
+          products.filter(product => {
+
+            const searchableText =
+              normalizeText(
+                [
+                  product.title,
+                  product.description,
+                  product.category,
+                  product.product_type
+                ]
+                  .filter(Boolean)
+                  .join(" ")
+              );
+
+
+            /*
+              Chaque mot recherché doit
+              être présent quelque part
+              dans les informations du produit.
+            */
+
+            return words.every(word =>
+              searchableText.includes(word)
+            );
+
+          });
+
+
+        renderProducts(
+          results,
+          searchResults
+        );
 
       }
     );
 
 
-    productsContainer.appendChild(
-      card
-    );
+    /* =========================
+       SECURITE HTML
+    ========================== */
 
-  });
+    function escapeHtml(value) {
 
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-searchForm.addEventListener(
-  "submit",
-  function(event){
-
-    event.preventDefault();
-
-
-    const query =
-      searchInput.value
-        .trim()
-        .toLowerCase();
-
-
-    if(!query){
-
-      window.location.href =
-        "catalogue.html";
-
-      return;
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
     }
 
 
-    window.location.href =
-      "catalogue.html?search=" +
-      encodeURIComponent(
-        query
-      );
-
-  }
-);
+    function escapeAttribute(value) {
+      return escapeHtml(value);
+    }
 
 
-/* =========================
-   CATEGORIES
-========================= */
+    /* =========================
+       ANNEE
+    ========================== */
 
-document
-  .querySelectorAll(".category")
-  .forEach(category => {
-
-    category.addEventListener(
-      "click",
-      () => {
-
-        const value =
-          category.dataset.category;
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
 
-        window.location.href =
-          "catalogue.html?category=" +
-          encodeURIComponent(
-            value
-          );
+    /* =========================
+       INITIALISATION
+    ========================== */
 
-      }
-    );
+    loadProducts();
 
-  });
-
-
-/* =========================
-   START
-========================= */
-
-loadProducts();
-
-</script>
+  </script>
 
 </body>
-                      </html>
+  </html>
