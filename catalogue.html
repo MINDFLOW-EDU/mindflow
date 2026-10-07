@@ -1,1232 +1,1960 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Catalogue — MindFlow</title>
+
+  <meta
+    name="description"
+    content="Explore le catalogue de ressources éducatives MindFlow."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/favicon-mindflow.png"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050711;
+      --bg-soft: #090d1b;
+      --card: rgba(12, 17, 34, 0.88);
+
+      --blue: #35a9ff;
+      --blue-light: #67c5ff;
+      --purple: #8b5cf6;
+
+      --text: #f5f7ff;
+      --muted: #a7afc4;
+
+      --border: rgba(255,255,255,0.09);
+
+      --radius: 20px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 10% 5%,
+          rgba(53,169,255,0.13),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(139,92,246,0.12),
+          transparent 30%
+        ),
+        var(--bg);
+
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+      z-index: -2;
+
+      background-image:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,0.45) 1px,
+          transparent 1px
+        );
+
+      background-size: 100px 100px;
+
+      opacity: 0.10;
+
+      animation: stars 25s linear infinite;
+    }
+
+    @keyframes stars {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(100px);
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(
+        1180px,
+        calc(100% - 32px)
+      );
 
-<meta charset="UTF-8">
+      margin: auto;
+    }
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+    /* =========================
+       HEADER
+    ========================= */
 
-<title>Catalogue — MindFlow</title>
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
 
-<meta
-  name="description"
-  content="Catalogue des ressources éducatives MindFlow."
->
+      border-bottom: 1px solid var(--border);
 
-<style>
+      background:
+        rgba(5,7,17,0.80);
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
 
-body{
+    .nav {
+      min-height: 76px;
 
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  background:#060713;
+      gap: 20px;
+    }
 
-  color:white;
+    .brand img {
+      display: block;
 
-  line-height:1.6;
-}
+      width: 150px;
+      max-width: 42vw;
+    }
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
 
-.container{
+    nav a {
+      color: var(--muted);
+      font-size: 0.94rem;
 
-  width:min(1180px,92%);
+      transition: 0.2s;
+    }
 
-  margin:auto;
-}
+    nav a:hover,
+    nav a.active {
+      color: white;
+    }
 
-:root{
+    .nav-cta {
+      padding: 11px 17px;
 
-  --cyan:#18cfff;
-  --blue:#397cff;
-  --violet:#7655ff;
-  --pink:#d92cff;
+      border-radius: 12px;
 
-  --gradient:
-    linear-gradient(
-      110deg,
-      #18cfff,
-      #397cff 45%,
-      #d92cff
-    );
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
 
-  --border:
-    rgba(255,255,255,.09);
+      color: white;
+      font-weight: 800;
+    }
 
-}
+    .mobile-home {
+      display: none;
 
-/* HEADER */
+      color: white;
+      font-size: 1.4rem;
+    }
 
-header{
+    /* =========================
+       HERO CATALOGUE
+    ========================= */
 
-  position:sticky;
+    .catalogue-hero {
+      padding: 65px 0 35px;
+    }
 
-  top:0;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
 
-  z-index:100;
+      padding: 8px 13px;
 
-  background:
-    rgba(6,7,19,.86);
+      border: 1px solid rgba(53,169,255,0.2);
+      border-radius: 999px;
 
-  backdrop-filter:
-    blur(18px);
+      background: rgba(53,169,255,0.06);
 
-  border-bottom:
-    1px solid var(--border);
-}
+      color: var(--blue-light);
 
-.nav{
+      font-size: 0.78rem;
+      font-weight: 800;
 
-  min-height:74px;
+      margin-bottom: 17px;
+    }
 
-  display:flex;
+    .hero-badge span {
+      width: 7px;
+      height: 7px;
 
-  align-items:center;
+      border-radius: 50%;
 
-  justify-content:space-between;
+      background: var(--blue);
 
-  gap:20px;
-}
+      box-shadow:
+        0 0 12px var(--blue);
+    }
 
-.logo{
+    .catalogue-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
 
-  display:flex;
+      line-height: 1.05;
 
-  align-items:center;
+      letter-spacing: -0.05em;
+    }
 
-  gap:9px;
+    .gradient {
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          var(--blue-light),
+          #b894ff
+        );
 
-  font-weight:800;
+      -webkit-background-clip: text;
+      background-clip: text;
 
-  font-size:1.3rem;
-}
+      color: transparent;
+    }
 
-.logo img{
+    .catalogue-hero p {
+      margin-top: 17px;
 
-  width:40px;
-  height:40px;
+      max-width: 680px;
 
-  object-fit:contain;
-}
+      color: var(--muted);
 
-.logo span{
+      line-height: 1.7;
+    }
 
-  background:var(--gradient);
+    /* =========================
+       TOOLBAR
+    ========================= */
 
-  -webkit-background-clip:text;
+    .toolbar {
+      position: sticky;
+      top: 76px;
 
-  background-clip:text;
+      z-index: 50;
 
-  color:transparent;
-}
+      padding: 18px 0;
 
-.nav-links{
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(5,7,17,0.98),
+          rgba(5,7,17,0.88),
+          transparent
+        );
 
-  display:flex;
+      backdrop-filter: blur(5px);
+    }
 
-  gap:25px;
-}
+    .toolbar-inner {
+      display: grid;
 
-.nav-links a{
+      grid-template-columns:
+        minmax(250px, 1fr)
+        auto;
 
-  color:#9699ad;
+      gap: 12px;
+    }
 
-  font-size:.88rem;
+    .search-box {
+      position: relative;
+    }
 
-  font-weight:600;
-}
+    .search-box span {
+      position: absolute;
 
-.nav-links a:hover{
-  color:white;
-}
+      left: 17px;
+      top: 50%;
 
-.nav-button{
+      transform: translateY(-50%);
 
-  padding:10px 17px;
+      color: var(--muted);
+    }
 
-  border-radius:10px;
+    #searchInput {
+      width: 100%;
 
-  background:var(--gradient);
+      padding:
+        16px
+        18px
+        16px
+        48px;
 
-  font-weight:700;
-}
+      border:
+        1px solid var(--border);
 
-/* HERO */
+      border-radius: 15px;
 
-.catalogue-hero{
+      outline: none;
 
-  padding:
-    70px
-    0
-    45px;
+      background:
+        rgba(10,14,29,0.95);
 
-  background:
+      color: white;
+    }
 
-    radial-gradient(
-      circle at 15% 30%,
-      rgba(0,204,255,.12),
-      transparent 30%
-    ),
+    #searchInput::placeholder {
+      color: #737d96;
+    }
 
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(157,43,255,.18),
-      transparent 35%
-    );
-}
+    #searchInput:focus {
+      border-color:
+        rgba(53,169,255,0.45);
 
-.catalogue-hero h1{
+      box-shadow:
+        0 0 0 4px
+        rgba(53,169,255,0.06);
+    }
 
-  font-size:
-    clamp(
-      2.5rem,
-      6vw,
-      4rem
-    );
+    #sortSelect {
+      min-width: 185px;
 
-  line-height:1;
+      padding: 0 15px;
 
-  letter-spacing:-3px;
+      border:
+        1px solid var(--border);
 
-  margin-bottom:15px;
-}
+      border-radius: 15px;
 
-.catalogue-hero h1 span{
+      outline: none;
 
-  background:var(--gradient);
+      background:
+        rgba(10,14,29,0.95);
 
-  -webkit-background-clip:text;
+      color: white;
+    }
 
-  background-clip:text;
+    /* =========================
+       CATEGORY FILTERS
+    ========================= */
 
-  color:transparent;
-}
+    .filters {
+      display: flex;
 
-.catalogue-hero p{
+      gap: 9px;
 
-  color:#9699ae;
+      overflow-x: auto;
 
-  max-width:650px;
-}
+      padding: 5px 0 10px;
 
-/* SEARCH */
+      scrollbar-width: none;
+    }
 
-.search-box{
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
 
-  margin-top:30px;
+    .filter-button {
+      flex-shrink: 0;
 
-  display:flex;
+      padding: 10px 15px;
 
-  gap:10px;
+      border:
+        1px solid var(--border);
 
-  padding:8px;
+      border-radius: 999px;
 
-  border-radius:15px;
+      background:
+        rgba(255,255,255,0.035);
 
-  background:#10111f;
+      color: var(--muted);
 
-  border:
-    1px solid var(--border);
-}
+      font-size: 0.82rem;
 
-.search-box input{
+      transition: 0.2s;
+    }
 
-  flex:1;
+    .filter-button:hover {
+      color: white;
 
-  min-width:0;
+      background:
+        rgba(255,255,255,0.07);
+    }
 
-  padding:13px;
+    .filter-button.active {
+      color: white;
 
-  border:none;
+      border-color:
+        rgba(53,169,255,0.4);
 
-  outline:none;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(53,169,255,0.18),
+          rgba(139,92,246,0.18)
+        );
+    }
 
-  background:transparent;
+    /* =========================
+       RESULTS INFO
+    ========================= */
 
-  color:white;
-}
+    .results-header {
+      display: flex;
 
-.search-box input::placeholder{
-  color:#686c83;
-}
+      align-items: center;
+      justify-content: space-between;
 
-.search-box button{
+      gap: 15px;
 
-  border:none;
+      margin:
+        25px 0
+        18px;
+    }
 
-  border-radius:10px;
+    .results-count {
+      color: var(--muted);
 
-  padding:
-    0 20px;
+      font-size: 0.86rem;
+    }
 
-  background:var(--gradient);
+    .results-count strong {
+      color: white;
+    }
 
-  color:white;
+    /* =========================
+       PRODUCTS
+    ========================= */
 
-  font-weight:700;
+    .products-grid {
+      display: grid;
 
-  cursor:pointer;
-}
+      grid-template-columns:
+        repeat(3, 1fr);
 
-/* FILTERS */
+      gap: 20px;
 
-.filters{
+      padding-bottom: 90px;
+    }
 
-  display:flex;
+    .product-card {
+      overflow: hidden;
 
-  flex-wrap:wrap;
+      border:
+        1px solid var(--border);
 
-  gap:10px;
+      border-radius: 21px;
 
-  padding:
-    25px 0
-    35px;
-}
+      background:
+        rgba(9,13,27,0.86);
 
-.filter{
+      transition:
+        transform 0.25s,
+        border-color 0.25s,
+        box-shadow 0.25s;
+    }
 
-  cursor:pointer;
+    .product-card:hover {
+      transform: translateY(-5px);
 
-  border:
-    1px solid var(--border);
+      border-color:
+        rgba(53,169,255,0.28);
 
-  background:#10111f;
+      box-shadow:
+        0 22px 55px
+        rgba(0,0,0,0.28);
+    }
 
-  color:#9a9db1;
+    .product-image {
+      width: 100%;
 
-  padding:
-    9px 15px;
+      aspect-ratio: 16 / 10;
 
-  border-radius:999px;
+      display: flex;
 
-  font-size:.8rem;
+      align-items: center;
+      justify-content: center;
 
-  font-weight:700;
-}
+      overflow: hidden;
 
-.filter:hover,
-.filter.active{
+      background:
+        linear-gradient(
+          135deg,
+          #11182e,
+          #171026
+        );
+    }
 
-  color:white;
+    .product-image img {
+      width: 100%;
+      height: 100%;
 
-  background:
-    rgba(104,77,255,.18);
+      display: block;
 
-  border-color:
-    rgba(118,85,255,.4);
-}
+      object-fit: cover;
+    }
 
-/* PRODUCTS */
+    .product-placeholder {
+      font-size: 3.2rem;
 
-.catalogue-section{
+      opacity: 0.75;
+    }
 
-  padding-bottom:80px;
-}
+    .product-content {
+      padding: 19px;
+    }
 
-.products-grid{
+    .category-label {
+      margin-bottom: 8px;
 
-  display:grid;
+      color: var(--blue-light);
 
-  grid-template-columns:
-    repeat(3,1fr);
+      text-transform: uppercase;
 
-  gap:20px;
-}
+      letter-spacing: 0.09em;
 
-.product{
+      font-size: 0.66rem;
 
-  overflow:hidden;
+      font-weight: 900;
+    }
 
-  border-radius:18px;
+    .product-title {
+      font-size: 1.06rem;
 
-  background:
-    linear-gradient(
-      145deg,
-      #111321,
-      #0d0e1b
-    );
+      line-height: 1.35;
+    }
 
-  border:
-    1px solid var(--border);
+    .product-description {
+      margin-top: 9px;
 
-  transition:.3s;
-}
+      color: var(--muted);
 
-.product:hover{
+      font-size: 0.82rem;
 
-  transform:
-    translateY(-5px);
+      line-height: 1.55;
 
-  border-color:
-    rgba(113,89,255,.35);
+      display: -webkit-box;
 
-  box-shadow:
-    0 20px 45px
-    rgba(0,0,0,.25);
-}
+      -webkit-line-clamp: 3;
 
-.product-image{
+      -webkit-box-orient: vertical;
 
-  height:190px;
+      overflow: hidden;
+    }
 
-  display:flex;
+    .product-footer {
+      display: flex;
 
-  align-items:center;
+      align-items: center;
 
-  justify-content:center;
+      justify-content: space-between;
 
-  background:
-    linear-gradient(
-      135deg,
-      #101c3b,
-      #1d1033
-    );
-}
+      gap: 10px;
 
-.product-image img{
+      margin-top: 18px;
+    }
 
-  width:100%;
-  height:100%;
+    .price {
+      font-size: 1.04rem;
 
-  object-fit:cover;
-}
+      font-weight: 900;
+    }
 
-.placeholder{
+    .discover-button {
+      display: inline-flex;
 
-  font-size:3rem;
-}
+      align-items: center;
+      justify-content: center;
 
-.product-content{
+      padding: 10px 14px;
 
-  padding:20px;
-}
+      border-radius: 11px;
 
-.category-name{
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--purple)
+        );
 
-  color:#927eff;
+      color: white;
 
-  font-size:.7rem;
+      font-size: 0.79rem;
 
-  font-weight:800;
+      font-weight: 900;
+    }
 
-  text-transform:uppercase;
+    /* =========================
+       EMPTY / LOADING
+    ========================= */
 
-  margin-bottom:7px;
-}
+    .state {
+      grid-column: 1 / -1;
 
-.product h2{
+      padding: 60px 20px;
 
-  font-size:1.05rem;
+      text-align: center;
 
-  margin-bottom:7px;
-}
+      border:
+        1px dashed
+        rgba(255,255,255,0.12);
 
-.description{
+      border-radius: 20px;
 
-  color:#85899f;
+      color: var(--muted);
+    }
 
-  font-size:.82rem;
+    .state-icon {
+      font-size: 2.4rem;
 
-  min-height:48px;
+      margin-bottom: 12px;
+    }
 
-  margin-bottom:17px;
-}
+    .state strong {
+      display: block;
 
-.bottom{
+      color: white;
 
-  display:flex;
+      font-size: 1rem;
+    }
 
-  align-items:center;
+    .state p {
+      margin-top: 8px;
 
-  justify-content:space-between;
+      line-height: 1.6;
+    }
 
-  gap:10px;
-}
+    /* =========================
+       FOOTER
+    ========================= */
 
-.price{
+    footer {
+      border-top:
+        1px solid var(--border);
 
-  font-weight:800;
-}
+      padding:
+        50px 0
+        25px;
 
-.discover{
+      background:
+        rgba(3,5,12,0.72);
+    }
 
-  border:none;
+    .footer-grid {
+      display: grid;
 
-  padding:10px 14px;
+      grid-template-columns:
+        1.5fr
+        1fr
+        1fr
+        1fr;
 
-  border-radius:9px;
+      gap: 35px;
+    }
 
-  background:#191a2b;
+    .footer-logo {
+      width: 145px;
 
-  color:white;
+      margin-bottom: 15px;
+    }
 
-  cursor:pointer;
+    .footer-description {
+      max-width: 350px;
 
-  font-weight:700;
-}
+      color: var(--muted);
 
-.discover:hover{
+      font-size: 0.84rem;
 
-  background:var(--gradient);
-}
+      line-height: 1.65;
+    }
 
-/* EMPTY */
+    .footer-column h3 {
+      margin-bottom: 15px;
 
-.message{
+      font-size: 0.9rem;
+    }
 
-  grid-column:1/-1;
+    .footer-column a {
+      display: block;
 
-  text-align:center;
+      margin-bottom: 10px;
 
-  padding:60px;
+      color: var(--muted);
 
-  border-radius:18px;
+      font-size: 0.83rem;
 
-  border:
-    1px solid var(--border);
+      transition: 0.2s;
+    }
 
-  background:#0d0e1b;
+    .footer-column a:hover {
+      color: white;
+    }
 
-  color:#777b91;
-}
+    .socials {
+      display: flex;
 
-/* FOOTER */
+      flex-wrap: wrap;
 
-footer{
+      gap: 8px;
+    }
 
-  padding:
-    35px 0;
+    .socials a {
+      display: flex;
 
-  border-top:
-    1px solid var(--border);
+      align-items: center;
+      justify-content: center;
 
-  background:#04050d;
+      width: 38px;
+      height: 38px;
 
-  color:#777b91;
+      margin: 0;
 
-  font-size:.8rem;
-}
+      border:
+        1px solid var(--border);
 
-/* RESPONSIVE */
+      border-radius: 10px;
 
-@media(max-width:900px){
+      background:
+        rgba(255,255,255,0.035);
 
-  .nav-links{
-    display:none;
-  }
+      color: #d0d7e8;
+    }
 
-  .products-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
+    .footer-bottom {
+      display: flex;
 
-}
+      justify-content: space-between;
 
-@media(max-width:560px){
+      gap: 15px;
 
-  .products-grid{
-    grid-template-columns:1fr;
-  }
+      margin-top: 40px;
 
-  .search-box{
-    flex-direction:column;
-  }
+      padding-top: 20px;
 
-  .search-box button{
-    padding:13px;
-  }
+      border-top:
+        1px solid var(--border);
 
-}
+      color: #737d96;
 
-</style>
+      font-size: 0.74rem;
+    }
 
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 950px) {
+
+      .products-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+
+      .container {
+        width:
+          calc(100% - 22px);
+      }
+
+      .nav {
+        min-height: 67px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .mobile-home {
+        display: block;
+      }
+
+      .catalogue-hero {
+        padding-top: 45px;
+      }
+
+      .toolbar {
+        top: 67px;
+      }
+
+      .toolbar-inner {
+        grid-template-columns: 1fr;
+      }
+
+      #sortSelect {
+        height: 48px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 430px) {
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-brand {
+        grid-column: auto;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-<header>
+  <header>
 
-  <div class="container nav">
+    <div class="container nav">
 
-    <a
-      href="index.html"
-      class="logo"
-    >
-
-      <img
-        src="assets/logo.png"
-        alt="MindFlow"
+      <a
+        href="index.html"
+        class="brand"
       >
-
-      <span>
-        MindFlow
-      </span>
-
-    </a>
-
-
-    <div class="nav-links">
-
-      <a href="index.html">
-        Accueil
-      </a>
-
-      <a href="catalogue.html">
-        Catalogue
-      </a>
-
-    </div>
-
-
-    <a
-      href="index.html"
-      class="nav-button"
-    >
-      Accueil
-    </a>
-
-  </div>
-
-</header>
-
-
-<main>
-
-
-<section class="catalogue-hero">
-
-  <div class="container">
-
-    <h1>
-      Le catalogue
-      <span>MindFlow.</span>
-    </h1>
-
-    <p>
-      Explore les ressources éducatives disponibles,
-      recherche un document ou navigue par matière.
-    </p>
-
-
-    <form
-      class="search-box"
-      id="searchForm"
-    >
-
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="Rechercher un cours, une fiche, un exercice..."
-        autocomplete="off"
-      >
-
-      <button type="submit">
-        Rechercher
-      </button>
-
-    </form>
-
-  </div>
-
-</section>
-
-
-<section class="catalogue-section">
-
-  <div class="container">
-
-
-    <div class="filters">
-
-      <button
-        class="filter active"
-        data-category=""
-      >
-        Toutes
-      </button>
-
-      <button
-        class="filter"
-        data-category="Mathématiques"
-      >
-        📐 Mathématiques
-      </button>
-
-      <button
-        class="filter"
-        data-category="SVT"
-      >
-        🧬 SVT
-      </button>
-
-      <button
-        class="filter"
-        data-category="Physique"
-      >
-        ⚛️ Physique
-      </button>
-
-      <button
-        class="filter"
-        data-category="Informatique"
-      >
-        💻 Informatique
-      </button>
-
-    </div>
-
-
-    <div
-      class="products-grid"
-      id="productsContainer"
-    >
-
-      <div class="message">
-        Chargement des ressources...
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-  <div class="container">
-
-    © 2026 MindFlow —
-    Apprendre autrement, progresser intelligemment.
-
-  </div>
-
-</footer>
-
-
-<script>
-
-/* =========================
-   SUPABASE
-========================= */
-
-const SUPABASE_URL =
-  "https://ejjmluesrrrbktgstlqm.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
-
-
-const container =
-  document.getElementById(
-    "productsContainer"
-  );
-
-const searchInput =
-  document.getElementById(
-    "searchInput"
-  );
-
-const searchForm =
-  document.getElementById(
-    "searchForm"
-  );
-
-let allProducts = [];
-
-let currentCategory = "";
-
-let currentSearch = "";
-
-
-/* =========================
-   SECURITY
-========================= */
-
-function escapeHTML(value){
-
-  if(
-    value === null ||
-    value === undefined
-  ){
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================
-   PRICE
-========================= */
-
-function formatPrice(price){
-
-  return Number(price)
-    .toLocaleString("fr-FR")
-    + " FCFA";
-
-}
-
-
-/* =========================
-   LOAD
-========================= */
-
-async function loadProducts(){
-
-  try{
-
-    const endpoint =
-      SUPABASE_URL +
-      "/rest/v1/products" +
-      "?select=id,title,description,price,category,product_type,image_url,is_active" +
-      "&is_active=eq.true" +
-      "&order=created_at.desc";
-
-
-    const response =
-      await fetch(
-        endpoint,
-        {
-
-          headers:{
-
-            "apikey":
-              SUPABASE_PUBLISHABLE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              SUPABASE_PUBLISHABLE_KEY
-
-          }
-
-        }
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "Erreur " +
-        response.status
-      );
-
-    }
-
-
-    allProducts =
-      await response.json();
-
-
-    applyFilters();
-
-  }
-
-  catch(error){
-
-    console.error(error);
-
-    container.innerHTML = `
-
-      <div class="message">
-
-        Impossible de charger
-        le catalogue.
-
-      </div>
-
-    `;
-
-  }
-
-}
-
-
-/* =========================
-   RENDER
-========================= */
-
-function renderProducts(products){
-
-  if(
-    !products ||
-    products.length === 0
-  ){
-
-    container.innerHTML = `
-
-      <div class="message">
-
-        Aucun document ne correspond
-        à ta recherche.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  products.forEach(product => {
-
-    const card =
-      document.createElement("article");
-
-    card.className =
-      "product";
-
-
-    let image = `
-
-      <div class="placeholder">
-        📚
-      </div>
-
-    `;
-
-
-    if(product.image_url){
-
-      image = `
-
         <img
-          src="${escapeHTML(product.image_url)}"
-          alt="${escapeHTML(product.title)}"
-          loading="lazy"
+          src="assets/logo%20mindflow%20transparent.png"
+          alt="MindFlow"
         >
-
-      `;
-
-    }
+      </a>
 
 
-    card.innerHTML = `
+      <nav>
 
-      <div class="product-image">
+        <a href="index.html">
+          Accueil
+        </a>
 
-        ${image}
+        <a
+          href="catalogue.html"
+          class="active"
+        >
+          Catalogue
+        </a>
+
+        <a href="index.html#categories">
+          Matières
+        </a>
+
+        <a
+          href="catalogue.html"
+          class="nav-cta"
+        >
+          Explorer
+        </a>
+
+      </nav>
+
+
+      <a
+        href="index.html"
+        class="mobile-home"
+        aria-label="Retour à l'accueil"
+      >
+        ←
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="catalogue-hero">
+
+      <div class="container">
+
+        <div class="hero-badge">
+          <span></span>
+          Catalogue MindFlow
+        </div>
+
+        <h1>
+          Toutes tes ressources,
+          <span class="gradient">
+            au même endroit.
+          </span>
+        </h1>
+
+        <p>
+          Explore les cours, fiches, exercices et autres
+          ressources numériques disponibles sur MindFlow.
+          Utilise la recherche ou choisis une matière pour
+          trouver rapidement ce dont tu as besoin.
+        </p>
 
       </div>
 
+    </section>
 
-      <div class="product-content">
 
-        <div class="category-name">
+    <!-- =========================
+         TOOLBAR
+    ========================== -->
 
-          ${escapeHTML(
-            product.category ||
-            "Ressource"
-          )}
+    <section class="toolbar">
+
+      <div class="container">
+
+        <div class="toolbar-inner">
+
+          <div class="search-box">
+
+            <span>⌕</span>
+
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Rechercher une ressource : fonction, maths, physique..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <select id="sortSelect">
+
+            <option value="recent">
+              Plus récents
+            </option>
+
+            <option value="priceAsc">
+              Prix croissant
+            </option>
+
+            <option value="priceDesc">
+              Prix décroissant
+            </option>
+
+            <option value="nameAsc">
+              Nom A → Z
+            </option>
+
+          </select>
 
         </div>
 
 
-        <h2>
-
-          ${escapeHTML(
-            product.title
-          )}
-
-        </h2>
-
-
-        <p class="description">
-
-          ${escapeHTML(
-            product.description ||
-            "Ressource éducative MindFlow."
-          )}
-
-        </p>
-
-
-        <div class="bottom">
-
-          <span class="price">
-
-            ${formatPrice(
-              product.price
-            )}
-
-          </span>
-
+        <div class="filters">
 
           <button
-            class="discover"
-            type="button"
+            class="filter-button active"
+            data-category="all"
           >
-            Découvrir
+            ✨ Tout
+          </button>
+
+          <button
+            class="filter-button"
+            data-category="Mathematiques"
+          >
+            🧮 Mathématiques
+          </button>
+
+          <button
+            class="filter-button"
+            data-category="Physique"
+          >
+            ⚛️ Physique
+          </button>
+
+          <button
+            class="filter-button"
+            data-category="SVT"
+          >
+            🧬 SVT
+          </button>
+
+          <button
+            class="filter-button"
+            data-category="Informatique"
+          >
+            💻 Informatique
           </button>
 
         </div>
 
       </div>
 
-    `;
+    </section>
 
 
-    card
-      .querySelector(".discover")
-      .addEventListener(
-        "click",
-        () => {
+    <!-- =========================
+         PRODUCTS
+    ========================== -->
 
-          window.location.href =
-            "produit.html?id=" +
-            encodeURIComponent(
-              product.id
-            );
+    <section>
+
+      <div class="container">
+
+        <div class="results-header">
+
+          <div
+            id="resultsCount"
+            class="results-count"
+          >
+            Chargement des ressources...
+          </div>
+
+        </div>
+
+
+        <div
+          id="productsGrid"
+          class="products-grid"
+        >
+
+          <div class="state">
+
+            <div class="state-icon">
+              📚
+            </div>
+
+            <strong>
+              Chargement du catalogue...
+            </strong>
+
+            <p>
+              Les ressources MindFlow arrivent.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <img
+            class="footer-logo"
+            src="assets/logo%20mindflow%20transparent.png"
+            alt="MindFlow"
+          >
+
+          <p class="footer-description">
+            MindFlow est une plateforme éducative numérique
+            pensée pour rendre les ressources d'apprentissage
+            plus accessibles et plus simples à découvrir.
+          </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>
+            Navigation
+          </h3>
+
+          <a href="index.html">
+            Accueil
+          </a>
+
+          <a href="catalogue.html">
+            Catalogue
+          </a>
+
+          <a href="index.html#categories">
+            Matières
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>
+            Informations
+          </h3>
+
+          <a href="#">
+            Comment ça marche ?
+          </a>
+
+          <a href="#">
+            FAQ
+          </a>
+
+          <a href="#">
+            Conditions
+          </a>
+
+          <a href="#">
+            Confidentialité
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>
+            MindFlow
+          </h3>
+
+          <div class="socials">
+
+            <a
+              href="#"
+              title="TikTok"
+              aria-label="TikTok"
+            >
+              ♪
+            </a>
+
+            <a
+              href="#"
+              title="Facebook"
+              aria-label="Facebook"
+            >
+              f
+            </a>
+
+            <a
+              href="#"
+              title="WhatsApp"
+              aria-label="WhatsApp"
+            >
+              ☎
+            </a>
+
+            <a
+              href="#"
+              title="Email"
+              aria-label="Email"
+            >
+              ✉
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © <span id="year"></span> MindFlow.
+          Tous droits réservés.
+        </span>
+
+        <span>
+          Apprendre autrement.
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    /* =========================
+       SUPABASE
+    ========================== */
+
+    const SUPABASE_URL =
+      "https://ejjmluesrrrbktgstlqm.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+
+
+    /* =========================
+       ELEMENTS
+    ========================== */
+
+    const productsGrid =
+      document.getElementById(
+        "productsGrid"
+      );
+
+    const searchInput =
+      document.getElementById(
+        "searchInput"
+      );
+
+    const sortSelect =
+      document.getElementById(
+        "sortSelect"
+      );
+
+    const resultsCount =
+      document.getElementById(
+        "resultsCount"
+      );
+
+    const filterButtons =
+      document.querySelectorAll(
+        ".filter-button"
+      );
+
+
+    /* =========================
+       ETAT
+    ========================== */
+
+    let products = [];
+
+    let currentCategory = "all";
+
+    let currentSearch = "";
+
+    let currentSort = "recent";
+
+
+    /* =========================
+       NORMALISATION
+    ========================== */
+
+    function normalizeText(value) {
+
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+          /[\u0300-\u036f]/g,
+          ""
+        )
+        .trim();
+
+    }
+
+
+    /* =========================
+       HTML SAFE
+    ========================== */
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================
+       PRICE
+    ========================== */
+
+    function formatPrice(price) {
+
+      if (
+        price === null ||
+        price === undefined ||
+        price === ""
+      ) {
+        return "Prix non indiqué";
+      }
+
+      const number =
+        Number(price);
+
+      if (
+        Number.isNaN(number)
+      ) {
+        return String(price);
+      }
+
+      return (
+        number.toLocaleString(
+          "fr-FR"
+        ) +
+        " FCFA"
+      );
+
+    }
+
+
+    /* =========================
+       PRODUCT CARD
+    ========================== */
+
+    function createProductCard(product) {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "product-card";
+
+
+      let imageHTML = `
+        <div class="product-placeholder">
+          📚
+        </div>
+      `;
+
+
+      if (product.image_url) {
+
+        imageHTML = `
+          <img
+            src="${escapeHtml(product.image_url)}"
+            alt="${escapeHtml(
+              product.title ||
+              "Ressource MindFlow"
+            )}"
+            loading="lazy"
+          >
+        `;
+
+      }
+
+
+      card.innerHTML = `
+
+        <div class="product-image">
+          ${imageHTML}
+        </div>
+
+        <div class="product-content">
+
+          <div class="category-label">
+            ${escapeHtml(
+              product.category ||
+              "Ressource"
+            )}
+          </div>
+
+          <h2 class="product-title">
+            ${escapeHtml(
+              product.title ||
+              "Ressource sans titre"
+            )}
+          </h2>
+
+          <p class="product-description">
+            ${escapeHtml(
+              product.description ||
+              "Découvrez cette ressource éducative MindFlow."
+            )}
+          </p>
+
+          <div class="product-footer">
+
+            <span class="price">
+              ${formatPrice(
+                product.price
+              )}
+            </span>
+
+            <a
+              class="discover-button"
+              href="produit.html?id=${encodeURIComponent(
+                product.id
+              )}"
+            >
+              Découvrir
+            </a>
+
+          </div>
+
+        </div>
+      `;
+
+
+      return card;
+
+    }
+
+
+    /* =========================
+       FILTER + SEARCH
+    ========================== */
+
+    function getFilteredProducts() {
+
+      let result =
+        [...products];
+
+
+      /*
+        Catégorie
+      */
+
+      if (
+        currentCategory !== "all"
+      ) {
+
+        const selected =
+          normalizeText(
+            currentCategory
+          );
+
+        result =
+          result.filter(
+            product =>
+              normalizeText(
+                product.category
+              ) === selected
+          );
+
+      }
+
+
+      /*
+        Recherche
+      */
+
+      if (currentSearch) {
+
+        const words =
+          normalizeText(
+            currentSearch
+          )
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+        result =
+          result.filter(
+            product => {
+
+              const searchable =
+                normalizeText(
+                  [
+                    product.title,
+                    product.description,
+                    product.category,
+                    product.product_type,
+
+                    /*
+                      Si tu ajoutes plus tard
+                      une colonne keywords
+                      dans Supabase,
+                      elle sera automatiquement
+                      prise en compte.
+                    */
+
+                    product.keywords
+
+                  ]
+                    .filter(Boolean)
+                    .join(" ")
+                );
+
+
+              return words.every(
+                word =>
+                  searchable.includes(
+                    word
+                  )
+              );
+
+            }
+          );
+
+      }
+
+
+      /*
+        Tri
+      */
+
+      if (
+        currentSort ===
+        "priceAsc"
+      ) {
+
+        result.sort(
+          (a,b) =>
+            Number(a.price || 0) -
+            Number(b.price || 0)
+        );
+
+      }
+
+
+      else if (
+        currentSort ===
+        "priceDesc"
+      ) {
+
+        result.sort(
+          (a,b) =>
+            Number(b.price || 0) -
+            Number(a.price || 0)
+        );
+
+      }
+
+
+      else if (
+        currentSort ===
+        "nameAsc"
+      ) {
+
+        result.sort(
+          (a,b) =>
+            String(
+              a.title || ""
+            ).localeCompare(
+              String(
+                b.title || ""
+              ),
+              "fr"
+            )
+        );
+
+      }
+
+
+      /*
+        "recent" garde l'ordre
+        envoyé par Supabase.
+      */
+
+
+      return result;
+
+    }
+
+
+    /* =========================
+       RENDER
+    ========================== */
+
+    function renderProducts() {
+
+      const result =
+        getFilteredProducts();
+
+
+      resultsCount.innerHTML = `
+        <strong>
+          ${result.length}
+        </strong>
+        ressource${result.length > 1 ? "s" : ""}
+        disponible${result.length > 1 ? "s" : ""}
+      `;
+
+
+      productsGrid.innerHTML = "";
+
+
+      if (!result.length) {
+
+        productsGrid.innerHTML = `
+
+          <div class="state">
+
+            <div class="state-icon">
+              🔎
+            </div>
+
+            <strong>
+              Aucune ressource trouvée
+            </strong>
+
+            <p>
+              Essaie avec un autre mot-clé
+              ou une autre matière.
+            </p>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      result.forEach(
+        product => {
+
+          productsGrid.appendChild(
+            createProductCard(
+              product
+            )
+          );
 
         }
       );
 
-
-    container.appendChild(card);
-
-  });
-
-}
+    }
 
 
-/* =========================
-   FILTER
-========================= */
+    /* =========================
+       LOAD PRODUCTS
+    ========================== */
 
-function applyFilters(){
+    async function loadProducts() {
 
-  let filtered =
-    [...allProducts];
+      try {
 
-
-  if(currentCategory){
-
-    filtered =
-      filtered.filter(
-        product =>
-          (
-            product.category ||
-            ""
-          ).toLowerCase()
-          ===
-          currentCategory.toLowerCase()
-      );
-
-  }
+        const url =
+          SUPABASE_URL +
+          "/rest/v1/products" +
+          "?select=id,title,description,price,category,product_type,image_url,is_active,created_at" +
+          "&is_active=eq.true" +
+          "&order=created_at.desc";
 
 
-  if(currentSearch){
+        const response =
+          await fetch(
+            url,
+            {
+              headers: {
 
-    filtered =
-      filtered.filter(product => {
+                "apikey":
+                  SUPABASE_PUBLISHABLE_KEY,
 
-        const title =
-          (
-            product.title ||
-            ""
-          ).toLowerCase();
+                "Authorization":
+                  "Bearer " +
+                  SUPABASE_PUBLISHABLE_KEY
 
-        const description =
-          (
-            product.description ||
-            ""
-          ).toLowerCase();
-
-        const category =
-          (
-            product.category ||
-            ""
-          ).toLowerCase();
-
-
-        return (
-
-          title.includes(
-            currentSearch
-          )
-
-          ||
-
-          description.includes(
-            currentSearch
-          )
-
-          ||
-
-          category.includes(
-            currentSearch
-          )
-
-        );
-
-      });
-
-  }
-
-
-  renderProducts(filtered);
-
-}
-
-
-/* =========================
-   FILTER BUTTONS
-========================= */
-
-document
-  .querySelectorAll(".filter")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        document
-          .querySelectorAll(".filter")
-          .forEach(
-            item =>
-              item.classList.remove(
-                "active"
-              )
+              }
+            }
           );
 
 
-        button.classList.add(
+        if (!response.ok) {
+
+          throw new Error(
+            "Erreur Supabase : " +
+            response.status
+          );
+
+        }
+
+
+        products =
+          await response.json();
+
+
+        renderProducts();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        resultsCount.textContent =
+          "Impossible de charger le catalogue";
+
+
+        productsGrid.innerHTML = `
+
+          <div class="state">
+
+            <div class="state-icon">
+              ⚠️
+            </div>
+
+            <strong>
+              Le catalogue n'est pas disponible.
+            </strong>
+
+            <p>
+              Vérifie la connexion ou réessaie
+              dans quelques instants.
+            </p>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================== */
+
+    searchInput.addEventListener(
+      "input",
+      event => {
+
+        currentSearch =
+          event.target.value;
+
+        renderProducts();
+
+      }
+    );
+
+
+    /* =========================
+       SORT
+    ========================== */
+
+    sortSelect.addEventListener(
+      "change",
+      event => {
+
+        currentSort =
+          event.target.value;
+
+        renderProducts();
+
+      }
+    );
+
+
+    /* =========================
+       CATEGORY
+    ========================== */
+
+    filterButtons.forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            filterButtons.forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
+            );
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            currentCategory =
+              button.dataset.category;
+
+
+            renderProducts();
+
+
+            /*
+              Sur mobile,
+              on ramène l'utilisateur
+              doucement vers les résultats.
+            */
+
+            setTimeout(
+              () => {
+
+                document
+                  .getElementById(
+                    "productsGrid"
+                  )
+                  .scrollIntoView({
+                    behavior:
+                      "smooth",
+                    block:
+                      "start"
+                  });
+
+              },
+              50
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =========================
+       URL ?category=
+    ========================== */
+
+    function readCategoryFromURL() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+
+      const category =
+        params.get(
+          "category"
+        );
+
+
+      if (!category) {
+        return;
+      }
+
+
+      const normalized =
+        normalizeText(
+          category
+        );
+
+
+      const matchingButton =
+        [...filterButtons]
+          .find(
+            button =>
+              normalizeText(
+                button.dataset.category
+              ) === normalized
+          );
+
+
+      if (matchingButton) {
+
+        filterButtons.forEach(
+          item =>
+            item.classList.remove(
+              "active"
+            )
+        );
+
+
+        matchingButton.classList.add(
           "active"
         );
 
 
         currentCategory =
-          button.dataset.category;
-
-
-        applyFilters();
-
-      }
-    );
-
-  });
-
-
-/* =========================
-   SEARCH
-========================= */
-
-searchForm.addEventListener(
-  "submit",
-  event => {
-
-    event.preventDefault();
-
-
-    currentSearch =
-      searchInput.value
-        .trim()
-        .toLowerCase();
-
-
-    applyFilters();
-
-  }
-);
-
-
-/* =========================
-   URL PARAMETERS
-========================= */
-
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
-
-const categoryParam =
-  params.get("category");
-
-const searchParam =
-  params.get("search");
-
-
-if(categoryParam){
-
-  currentCategory =
-    categoryParam;
-
-  document
-    .querySelectorAll(".filter")
-    .forEach(button => {
-
-      button.classList.remove(
-        "active"
-      );
-
-
-      if(
-        button.dataset.category
-          .toLowerCase()
-        ===
-        categoryParam.toLowerCase()
-      ){
-
-        button.classList.add(
-          "active"
-        );
+          matchingButton.dataset.category;
 
       }
 
-    });
-
-}
+    }
 
 
-if(searchParam){
+    /* =========================
+       YEAR
+    ========================== */
 
-  currentSearch =
-    searchParam.toLowerCase();
-
-  searchInput.value =
-    searchParam;
-
-}
+    document.getElementById(
+      "year"
+    ).textContent =
+      new Date().getFullYear();
 
 
-/* =========================
-   START
-========================= */
+    /* =========================
+       START
+    ========================== */
 
-loadProducts();
+    readCategoryFromURL();
 
-</script>
+    loadProducts();
+
+  </script>
 
 </body>
-  </html>
+</html>
