@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>MindFlow — Apprendre autrement</title>
+
   <meta
     name="description"
     content="MindFlow — plateforme éducative numérique pour apprendre, réviser et progresser."
   >
 
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/logo/favicon-mindflow.png"
+  >
+
   <style>
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html {
@@ -22,10 +39,18 @@
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f7f8fc;
-      color: #111827;
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background: #070914;
+      color: #f8fafc;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a {
@@ -38,444 +63,1191 @@
       font: inherit;
     }
 
-    .container {
-      width: min(1120px, 92%);
-      margin: auto;
+    button {
+      cursor: pointer;
     }
 
-    /* ================= HEADER ================= */
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    :root {
+      --cyan: #18d8ff;
+      --blue: #3978ff;
+      --violet: #744cff;
+      --purple: #9b3cff;
+      --pink: #e93cff;
+
+      --bg: #070914;
+      --bg-soft: #0b0e1d;
+      --card: #101426;
+
+      --text: #f8fafc;
+      --muted: #9aa4bb;
+
+      --border: rgba(255,255,255,0.09);
+
+      --gradient:
+        linear-gradient(
+          135deg,
+          var(--cyan),
+          var(--blue),
+          var(--violet),
+          var(--pink)
+        );
+    }
+
+    .container {
+      width: min(1160px, 92%);
+      margin: 0 auto;
+    }
+
+
+    /* =========================================================
+       BACKGROUND EFFECT
+    ========================================================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(24,216,255,0.07),
+          transparent 25%
+        ),
+
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(155,60,255,0.08),
+          transparent 25%
+        ),
+
+        radial-gradient(
+          circle at 50% 90%,
+          rgba(233,60,255,0.05),
+          transparent 25%
+        );
+
+      z-index: -2;
+    }
+
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #e5e7eb;
+
+      background:
+        rgba(7,9,20,0.78);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .nav {
-      min-height: 72px;
+      min-height: 78px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+
+      gap: 25px;
     }
 
-    .logo {
-      font-size: 1.45rem;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
       font-weight: 800;
-      letter-spacing: -0.5px;
+      font-size: 1.15rem;
     }
 
-    .logo span {
-      color: #4f46e5;
+    .brand img {
+      width: 43px;
+      height: 43px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      font-size: 1.35rem;
+      letter-spacing: -0.7px;
+
+      background: var(--gradient);
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
     }
 
     nav {
       display: flex;
-      gap: 25px;
       align-items: center;
+      gap: 28px;
     }
 
     nav a {
-      color: #4b5563;
-      font-size: 0.95rem;
+      color: #aeb6c9;
+      font-size: 0.92rem;
       font-weight: 600;
-      transition: 0.2s;
+
+      transition: 0.25s;
     }
 
     nav a:hover {
-      color: #4f46e5;
+      color: white;
     }
 
     .nav-button {
-      background: #111827;
+      padding: 11px 17px;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #3a73ff,
+          #8148ff
+        );
+
       color: white;
-      padding: 10px 16px;
-      border-radius: 10px;
+
+      font-weight: 700;
+
+      box-shadow:
+        0 8px 25px rgba(91,73,255,0.22);
+
+      transition: 0.25s;
     }
 
     .nav-button:hover {
-      background: #4f46e5;
-      color: white;
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 12px 30px rgba(91,73,255,0.35);
     }
 
-    /* ================= HERO ================= */
+
+    /* =========================================================
+       HERO
+    ========================================================= */
 
     .hero {
-      padding: 90px 0 70px;
+      position: relative;
+
+      padding:
+        105px 0
+        90px;
+
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      right: -180px;
+      top: -150px;
+
       background:
-        radial-gradient(circle at top right, rgba(79,70,229,0.12), transparent 35%),
-        linear-gradient(180deg, #ffffff, #f7f8fc);
+        radial-gradient(
+          circle,
+          rgba(117,76,255,0.25),
+          transparent 68%
+        );
+
+      filter: blur(20px);
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 420px;
+      height: 420px;
+
+      left: -220px;
+      bottom: -200px;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(24,216,255,0.16),
+          transparent 70%
+        );
+
+      filter: blur(25px);
     }
 
     .hero-grid {
+      position: relative;
+      z-index: 2;
+
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 50px;
+
+      grid-template-columns:
+        1.08fr
+        0.92fr;
+
+      gap: 70px;
+
       align-items: center;
     }
 
     .badge {
-      display: inline-block;
-      padding: 7px 12px;
-      background: #eef2ff;
-      color: #4338ca;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+      display: inline-flex;
 
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.8rem);
-      line-height: 1.02;
-      letter-spacing: -3px;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 13px;
+
+      border:
+        1px solid rgba(103,130,255,0.25);
+
+      border-radius: 999px;
+
+      background:
+        rgba(74,86,255,0.08);
+
+      color: #b7c0ff;
+
+      font-size: 0.8rem;
+      font-weight: 700;
+
       margin-bottom: 22px;
     }
 
-    .hero h1 span {
-      color: #4f46e5;
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--cyan);
+
+      box-shadow:
+        0 0 12px var(--cyan);
     }
 
-    .hero p {
-      color: #6b7280;
+    .hero h1 {
+      font-size:
+        clamp(
+          3rem,
+          7vw,
+          5.6rem
+        );
+
+      line-height: 0.98;
+
+      letter-spacing: -4px;
+
+      margin-bottom: 25px;
+    }
+
+    .gradient-text {
+      background: var(--gradient);
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .hero-description {
+      max-width: 620px;
+
+      color: var(--muted);
+
       font-size: 1.08rem;
-      max-width: 600px;
-      margin-bottom: 30px;
+
+      margin-bottom: 32px;
     }
 
     .hero-buttons {
       display: flex;
-      gap: 12px;
+
+      gap: 13px;
+
       flex-wrap: wrap;
     }
 
     .btn {
       display: inline-flex;
+
       align-items: center;
       justify-content: center;
-      border: none;
-      cursor: pointer;
-      padding: 13px 19px;
+
+      gap: 8px;
+
+      padding:
+        14px
+        19px;
+
       border-radius: 12px;
-      font-weight: 700;
-      transition: 0.2s;
+
+      border: none;
+
+      font-weight: 750;
+
+      transition: 0.25s;
     }
 
     .btn-primary {
-      background: #4f46e5;
+      background: var(--gradient);
+
       color: white;
+
+      box-shadow:
+        0 12px 35px rgba(91,75,255,0.25);
     }
 
     .btn-primary:hover {
-      background: #4338ca;
-      transform: translateY(-1px);
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 17px 40px rgba(91,75,255,0.4);
     }
 
     .btn-secondary {
-      background: white;
-      border: 1px solid #e5e7eb;
-      color: #111827;
+      background:
+        rgba(255,255,255,0.04);
+
+      border:
+        1px solid var(--border);
+
+      color: white;
     }
 
     .btn-secondary:hover {
-      border-color: #c7d2fe;
-      color: #4f46e5;
+      background:
+        rgba(255,255,255,0.08);
+
+      border-color:
+        rgba(255,255,255,0.18);
     }
 
-    .hero-card {
-      background: #111827;
-      color: white;
-      padding: 30px;
-      border-radius: 25px;
-      box-shadow: 0 25px 60px rgba(17,24,39,0.18);
+
+    /* =========================================================
+       HERO VISUAL
+    ========================================================= */
+
+    .hero-visual {
+      position: relative;
+
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
     }
 
-    .hero-card small {
-      color: #a5b4fc;
+    .glow {
+      position: absolute;
+
+      width: 330px;
+      height: 330px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(89,105,255,0.24),
+          transparent 65%
+        );
+
+      filter: blur(15px);
+    }
+
+    .hero-logo-card {
+      position: relative;
+
+      width: min(390px, 100%);
+
+      padding: 38px;
+
+      border-radius: 30px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.075),
+          rgba(255,255,255,0.025)
+        );
+
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      backdrop-filter: blur(20px);
+
+      box-shadow:
+        0 35px 80px rgba(0,0,0,0.4);
+
+      text-align: center;
+    }
+
+    .hero-logo-card::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      border-radius: inherit;
+
+      padding: 1px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(24,216,255,0.35),
+          transparent 40%,
+          rgba(233,60,255,0.3)
+        );
+
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+      -webkit-mask-composite: xor;
+
+      mask-composite: exclude;
+
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      width: 270px;
+      max-width: 100%;
+
+      margin:
+        0 auto
+        22px;
+    }
+
+    .hero-logo-card h2 {
+      font-size: 1.65rem;
+
+      margin-bottom: 8px;
+    }
+
+    .hero-logo-card p {
+      color: var(--muted);
+
+      font-size: 0.92rem;
+    }
+
+    .floating-card {
+      position: absolute;
+
+      padding: 13px 16px;
+
+      background:
+        rgba(15,18,35,0.9);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 13px;
+
+      backdrop-filter: blur(15px);
+
+      box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
+
+      font-size: 0.82rem;
+
       font-weight: 700;
     }
 
-    .hero-card h2 {
-      font-size: 2rem;
-      margin: 12px 0;
+    .floating-one {
+      top: 40px;
+      left: 0;
     }
 
-    .hero-card p {
-      color: #cbd5e1;
-      margin-bottom: 20px;
+    .floating-two {
+      right: 0;
+      bottom: 45px;
     }
 
-    .mini-list {
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .stats {
+      padding-bottom: 30px;
+    }
+
+    .stats-grid {
       display: grid;
-      gap: 12px;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 15px;
     }
 
-    .mini-item {
-      padding: 14px;
-      border: 1px solid #374151;
-      border-radius: 12px;
-      color: #e5e7eb;
+    .stat {
+      padding: 22px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.025);
+
+      border-radius: 16px;
     }
 
-    /* ================= SEARCH ================= */
+    .stat strong {
+      display: block;
+
+      font-size: 1.15rem;
+
+      margin-bottom: 3px;
+    }
+
+    .stat span {
+      color: var(--muted);
+
+      font-size: 0.86rem;
+    }
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
 
     .search-section {
-      padding: 35px 0;
+      padding:
+        35px 0
+        15px;
     }
 
     .search-box {
       display: flex;
+
       gap: 10px;
-      background: white;
-      padding: 10px;
-      border: 1px solid #e5e7eb;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+
+      padding: 9px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,0.045);
+
+      border-radius: 16px;
+
+      backdrop-filter: blur(15px);
     }
 
     .search-box input {
       flex: 1;
+
+      min-width: 0;
+
       border: none;
       outline: none;
-      padding: 12px;
-      min-width: 0;
+
+      background: transparent;
+
+      color: white;
+
+      padding: 13px;
+
+      font-size: 0.95rem;
     }
 
-    /* ================= SECTIONS ================= */
+    .search-box input::placeholder {
+      color: #747e94;
+    }
+
+
+    /* =========================================================
+       SECTIONS
+    ========================================================= */
 
     .section {
-      padding: 80px 0;
+      padding:
+        90px 0;
     }
 
     .section-header {
       margin-bottom: 35px;
     }
 
+    .eyebrow {
+      color: #8f83ff;
+
+      font-size: 0.75rem;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+
+      font-weight: 800;
+
+      margin-bottom: 8px;
+    }
+
     .section-header h2 {
-      font-size: 2.2rem;
+      font-size: 2.35rem;
+
+      letter-spacing: -1.5px;
+
       margin-bottom: 8px;
     }
 
     .section-header p {
-      color: #6b7280;
+      color: var(--muted);
+
+      max-width: 620px;
     }
 
-    /* ================= CATEGORIES ================= */
+
+    /* =========================================================
+       CATEGORIES
+    ========================================================= */
 
     .categories {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 16px;
     }
 
     .category {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 22px;
-      cursor: pointer;
-      transition: 0.2s;
+      position: relative;
+
+      padding: 24px;
+
+      min-height: 170px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 19px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.02)
+        );
+
+      overflow: hidden;
+
+      transition: 0.3s;
+    }
+
+    .category::after {
+      content: "";
+
+      position: absolute;
+
+      width: 100px;
+      height: 100px;
+
+      right: -40px;
+      bottom: -40px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(103,76,255,0.13);
+
+      filter: blur(20px);
     }
 
     .category:hover {
-      transform: translateY(-3px);
-      border-color: #c7d2fe;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      transform: translateY(-5px);
+
+      border-color:
+        rgba(113,91,255,0.4);
+
+      box-shadow:
+        0 20px 50px rgba(0,0,0,0.25);
     }
 
     .category-icon {
-      font-size: 1.7rem;
-      margin-bottom: 10px;
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background:
+        rgba(113,91,255,0.12);
+
+      font-size: 1.45rem;
+
+      margin-bottom: 17px;
     }
 
     .category h3 {
-      margin-bottom: 4px;
+      font-size: 1.02rem;
+
+      margin-bottom: 5px;
     }
 
     .category p {
-      color: #6b7280;
-      font-size: 0.9rem;
+      color: var(--muted);
+
+      font-size: 0.86rem;
     }
 
-    /* ================= PRODUCTS ================= */
+
+    /* =========================================================
+       PRODUCTS
+    ========================================================= */
 
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 22px;
     }
 
     .product {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 18px;
       overflow: hidden;
-      transition: 0.2s;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 20px;
+
+      background:
+        #0d1120;
+
+      transition: 0.3s;
     }
 
     .product:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.07);
+      transform: translateY(-6px);
+
+      border-color:
+        rgba(116,76,255,0.4);
+
+      box-shadow:
+        0 25px 55px rgba(0,0,0,0.3);
     }
 
     .product-image {
-      height: 150px;
-      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+      position: relative;
+
+      height: 205px;
+
       display: flex;
+
       align-items: center;
       justify-content: center;
+
       overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          #101c35,
+          #1b1232
+        );
+    }
+
+    .product-image::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          180deg,
+          transparent 50%,
+          rgba(0,0,0,0.45)
+        );
+
+      pointer-events: none;
     }
 
     .product-image img {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
+
+      transition: 0.4s;
+    }
+
+    .product:hover
+    .product-image img {
+      transform: scale(1.04);
     }
 
     .product-placeholder {
-      font-size: 2.7rem;
+      font-size: 3rem;
+
+      opacity: 0.8;
     }
 
     .product-content {
-      padding: 20px;
+      padding: 22px;
     }
 
     .product-category {
-      color: #4f46e5;
-      font-size: 0.78rem;
-      font-weight: 800;
+      color: #8e82ff;
+
+      font-size: 0.72rem;
+
       text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      font-weight: 800;
+
       margin-bottom: 8px;
     }
 
     .product h3 {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
+
       margin-bottom: 8px;
     }
 
     .product-description {
-      color: #6b7280;
-      font-size: 0.9rem;
-      min-height: 50px;
-      margin-bottom: 15px;
+      color: var(--muted);
+
+      font-size: 0.87rem;
+
+      min-height: 48px;
+
+      margin-bottom: 19px;
     }
 
     .product-bottom {
       display: flex;
+
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+
+      gap: 12px;
     }
 
     .price {
-      font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1rem;
+
+      font-weight: 850;
+    }
+
+    .product-actions {
+      display: flex;
+
+      gap: 7px;
     }
 
     .product-btn {
       border: none;
-      background: #111827;
-      color: white;
-      padding: 10px 13px;
+
+      padding: 9px 12px;
+
       border-radius: 9px;
-      cursor: pointer;
-      font-weight: 700;
+
+      font-size: 0.78rem;
+
+      font-weight: 750;
+
+      transition: 0.2s;
     }
 
-    .product-btn:hover {
-      background: #4f46e5;
+    .details-btn {
+      color: #c8ccef;
+
+      background:
+        rgba(255,255,255,0.06);
     }
 
-    .loading {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 50px;
-      color: #6b7280;
+    .details-btn:hover {
+      background:
+        rgba(255,255,255,0.1);
     }
 
+    .buy-btn {
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #3978ff,
+          #8148ff
+        );
+    }
+
+    .buy-btn:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 8px 20px rgba(91,75,255,0.3);
+    }
+
+
+    /* =========================================================
+       LOADING / EMPTY
+    ========================================================= */
+
+    .loading,
     .empty {
       grid-column: 1 / -1;
+
+      padding: 60px 25px;
+
       text-align: center;
-      padding: 50px;
-      background: white;
-      border: 1px solid #e5e7eb;
+
+      border:
+        1px solid var(--border);
+
       border-radius: 18px;
-      color: #6b7280;
+
+      background:
+        rgba(255,255,255,0.025);
+
+      color: var(--muted);
     }
 
-    /* ================= DARK SECTION ================= */
 
-    .dark-section {
-      background: #111827;
-      color: white;
-    }
+    /* =========================================================
+       WHY MINDFLOW
+    ========================================================= */
 
-    .dark-section p {
-      color: #cbd5e1;
+    .why-section {
+      position: relative;
+
+      background:
+        linear-gradient(
+          180deg,
+          #090c18,
+          #0c1020
+        );
+
+      border-top:
+        1px solid var(--border);
+
+      border-bottom:
+        1px solid var(--border);
     }
 
     .why-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 20px;
     }
 
     .why-card {
-      padding: 25px;
-      border: 1px solid #374151;
-      border-radius: 17px;
+      padding: 28px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 19px;
+
+      background:
+        rgba(255,255,255,0.025);
+
+      transition: 0.25s;
     }
 
-    .why-card h3 {
-      margin: 12px 0 7px;
+    .why-card:hover {
+      transform: translateY(-4px);
+
+      background:
+        rgba(255,255,255,0.04);
     }
 
     .why-icon {
-      font-size: 1.7rem;
+      font-size: 1.6rem;
+
+      margin-bottom: 15px;
     }
 
-    /* ================= FOOTER ================= */
+    .why-card h3 {
+      margin-bottom: 7px;
+    }
+
+    .why-card p {
+      color: var(--muted);
+
+      font-size: 0.9rem;
+    }
+
+
+    /* =========================================================
+       CTA
+    ========================================================= */
+
+    .cta {
+      padding:
+        90px 0;
+    }
+
+    .cta-card {
+      position: relative;
+
+      overflow: hidden;
+
+      padding:
+        55px 45px;
+
+      border:
+        1px solid rgba(121,93,255,0.25);
+
+      border-radius: 28px;
+
+      text-align: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(95,91,255,0.18),
+          transparent 60%
+        ),
+        rgba(255,255,255,0.025);
+    }
+
+    .cta-card h2 {
+      font-size:
+        clamp(2rem, 4vw, 3rem);
+
+      letter-spacing: -1.5px;
+
+      margin-bottom: 12px;
+    }
+
+    .cta-card p {
+      max-width: 600px;
+
+      margin:
+        0 auto
+        25px;
+
+      color: var(--muted);
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
 
     footer {
-      background: #0b1120;
-      color: #9ca3af;
-      padding: 45px 0;
+      background: #050711;
+
+      padding:
+        55px 0
+        30px;
+
+      border-top:
+        1px solid var(--border);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 30px;
+
+      grid-template-columns:
+        2fr 1fr 1fr;
+
+      gap: 45px;
     }
 
-    footer h3 {
-      color: white;
-      margin-bottom: 10px;
+    .footer-brand {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 15px;
+    }
+
+    .footer-brand img {
+      width: 38px;
+    }
+
+    footer p,
+    footer a {
+      color: #80899e;
+
+      font-size: 0.88rem;
     }
 
     footer a {
       display: block;
-      margin-bottom: 7px;
+
+      margin-bottom: 8px;
+
+      transition: 0.2s;
     }
 
     footer a:hover {
       color: white;
     }
 
-    .copyright {
-      margin-top: 35px;
-      padding-top: 20px;
-      border-top: 1px solid #1f2937;
-      font-size: 0.85rem;
+    footer h3 {
+      color: white;
+
+      margin-bottom: 14px;
+
+      font-size: 0.95rem;
     }
 
-    /* ================= RESPONSIVE ================= */
+    .copyright {
+      margin-top: 40px;
 
-    @media (max-width: 850px) {
+      padding-top: 20px;
+
+      border-top:
+        1px solid var(--border);
+
+      color: #697286;
+
+      font-size: 0.78rem;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 900px) {
 
       nav {
         display: none;
@@ -483,38 +1255,124 @@
 
       .hero-grid {
         grid-template-columns: 1fr;
+
+        gap: 40px;
+      }
+
+      .hero {
+        padding-top: 75px;
+      }
+
+      .hero-visual {
+        min-height: 370px;
       }
 
       .categories {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
       .products-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
       .why-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
 
       .footer-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
+
     }
 
-    @media (max-width: 550px) {
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: min(94%, 1160px);
+      }
+
+      .brand-text {
+        font-size: 1.15rem;
+      }
+
+      .brand img {
+        width: 38px;
+        height: 38px;
+      }
+
+      .nav-button {
+        padding:
+          9px 12px;
+
+        font-size: 0.8rem;
+      }
 
       .hero {
-        padding-top: 55px;
+        padding:
+          60px 0
+          55px;
       }
 
       .hero h1 {
-        letter-spacing: -1.5px;
+        font-size:
+          clamp(
+            2.8rem,
+            15vw,
+            4rem
+          );
+
+        letter-spacing: -2.5px;
+      }
+
+      .hero-description {
+        font-size: 0.98rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .hero-logo-card {
+        padding: 28px;
+      }
+
+      .floating-one {
+        left: -5px;
+        top: 15px;
+      }
+
+      .floating-two {
+        right: -5px;
+        bottom: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns:
+          1fr;
       }
 
       .categories,
       .products-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
+      }
+
+      .section {
+        padding:
+          65px 0;
+      }
+
+      .section-header h2 {
+        font-size: 1.9rem;
       }
 
       .search-box {
@@ -524,30 +1382,85 @@
       .search-box button {
         width: 100%;
       }
+
+      .product-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .product-actions {
+        width: 100%;
+      }
+
+      .product-btn {
+        flex: 1;
+      }
+
+      .cta-card {
+        padding:
+          40px 22px;
+      }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <!-- ================= HEADER ================= -->
+
+  <!-- ========================================================
+       HEADER
+  ========================================================= -->
 
   <header>
 
     <div class="container nav">
 
-      <a href="index.html" class="logo">
-        Mind<span>Flow</span>
+      <a
+        href="index.html"
+        class="brand"
+      >
+
+        <img
+          src="assets/logo/mindflow-icon-transparent.png"
+          alt="MindFlow"
+        >
+
+        <span class="brand-text">
+          MindFlow
+        </span>
+
       </a>
 
+
       <nav>
-        <a href="#accueil">Accueil</a>
-        <a href="#categories">Catégories</a>
-        <a href="#catalogue">Catalogue</a>
-        <a href="#pourquoi">Pourquoi MindFlow</a>
+
+        <a href="#accueil">
+          Accueil
+        </a>
+
+        <a href="#categories">
+          Catégories
+        </a>
+
+        <a href="#catalogue">
+          Catalogue
+        </a>
+
+        <a href="#pourquoi">
+          Pourquoi MindFlow
+        </a>
+
       </nav>
 
-      <a href="#catalogue" class="nav-button">
+
+      <a
+        href="#catalogue"
+        class="nav-button"
+      >
         Explorer
       </a>
 
@@ -556,33 +1469,57 @@
   </header>
 
 
-  <!-- ================= CONTENU ================= -->
+
+  <!-- ========================================================
+       MAIN
+  ========================================================= -->
 
   <main id="accueil">
 
 
-    <!-- HERO -->
+    <!-- ======================================================
+         HERO
+    ====================================================== -->
 
     <section class="hero">
 
       <div class="container hero-grid">
 
+
         <div>
 
           <span class="badge">
-            📚 Plateforme éducative numérique
+
+            <span class="badge-dot"></span>
+
+            Plateforme éducative numérique
+
           </span>
 
+
           <h1>
-            Apprends.<br>
-            Comprends.<br>
-            <span>Progresse.</span>
+
+            Apprends.
+            <br>
+
+            Comprends.
+            <br>
+
+            <span class="gradient-text">
+              Progresse.
+            </span>
+
           </h1>
 
-          <p>
-            Des ressources éducatives simples, pratiques et accessibles
-            pour apprendre plus efficacement et progresser à ton rythme.
+
+          <p class="hero-description">
+
+            MindFlow rassemble des ressources éducatives
+            conçues pour t'aider à apprendre plus efficacement,
+            réviser intelligemment et progresser à ton rythme.
+
           </p>
+
 
           <div class="hero-buttons">
 
@@ -590,14 +1527,14 @@
               href="#catalogue"
               class="btn btn-primary"
             >
-              Découvrir les ressources
+              Découvrir les ressources →
             </a>
 
             <a
               href="#categories"
               class="btn btn-secondary"
             >
-              Voir les catégories
+              Explorer les matières
             </a>
 
           </div>
@@ -605,35 +1542,39 @@
         </div>
 
 
-        <div class="hero-card">
 
-          <small>
-            BIENVENUE SUR MINDFLOW
-          </small>
+        <div class="hero-visual">
 
-          <h2>
-            Apprendre autrement.
-          </h2>
+          <div class="glow"></div>
 
-          <p>
-            Fiches, exercices, annales, e-books et ressources
-            pour accompagner chaque étape de ton apprentissage.
-          </p>
 
-          <div class="mini-list">
+          <div class="floating-card floating-one">
+            🧠 Apprendre autrement
+          </div>
 
-            <div class="mini-item">
-              ✓ Ressources numériques
-            </div>
 
-            <div class="mini-item">
-              ✓ Accès rapide
-            </div>
+          <div class="hero-logo-card">
 
-            <div class="mini-item">
-              ✓ Pensé pour les étudiants
-            </div>
+            <img
+              src="assets/logo/mindflow-logo-transparent.png"
+              alt="Logo MindFlow"
+              class="hero-logo"
+            >
 
+            <h2>
+              Ton espace pour apprendre.
+            </h2>
+
+            <p>
+              Fiches, exercices, annales,
+              e-books et ressources pédagogiques.
+            </p>
+
+          </div>
+
+
+          <div class="floating-card floating-two">
+            ⚡ Simple · Rapide · Accessible
           </div>
 
         </div>
@@ -643,7 +1584,62 @@
     </section>
 
 
-    <!-- RECHERCHE -->
+
+    <!-- ======================================================
+         STATS
+    ====================================================== -->
+
+    <section class="stats">
+
+      <div class="container stats-grid">
+
+        <div class="stat">
+
+          <strong>
+            📚 Ressources numériques
+          </strong>
+
+          <span>
+            Des contenus accessibles directement en ligne.
+          </span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <strong>
+            🎯 Pensé pour apprendre
+          </strong>
+
+          <span>
+            Des ressources organisées par matière et besoin.
+          </span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <strong>
+            🚀 Une plateforme évolutive
+          </strong>
+
+          <span>
+            MindFlow évolue progressivement avec ses utilisateurs.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ======================================================
+         SEARCH
+    ====================================================== -->
 
     <section class="search-section">
 
@@ -657,9 +1653,10 @@
           <input
             type="search"
             id="searchInput"
-            placeholder="Rechercher une ressource..."
+            placeholder="Que souhaites-tu apprendre aujourd'hui ?"
             autocomplete="off"
           >
+
 
           <button
             type="submit"
@@ -675,7 +1672,10 @@
     </section>
 
 
-    <!-- CATEGORIES -->
+
+    <!-- ======================================================
+         CATEGORIES
+    ====================================================== -->
 
     <section
       class="section"
@@ -686,18 +1686,24 @@
 
         <div class="section-header">
 
+          <div class="eyebrow">
+            Explorer
+          </div>
+
           <h2>
-            Explore par matière
+            Trouve ta matière.
           </h2>
 
           <p>
-            Trouve rapidement les ressources qui correspondent à tes besoins.
+            Explore les différentes catégories de ressources
+            disponibles sur MindFlow.
           </p>
 
         </div>
 
 
         <div class="categories">
+
 
           <div
             class="category"
@@ -717,6 +1723,7 @@
             </p>
 
           </div>
+
 
 
           <div
@@ -739,6 +1746,7 @@
           </div>
 
 
+
           <div
             class="category"
             data-category="Physique"
@@ -757,6 +1765,7 @@
             </p>
 
           </div>
+
 
 
           <div
@@ -785,7 +1794,10 @@
     </section>
 
 
-    <!-- CATALOGUE -->
+
+    <!-- ======================================================
+         CATALOGUE
+    ====================================================== -->
 
     <section
       class="section"
@@ -796,12 +1808,17 @@
 
         <div class="section-header">
 
+          <div class="eyebrow">
+            Catalogue
+          </div>
+
           <h2>
-            Catalogue MindFlow
+            Les ressources MindFlow
           </h2>
 
           <p>
-            Découvre les ressources disponibles sur la plateforme.
+            Découvre les contenus disponibles et choisis
+            les ressources adaptées à tes besoins.
           </p>
 
         </div>
@@ -823,10 +1840,13 @@
     </section>
 
 
-    <!-- POURQUOI -->
+
+    <!-- ======================================================
+         POURQUOI MINDFLOW
+    ====================================================== -->
 
     <section
-      class="section dark-section"
+      class="section why-section"
       id="pourquoi"
     >
 
@@ -834,19 +1854,24 @@
 
         <div class="section-header">
 
+          <div class="eyebrow">
+            L'esprit MindFlow
+          </div>
+
           <h2>
             Pourquoi MindFlow ?
           </h2>
 
           <p>
-            Une plateforme pensée pour rendre les ressources éducatives
-            plus simples à trouver et à utiliser.
+            Une plateforme pensée pour rendre les ressources
+            éducatives plus simples à trouver et à utiliser.
           </p>
 
         </div>
 
 
         <div class="why-grid">
+
 
           <div class="why-card">
 
@@ -859,11 +1884,12 @@
             </h3>
 
             <p>
-              Des ressources organisées pour aller directement
-              à l'essentiel.
+              Des ressources organisées pour aller
+              directement à l'essentiel.
             </p>
 
           </div>
+
 
 
           <div class="why-card">
@@ -877,10 +1903,12 @@
             </h3>
 
             <p>
-              Trouve et accède rapidement aux ressources dont tu as besoin.
+              Trouve rapidement les contenus dont
+              tu as besoin.
             </p>
 
           </div>
+
 
 
           <div class="why-card">
@@ -894,8 +1922,8 @@
             </h3>
 
             <p>
-              MindFlow évoluera progressivement vers une véritable
-              marketplace éducative.
+              MindFlow évoluera progressivement vers
+              une véritable plateforme éducative numérique.
             </p>
 
           </div>
@@ -906,28 +1934,79 @@
 
     </section>
 
+
+
+    <!-- ======================================================
+         CTA
+    ====================================================== -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-card">
+
+          <h2>
+            Prêt à apprendre autrement ?
+          </h2>
+
+          <p>
+            Explore le catalogue MindFlow et découvre
+            les ressources disponibles pour progresser.
+          </p>
+
+          <a
+            href="#catalogue"
+            class="btn btn-primary"
+          >
+            Explorer le catalogue →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
   </main>
 
 
-  <!-- ================= FOOTER ================= -->
+
+  <!-- ========================================================
+       FOOTER
+  ========================================================= -->
 
   <footer>
 
     <div class="container">
 
+
       <div class="footer-grid">
+
 
         <div>
 
-          <h3>
-            MindFlow
-          </h3>
+          <div class="footer-brand">
+
+            <img
+              src="assets/logo/mindflow-icon-transparent.png"
+              alt="MindFlow"
+            >
+
+            <strong>
+              MindFlow
+            </strong>
+
+          </div>
 
           <p>
-            Apprendre autrement, progresser intelligemment.
+            Apprendre autrement,
+            progresser intelligemment.
           </p>
 
         </div>
+
 
 
         <div>
@@ -936,7 +2015,7 @@
             Navigation
           </h3>
 
-          <a href="index.html">
+          <a href="#accueil">
             Accueil
           </a>
 
@@ -951,6 +2030,7 @@
         </div>
 
 
+
         <div>
 
           <h3>
@@ -958,7 +2038,7 @@
           </h3>
 
           <a href="#pourquoi">
-            À propos
+            Pourquoi MindFlow
           </a>
 
           <a href="#catalogue">
@@ -966,6 +2046,7 @@
           </a>
 
         </div>
+
 
       </div>
 
@@ -976,57 +2057,62 @@
 
       </div>
 
+
     </div>
 
   </footer>
 
 
-  <!-- ================= JAVASCRIPT ================= -->
+
+  <!-- ========================================================
+       JAVASCRIPT
+  ========================================================= -->
 
   <script>
 
-    /*
-      ==================================================
-      CONFIGURATION SUPABASE
-      ==================================================
-    */
+
+    /* ========================================================
+       SUPABASE
+    ======================================================== */
 
     const SUPABASE_URL =
       "https://ejjmluesrrrbktgstlqm.supabase.co";
+
 
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
 
-    /*
-      ==================================================
-      VARIABLES
-      ==================================================
-    */
+
+    /* ========================================================
+       VARIABLES
+    ======================================================== */
 
     const productsContainer =
       document.getElementById(
         "productsContainer"
       );
 
+
     const searchInput =
       document.getElementById(
         "searchInput"
       );
+
 
     const searchForm =
       document.getElementById(
         "searchForm"
       );
 
+
     let allProducts = [];
 
 
-    /*
-      ==================================================
-      SÉCURISATION DU TEXTE
-      ==================================================
-    */
+
+    /* ========================================================
+       SÉCURISER LE TEXTE
+    ======================================================== */
 
     function escapeHTML(value) {
 
@@ -1039,21 +2125,41 @@
 
       }
 
+
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
 
-    /*
-      ==================================================
-      PRIX
-      ==================================================
-    */
+
+    /* ========================================================
+       PRIX
+    ======================================================== */
 
     function formatPrice(price) {
 
@@ -1064,20 +2170,21 @@
     }
 
 
-    /*
-      ==================================================
-      CHARGER LES PRODUITS
-      ==================================================
-    */
+
+    /* ========================================================
+       CHARGER LES PRODUITS
+    ======================================================== */
 
     async function loadProducts() {
 
       try {
 
         productsContainer.innerHTML = `
+
           <div class="loading">
             Chargement du catalogue...
           </div>
+
         `;
 
 
@@ -1093,6 +2200,7 @@
           await fetch(
             endpoint,
             {
+
               method: "GET",
 
               headers: {
@@ -1105,6 +2213,7 @@
                   SUPABASE_PUBLISHABLE_KEY
 
               }
+
             }
           );
 
@@ -1131,11 +2240,13 @@
           products
         );
 
+
       }
 
       catch (error) {
 
         console.error(error);
+
 
         productsContainer.innerHTML = `
 
@@ -1158,15 +2269,15 @@
     }
 
 
-    /*
-      ==================================================
-      AFFICHER LES PRODUITS
-      ==================================================
-    */
+
+    /* ========================================================
+       AFFICHER LES PRODUITS
+    ======================================================== */
 
     function renderProducts(
       products
     ) {
+
 
       if (
         !products ||
@@ -1194,6 +2305,7 @@
 
       products.forEach(
         product => {
+
 
           const card =
             document.createElement(
@@ -1283,14 +2395,26 @@
                 </span>
 
 
-                <button
-                  class="product-btn"
-                  type="button"
-                >
+                <div class="product-actions">
 
-                  Découvrir
 
-                </button>
+                  <button
+                    class="product-btn details-btn"
+                    type="button"
+                  >
+                    Voir
+                  </button>
+
+
+                  <button
+                    class="product-btn buy-btn"
+                    type="button"
+                  >
+                    Acheter
+                  </button>
+
+
+                </div>
 
               </div>
 
@@ -1299,31 +2423,47 @@
           `;
 
 
-          /*
-            ============================================
-            BOUTON DÉCOUVRIR
-            ============================================
+          /* ==================================================
+             BOUTON VOIR
+          ================================================== */
 
-            Le bouton transmet automatiquement
-            l'identifiant du produit à produit.html.
-
-            Exemple :
-
-            produit.html?id=xxxxxxxx
-          */
-
-          const button =
+          const detailsButton =
             card.querySelector(
-              ".product-btn"
+              ".details-btn"
             );
 
 
-          button.addEventListener(
+          detailsButton.addEventListener(
             "click",
             function() {
 
               window.location.href =
                 "produit.html?id=" +
+                encodeURIComponent(
+                  product.id
+                );
+
+            }
+          );
+
+
+
+          /* ==================================================
+             BOUTON ACHETER
+          ================================================== */
+
+          const buyButton =
+            card.querySelector(
+              ".buy-btn"
+            );
+
+
+          buyButton.addEventListener(
+            "click",
+            function() {
+
+              window.location.href =
+                "paiement.html?id=" +
                 encodeURIComponent(
                   product.id
                 );
@@ -1342,13 +2482,13 @@
     }
 
 
-    /*
-      ==================================================
-      RECHERCHE
-      ==================================================
-    */
+
+    /* ========================================================
+       RECHERCHE
+    ======================================================== */
 
     function searchProducts() {
+
 
       const query =
         searchInput.value
@@ -1371,25 +2511,29 @@
         allProducts.filter(
           product => {
 
+
             const title =
               (
                 product.title ||
                 ""
-              ).toLowerCase();
+              )
+              .toLowerCase();
 
 
             const description =
               (
                 product.description ||
                 ""
-              ).toLowerCase();
+              )
+              .toLowerCase();
 
 
             const category =
               (
                 product.category ||
                 ""
-              ).toLowerCase();
+              )
+              .toLowerCase();
 
 
             return (
@@ -1423,11 +2567,10 @@
     }
 
 
-    /*
-      ==================================================
-      FORMULAIRE DE RECHERCHE
-      ==================================================
-    */
+
+    /* ========================================================
+       FORMULAIRE DE RECHERCHE
+    ======================================================== */
 
     searchForm.addEventListener(
       "submit",
@@ -1435,25 +2578,29 @@
 
         event.preventDefault();
 
+
         searchProducts();
+
 
         document
           .getElementById(
             "catalogue"
           )
           .scrollIntoView({
-            behavior: "smooth"
+
+            behavior:
+              "smooth"
+
           });
 
       }
     );
 
 
-    /*
-      ==================================================
-      CATÉGORIES
-      ==================================================
-    */
+
+    /* ========================================================
+       CATÉGORIES
+    ======================================================== */
 
     document
       .querySelectorAll(
@@ -1462,9 +2609,11 @@
       .forEach(
         categoryElement => {
 
+
           categoryElement.addEventListener(
             "click",
             function() {
+
 
               const category =
                 categoryElement.dataset
@@ -1496,7 +2645,10 @@
                   "catalogue"
                 )
                 .scrollIntoView({
-                  behavior: "smooth"
+
+                  behavior:
+                    "smooth"
+
                 });
 
             }
@@ -1506,15 +2658,16 @@
       );
 
 
-    /*
-      ==================================================
-      DÉMARRAGE
-      ==================================================
-    */
+
+    /* ========================================================
+       DÉMARRAGE
+    ======================================================== */
 
     loadProducts();
 
+
   </script>
 
+
 </body>
-</html>
+  </html>
