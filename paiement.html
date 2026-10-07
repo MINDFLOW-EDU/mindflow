@@ -92,36 +92,14 @@
       border-color: #555;
     }
 
-    .payment-title {
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .methods {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .method {
-      border: 1px solid #d8deea;
+    .payment-info {
+      background: #f7f8fc;
       border-radius: 12px;
       padding: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-    }
-
-    .method input {
-      width: auto;
-      margin: 0;
-    }
-
-    .method.active {
-      border-color: #111;
-      background: #f7f7f7;
+      margin-bottom: 20px;
+      color: #596579;
+      line-height: 1.5;
+      font-size: 14px;
     }
 
     button {
@@ -265,44 +243,19 @@
         required
       >
 
-      <div class="payment-title">
-        Moyen de paiement
-      </div>
-
-      <div class="methods">
-
-        <label class="method active">
-          <input
-            type="radio"
-            name="paymentMethod"
-            value="airtelmoney"
-            checked
-          >
-
-          <span>
-            Airtel Money
-          </span>
-        </label>
-
-        <label class="method">
-          <input
-            type="radio"
-            name="paymentMethod"
-            value="moovmoney4"
-          >
-
-          <span>
-            Moov Money
-          </span>
-        </label>
-
+      <div class="payment-info">
+        <strong>Mode de paiement</strong><br><br>
+        Après avoir continué, vous serez redirigé vers
+        la plateforme sécurisée E-Billing pour choisir
+        votre moyen de paiement, notamment Airtel Money
+        ou Moov Money.
       </div>
 
       <button
         id="payButton"
         type="submit"
       >
-        Payer maintenant
+        Continuer vers le paiement
       </button>
 
     </form>
@@ -331,24 +284,19 @@ const SUPABASE_KEY =
 
 
 /*
- * FONCTIONS SUPABASE EDGE
+ * FONCTION SUPABASE EDGE
+ *
+ * Cette fonction :
+ * 1. récupère la commande
+ * 2. crée la facture E-Billing
+ * 3. retourne payment_url
  */
-
 const CREATE_INVOICE_FUNCTION =
   `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
-
-const START_USSD_FUNCTION =
-  `${SUPABASE_URL}/functions/v1/create-ebilling-ussd`;
-
-const CHECK_USSD_FUNCTION =
-  `${SUPABASE_URL}/functions/v1/check-ebilling-payment`;
 
 
 let currentProduct = null;
 let currentOrderId = null;
-let currentPushId = null;
-
-let paymentCheckTimer = null;
 
 
 /* =========================================================
@@ -398,6 +346,64 @@ function normalizePhone(phone) {
 
 
 /* =========================================================
+   GESTION DU RETOUR E-BILLING
+========================================================= */
+
+function handlePaymentReturn() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const payment =
+    params.get("payment");
+
+  if (payment === "success") {
+
+    showMessage(
+      `
+      <strong>Paiement terminé.</strong><br><br>
+      Votre paiement a été transmis avec succès.
+      La confirmation définitive sera effectuée
+      automatiquement par MindFlow.
+      `,
+      "success"
+    );
+
+    document.getElementById(
+      "details"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+      "details"
+    ).innerHTML =
+      `
+      Retour du portail E-Billing : paiement terminé.
+      `;
+
+    return true;
+  }
+
+  if (payment === "failed") {
+
+    showMessage(
+      `
+      <strong>Paiement non finalisé.</strong><br><br>
+      Le paiement n'a pas été finalisé.
+      Vous pouvez recommencer.
+      `,
+      "error"
+    );
+
+    return true;
+  }
+
+  return false;
+}
+
+
+/* =========================================================
    CHARGEMENT PRODUIT
 ========================================================= */
 
@@ -411,12 +417,25 @@ async function loadProduct() {
   const productId =
     params.get("id");
 
+  /*
+   * Après le retour E-Billing, il est possible
+   * que l'URL ne contienne plus id.
+   *
+   * Dans ce cas, on ne bloque pas l'affichage
+   * du message de retour.
+   */
   if (!productId) {
 
-    showMessage(
-      "Produit introuvable.",
-      "error"
-    );
+    const returned =
+      handlePaymentReturn();
+
+    if (!returned) {
+
+      showMessage(
+        "Produit introuvable.",
+        "error"
+      );
+    }
 
     return;
   }
@@ -436,6 +455,7 @@ async function loadProduct() {
       );
 
     if (!response.ok) {
+
       throw new Error(
         "Impossible de charger le produit."
       );
@@ -445,6 +465,7 @@ async function loadProduct() {
       await response.json();
 
     if (!products.length) {
+
       throw new Error(
         "Produit introuvable."
       );
@@ -466,6 +487,12 @@ async function loadProduct() {
       formatPrice(
         currentProduct.price
       );
+
+    /*
+     * Vérifier aussi si nous sommes revenus
+     * d'E-Billing avec un statut.
+     */
+    handlePaymentReturn();
 
   } catch (error) {
 
@@ -491,7 +518,8 @@ async function createOrder(customerData) {
 
   const order = {
 
-    id: orderId,
+    id:
+      orderId,
 
     product_id:
       currentProduct.id,
@@ -519,6 +547,7 @@ async function createOrder(customerData) {
         method: "POST",
 
         headers: {
+
           "Content-Type":
             "application/json",
 
@@ -564,6 +593,7 @@ async function createInvoice(orderId) {
         method: "POST",
 
         headers: {
+
           "Content-Type":
             "application/json",
 
@@ -576,16 +606,33 @@ async function createInvoice(orderId) {
 
         body:
           JSON.stringify({
-            order_id: orderId
+            order_id:
+              orderId
           })
       }
     );
 
-  const data =
-    await response.json();
+  const text =
+    await response.text();
 
-  if (!response.ok ||
-      !data.success) {
+  let data;
+
+  try {
+
+    data =
+      JSON.parse(text);
+
+  } catch {
+
+    data = {
+      raw: text
+    };
+  }
+
+  if (
+    !response.ok ||
+    !data.success
+  ) {
 
     console.error(
       "Erreur création facture :",
@@ -600,286 +647,6 @@ async function createInvoice(orderId) {
   }
 
   return data;
-}
-
-
-/* =========================================================
-   USSD PUSH
-========================================================= */
-
-async function startUssdPayment(
-  orderId,
-  paymentMethod
-) {
-
-  const response =
-    await fetch(
-      START_USSD_FUNCTION,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "application/json",
-
-          apikey:
-            SUPABASE_KEY,
-
-          Authorization:
-            `Bearer ${SUPABASE_KEY}`
-        },
-
-        body:
-          JSON.stringify({
-
-            order_id:
-              orderId,
-
-            payment_method:
-              paymentMethod
-
-          })
-      }
-    );
-
-  const data =
-    await response.json();
-
-  if (!response.ok ||
-      !data.success) {
-
-    console.error(
-      "Erreur USSD Push :",
-      data
-    );
-
-    throw new Error(
-      data.message ||
-      data.error ||
-      "Impossible d'envoyer le USSD Push."
-    );
-  }
-
-  return data;
-}
-
-
-/* =========================================================
-   VERIFICATION DU PAIEMENT
-========================================================= */
-
-async function checkPayment() {
-
-  if (!currentOrderId) {
-    return;
-  }
-
-  try {
-
-    const response =
-      await fetch(
-        CHECK_USSD_FUNCTION,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-
-            apikey:
-              SUPABASE_KEY,
-
-            Authorization:
-              `Bearer ${SUPABASE_KEY}`
-          },
-
-          body:
-            JSON.stringify({
-              order_id:
-                currentOrderId
-            })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok ||
-        !data.success) {
-
-      console.error(
-        "Erreur vérification :",
-        data
-      );
-
-      return;
-    }
-
-    console.log(
-      "État paiement :",
-      data
-    );
-
-
-    /*
-     * PAIEMENT CONFIRMÉ
-     */
-
-    const paymentStatus =
-      String(
-        data.status ||
-        data.payment_state ||
-        ""
-      ).toLowerCase();
-
-    const successfulStates = [
-      "paid",
-      "success",
-      "successful"
-    ];
-
-    if (
-      successfulStates.includes(
-        paymentStatus
-      )
-    ) {
-
-      stopPaymentPolling();
-
-      const button =
-        document.getElementById(
-          "payButton"
-        );
-
-      button.disabled = false;
-
-      button.innerHTML =
-        "Paiement confirmé";
-
-
-      showMessage(
-        `
-        <strong>Paiement confirmé !</strong><br><br>
-        Votre paiement a bien été reçu.
-        `,
-        "success"
-      );
-
-
-      document.getElementById(
-        "details"
-      ).classList.remove("hidden");
-
-
-      document.getElementById(
-        "details"
-      ).innerHTML = `
-        Commande : ${currentOrderId}<br>
-        Facture : ${data.bill_id || "—"}<br>
-        USSD Push : ${data.ussd_push_id || currentPushId || "—"}<br>
-        Statut : payé
-      `;
-
-      return;
-    }
-
-
-    /*
-     * PAIEMENT ÉCHOUÉ
-     */
-
-    const failedStates = [
-      "failed",
-      "failure",
-      "cancelled",
-      "canceled",
-      "rejected",
-      "declined"
-    ];
-
-    if (
-      failedStates.includes(
-        paymentStatus
-      )
-    ) {
-
-      stopPaymentPolling();
-
-      const button =
-        document.getElementById(
-          "payButton"
-        );
-
-      button.disabled = false;
-
-      button.innerHTML =
-        "Payer maintenant";
-
-
-      showMessage(
-        `
-        Le paiement n'a pas pu être confirmé.<br><br>
-        Vous pouvez réessayer.
-        `,
-        "error"
-      );
-
-      return;
-    }
-
-
-    /*
-     * PAIEMENT TOUJOURS EN ATTENTE
-     */
-
-    showMessage(
-      `
-      <strong>Paiement en attente...</strong><br><br>
-      Validez la demande sur votre téléphone.
-      Nous vérifions automatiquement le paiement.
-      `,
-      "info"
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Erreur de vérification :",
-      error
-    );
-  }
-}
-
-
-/* =========================================================
-   POLLING
-========================================================= */
-
-function startPaymentPolling() {
-
-  stopPaymentPolling();
-
-  checkPayment();
-
-  paymentCheckTimer =
-    setInterval(
-      checkPayment,
-      5000
-    );
-}
-
-
-function stopPaymentPolling() {
-
-  if (paymentCheckTimer) {
-
-    clearInterval(
-      paymentCheckTimer
-    );
-
-    paymentCheckTimer =
-      null;
-  }
 }
 
 
@@ -931,17 +698,10 @@ document
         ).value.trim();
 
 
-      const paymentMethod =
-        document.querySelector(
-          'input[name="paymentMethod"]:checked'
-        )?.value;
-
-
       if (
         !name ||
         !email ||
-        !phone ||
-        !paymentMethod
+        !phone
       ) {
 
         showMessage(
@@ -996,11 +756,16 @@ document
         const order =
           await createOrder({
 
-            name,
+            name:
 
-            email,
+              name,
+
+            email:
+
+              email,
 
             phone:
+
               normalizedPhone
 
           });
@@ -1011,7 +776,7 @@ document
 
 
         /*
-         * 2. CREATION FACTURE
+         * 2. CREATION FACTURE E-BILLING
          */
 
         showMessage(
@@ -1027,69 +792,28 @@ document
 
 
         /*
-         * 3. USSD PUSH
+         * 3. VERIFIER L'URL DE PAIEMENT
          */
 
-        showMessage(
-          `
-          <strong>Facture créée.</strong><br><br>
+        if (
+          !invoice.payment_url
+        ) {
 
-          Préparation de votre paiement
-          ${
-            paymentMethod === "airtelmoney"
-              ? "Airtel Money"
-              : "Moov Money"
-          }...
-          `,
-          "info"
-        );
-
-
-        const push =
-          await startUssdPayment(
-            order.id,
-            paymentMethod
+          console.error(
+            "Réponse E-Billing :",
+            invoice
           );
 
-
-        currentPushId =
-          push?.ussd_push_id ||
-          push?.ussd_push?.id ||
-          null;
-
-
-        if (!currentPushId) {
-
           throw new Error(
-            "E-Billing n'a pas retourné l'identifiant du USSD Push."
+            "La facture a été créée, mais aucune URL de paiement n'a été retournée."
           );
         }
 
 
         /*
-         * 4. DEMANDE DE VALIDATION
+         * 4. AFFICHER LES INFORMATIONS
+         * AVANT LA REDIRECTION
          */
-
-        showMessage(
-          `
-          <strong>Demande de paiement envoyée.</strong><br><br>
-
-          Vérifiez votre téléphone
-          et validez la demande
-          ${
-            paymentMethod === "airtelmoney"
-              ? "Airtel Money"
-              : "Moov Money"
-          }.
-
-          <br><br>
-
-          Nous vérifions automatiquement
-          votre paiement...
-          `,
-          "info"
-        );
-
 
         document.getElementById(
           "details"
@@ -1098,40 +822,60 @@ document
 
         document.getElementById(
           "details"
-        ).innerHTML = `
+        ).innerHTML =
+          `
           Commande : ${order.id}<br>
           Facture : ${invoice.bill_id || "créée"}<br>
-          USSD Push : ${currentPushId}<br>
-          Opérateur :
-          ${
-            paymentMethod === "airtelmoney"
-              ? "Airtel Money"
-              : "Moov Money"
-          }
-        `;
+          Montant : ${formatPrice(order.amount)}
+          `;
+
+
+        showMessage(
+          `
+          <strong>Facture créée avec succès.</strong><br><br>
+          Redirection vers le portail sécurisé
+          E-Billing...
+          `,
+          "info"
+        );
 
 
         button.innerHTML =
-          "Paiement en attente...";
+          `
+          <span class="spinner"></span>
+          Redirection...
+          `;
 
 
         /*
-         * 5. VERIFICATION AUTOMATIQUE
+         * 5. REDIRECTION VERS E-BILLING
+         *
+         * IMPORTANT :
+         * aucun opérateur n'est envoyé ici.
+         *
+         * E-Billing affichera son propre choix :
+         * Airtel Money / Moov Money.
          */
 
-        startPaymentPolling();
+        setTimeout(() => {
+
+          window.location.href =
+            invoice.payment_url;
+
+        }, 700);
 
 
       } catch (error) {
 
-        console.error(error);
-
-        stopPaymentPolling();
+        console.error(
+          "Erreur paiement :",
+          error
+        );
 
         button.disabled = false;
 
         button.innerHTML =
-          "Payer maintenant";
+          "Continuer vers le paiement";
 
 
         showMessage(
@@ -1145,44 +889,6 @@ document
 
 
 /* =========================================================
-   STYLE DES MOYENS DE PAIEMENT
-========================================================= */
-
-document
-  .querySelectorAll(
-    'input[name="paymentMethod"]'
-  )
-  .forEach(
-    radio => {
-
-      radio.addEventListener(
-        "change",
-        () => {
-
-          document
-            .querySelectorAll(
-              ".method"
-            )
-            .forEach(
-              element =>
-                element.classList.remove(
-                  "active"
-                )
-            );
-
-          radio
-            .closest(".method")
-            ?.classList.add(
-              "active"
-            );
-        }
-      );
-
-    }
-  );
-
-
-/* =========================================================
    INITIALISATION
 ========================================================= */
 
@@ -1191,4 +897,4 @@ loadProduct();
 </script>
 
 </body>
-</html>
+  </html>
