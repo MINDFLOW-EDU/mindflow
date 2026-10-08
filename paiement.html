@@ -1,2648 +1,584 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>MindFlow — Paiement</title>
-
-  <meta
-    name="description"
-    content="Finalisez votre commande sur MindFlow."
-  >
-
-  <link
-    rel="icon"
-    type="image/png"
-    href="assets/favicon-mindflow.png"
-  >
-
-  <style>
-
-    /* =====================================================
-       RESET
-    ===================================================== */
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-
-    /* =====================================================
-       VARIABLES
-    ===================================================== */
-
-    :root {
-
-      --bg: #050816;
-      --bg-soft: #080d20;
-
-      --card: rgba(13, 20, 43, 0.78);
-      --card-soft: rgba(17, 25, 52, 0.62);
-
-      --border: rgba(255, 255, 255, 0.09);
-
-      --text: #f7f9ff;
-      --muted: #9aa6c2;
-
-      --cyan: #00eaff;
-      --blue: #38bdf8;
-
-      --violet: #7c3aed;
-      --violet-light: #a78bfa;
-
-      --success: #4ade80;
-      --danger: #fb7185;
-
-      --shadow:
-        0 25px 80px rgba(0, 0, 0, 0.42);
-    }
-
-
-    /* =====================================================
-       BODY
-    ===================================================== */
-
-    body {
-
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      color: var(--text);
-
-      min-height: 100vh;
-
-      background:
-        radial-gradient(
-          circle at 15% 10%,
-          rgba(0, 234, 255, 0.10),
-          transparent 30%
-        ),
-
-        radial-gradient(
-          circle at 85% 15%,
-          rgba(124, 58, 237, 0.13),
-          transparent 32%
-        ),
-
-        radial-gradient(
-          circle at 50% 100%,
-          rgba(56, 189, 248, 0.07),
-          transparent 35%
-        ),
-
-        linear-gradient(
-          145deg,
-          #030511 0%,
-          #050816 48%,
-          #080d20 100%
-        );
-
-      overflow-x: hidden;
-    }
-
-
-    /* =====================================================
-       AMBIENT LIGHTS
-    ===================================================== */
-
-    .orb {
-
-      position: fixed;
-
-      border-radius: 50%;
-
-      pointer-events: none;
-
-      filter: blur(80px);
-
-      opacity: 0.35;
-
-      z-index: 0;
-    }
-
-    .orb.one {
-
-      width: 280px;
-      height: 280px;
-
-      background: var(--cyan);
-
-      top: 8%;
-      left: -120px;
-    }
-
-    .orb.two {
-
-      width: 340px;
-      height: 340px;
-
-      background: var(--violet);
-
-      right: -150px;
-      top: 25%;
-    }
-
-    .orb.three {
-
-      width: 260px;
-      height: 260px;
-
-      background: #2563eb;
-
-      left: 35%;
-      bottom: -150px;
-
-      opacity: 0.18;
-    }
-
-
-    /* =====================================================
-       HEADER
-    ===================================================== */
-
-    header {
-
-      position: sticky;
-
-      top: 0;
-
-      z-index: 20;
-
-      height: 76px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      padding: 0 6%;
-
-      background:
-        rgba(5, 8, 22, 0.68);
-
-      backdrop-filter: blur(20px);
-
-      -webkit-backdrop-filter: blur(20px);
-
-      border-bottom:
-        1px solid rgba(255, 255, 255, 0.07);
-    }
-
-
-    .brand {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 11px;
-
-      text-decoration: none;
-
-      color: var(--text);
-    }
-
-
-    .brand img {
-
-      width: 38px;
-      height: 38px;
-
-      object-fit: contain;
-
-      filter:
-        drop-shadow(
-          0 0 12px
-          rgba(0, 234, 255, 0.25)
-        );
-    }
-
-
-    .brand-name {
-
-      font-size: 20px;
-
-      font-weight: 850;
-
-      letter-spacing: -0.5px;
-    }
-
-
-    .brand-name span {
-
-      color: var(--cyan);
-    }
-
-
-    .back-link {
-
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      color: var(--muted);
-
-      text-decoration: none;
-
-      font-size: 14px;
-
-      font-weight: 600;
-
-      transition: 0.25s ease;
-    }
-
-
-    .back-link:hover {
-
-      color: var(--text);
-
-      transform: translateX(-2px);
-    }
-
-
-    /* =====================================================
-       MAIN
-    ===================================================== */
-
-    main {
-
-      position: relative;
-
-      z-index: 1;
-
-      width: min(1100px, 92%);
-
-      margin: 0 auto;
-
-      padding: 58px 0 80px;
-    }
-
-
-    .intro {
-
-      text-align: center;
-
-      max-width: 700px;
-
-      margin: 0 auto 38px;
-    }
-
-
-    .eyebrow {
-
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      padding: 8px 13px;
-
-      border-radius: 999px;
-
-      background:
-        rgba(0, 234, 255, 0.07);
-
-      border:
-        1px solid rgba(0, 234, 255, 0.15);
-
-      color: var(--cyan);
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      letter-spacing: 0.7px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 16px;
-    }
-
-
-    .eyebrow-dot {
-
-      width: 6px;
-      height: 6px;
-
-      border-radius: 50%;
-
-      background: var(--cyan);
-
-      box-shadow:
-        0 0 12px var(--cyan);
-    }
-
-
-    h1 {
-
-      font-size: clamp(32px, 5vw, 52px);
-
-      line-height: 1.04;
-
-      letter-spacing: -1.8px;
-
-      margin-bottom: 14px;
-    }
-
-
-    h1 span {
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--cyan),
-          var(--blue),
-          var(--violet-light)
-        );
-
-      -webkit-background-clip: text;
-
-      background-clip: text;
-
-      color: transparent;
-    }
-
-
-    .intro p {
-
-      color: var(--muted);
-
-      font-size: 15px;
-
-      line-height: 1.7;
-    }
-
-
-    /* =====================================================
-       CHECKOUT LAYOUT
-    ===================================================== */
-
-    .checkout {
-
-      display: grid;
-
-      grid-template-columns:
-        minmax(280px, 0.85fr)
-        minmax(0, 1.15fr);
-
-      gap: 24px;
-
-      align-items: start;
-    }
-
-
-    /* =====================================================
-       GLASS CARDS
-    ===================================================== */
-
-    .glass-card {
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(18, 27, 57, 0.88),
-          rgba(8, 14, 32, 0.78)
-        );
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 26px;
-
-      box-shadow: var(--shadow);
-
-      backdrop-filter: blur(22px);
-
-      -webkit-backdrop-filter: blur(22px);
-    }
-
-
-    /* =====================================================
-       PRODUCT SUMMARY
-    ===================================================== */
-
-    .summary {
-
-      padding: 25px;
-
-      position: sticky;
-
-      top: 98px;
-
-      overflow: hidden;
-    }
-
-
-    .summary::before {
-
-      content: "";
-
-      position: absolute;
-
-      width: 180px;
-      height: 180px;
-
-      border-radius: 50%;
-
-      background:
-        rgba(0, 234, 255, 0.08);
-
-      filter: blur(45px);
-
-      top: -100px;
-      right: -80px;
-
-      pointer-events: none;
-    }
-
-
-    .summary-label {
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      letter-spacing: 1px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 18px;
-    }
-
-
-    .product-visual {
-
-      height: 170px;
-
-      border-radius: 20px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      margin-bottom: 22px;
-
-      background:
-        radial-gradient(
-          circle at 50% 40%,
-          rgba(0, 234, 255, 0.12),
-          transparent 55%
-        ),
-
-        linear-gradient(
-          145deg,
-          rgba(0, 234, 255, 0.05),
-          rgba(124, 58, 237, 0.08)
-        );
-
-      border:
-        1px solid rgba(255,255,255,0.07);
-    }
-
-
-    .product-visual img {
-
-      width: 110px;
-
-      max-height: 120px;
-
-      object-fit: contain;
-
-      filter:
-        drop-shadow(
-          0 0 28px
-          rgba(0, 234, 255, 0.18)
-        );
-    }
-
-
-    .product-category {
-
-      display: inline-flex;
-
-      padding: 7px 11px;
-
-      border-radius: 999px;
-
-      background:
-        rgba(124, 58, 237, 0.12);
-
-      border:
-        1px solid rgba(167, 139, 250, 0.18);
-
-      color: var(--violet-light);
-
-      font-size: 11px;
-
-      font-weight: 800;
-
-      text-transform: uppercase;
-
-      letter-spacing: 0.7px;
-
-      margin-bottom: 12px;
-    }
-
-
-    .product-name {
-
-      font-size: 25px;
-
-      line-height: 1.2;
-
-      font-weight: 850;
-
-      letter-spacing: -0.7px;
-
-      margin-bottom: 10px;
-    }
-
-
-    .product-description {
-
-      color: var(--muted);
-
-      font-size: 14px;
-
-      line-height: 1.65;
-
-      margin-bottom: 22px;
-    }
-
-
-    .price-line {
-
-      display: flex;
-
-      align-items: end;
-
-      justify-content: space-between;
-
-      gap: 15px;
-
-      padding-top: 19px;
-
-      border-top:
-        1px solid rgba(255,255,255,0.07);
-    }
-
-
-    .price-label {
-
-      color: var(--muted);
-
-      font-size: 12px;
-    }
-
-
-    .product-price {
-
-      font-size: 24px;
-
-      font-weight: 850;
-
-      white-space: nowrap;
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--cyan),
-          var(--blue)
-        );
-
-      -webkit-background-clip: text;
-
-      background-clip: text;
-
-      color: transparent;
-    }
-
-
-    .secure-note {
-
-      display: flex;
-
-      gap: 10px;
-
-      margin-top: 22px;
-
-      padding: 13px;
-
-      border-radius: 14px;
-
-      background:
-        rgba(74, 222, 128, 0.05);
-
-      border:
-        1px solid rgba(74, 222, 128, 0.10);
-
-      color: #b7c8bd;
-
-      font-size: 12px;
-
-      line-height: 1.5;
-    }
-
-
-    .secure-icon {
-
-      flex: 0 0 auto;
-
-      width: 22px;
-      height: 22px;
-
-      display: grid;
-
-      place-items: center;
-
-      border-radius: 7px;
-
-      background:
-        rgba(74, 222, 128, 0.12);
-
-      color: var(--success);
-
-      font-size: 12px;
-    }
-
-
-    /* =====================================================
-       FORM CARD
-    ===================================================== */
-
-    .form-card {
-
-      padding: 30px;
-    }
-
-
-    .form-title {
-
-      font-size: 23px;
-
-      font-weight: 800;
-
-      margin-bottom: 6px;
-    }
-
-
-    .form-subtitle {
-
-      color: var(--muted);
-
-      font-size: 13px;
-
-      line-height: 1.6;
-
-      margin-bottom: 28px;
-    }
-
-
-    .section-title {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      font-size: 13px;
-
-      font-weight: 800;
-
-      margin-bottom: 15px;
-    }
-
-
-    .section-number {
-
-      width: 25px;
-      height: 25px;
-
-      display: grid;
-
-      place-items: center;
-
-      border-radius: 8px;
-
-      background:
-        rgba(0, 234, 255, 0.08);
-
-      border:
-        1px solid rgba(0, 234, 255, 0.14);
-
-      color: var(--cyan);
-
-      font-size: 11px;
-    }
-
-
-    .form-section {
-
-      margin-bottom: 28px;
-    }
-
-
-    .field-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 14px;
-    }
-
-
-    .field {
-
-      margin-bottom: 14px;
-    }
-
-
-    label {
-
-      display: block;
-
-      margin-bottom: 8px;
-
-      color: #dce3f4;
-
-      font-size: 12px;
-
-      font-weight: 700;
-    }
-
-
-    input {
-
-      width: 100%;
-
-      height: 49px;
-
-      padding: 0 14px;
-
-      border-radius: 13px;
-
-      border:
-        1px solid rgba(255,255,255,0.09);
-
-      background:
-        rgba(3, 7, 20, 0.55);
-
-      color: var(--text);
-
-      font-family: inherit;
-
-      font-size: 14px;
-
-      outline: none;
-
-      transition:
-        border-color 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
-    }
-
-
-    input::placeholder {
-
-      color: #5f6c87;
-    }
-
-
-    input:focus {
-
-      border-color:
-        rgba(0, 234, 255, 0.45);
-
-      background:
-        rgba(4, 10, 27, 0.75);
-
-      box-shadow:
-        0 0 0 4px
-        rgba(0, 234, 255, 0.06);
-    }
-
-
-    /* =====================================================
-       PAYMENT METHODS
-    ===================================================== */
-
-    .payment-methods {
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 12px;
-    }
-
-
-    .payment-option {
-
-      position: relative;
-
-      min-height: 105px;
-
-      padding: 16px;
-
-      border-radius: 16px;
-
-      background:
-        rgba(4, 8, 22, 0.55);
-
-      border:
-        1px solid rgba(255,255,255,0.08);
-
-      cursor: pointer;
-
-      transition:
-        border-color 0.25s ease,
-        transform 0.25s ease,
-        background 0.25s ease;
-    }
-
-
-    .payment-option:hover {
-
-      transform: translateY(-2px);
-
-      border-color:
-        rgba(255,255,255,0.16);
-    }
-
-
-    .payment-option.active {
-
-      border-color:
-        rgba(0, 234, 255, 0.45);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(0, 234, 255, 0.07),
-          rgba(124, 58, 237, 0.07)
-        );
-
-      box-shadow:
-        0 0 0 1px
-        rgba(0, 234, 255, 0.05);
-    }
-
-
-    .payment-option.disabled {
-
-      opacity: 0.62;
-
-      cursor: not-allowed;
-    }
-
-
-    .payment-radio {
-
-      position: absolute;
-
-      opacity: 0;
-
-      pointer-events: none;
-    }
-
-
-    .payment-icon {
-
-      width: 38px;
-      height: 38px;
-
-      display: grid;
-
-      place-items: center;
-
-      border-radius: 11px;
-
-      background:
-        rgba(0, 234, 255, 0.08);
-
-      color: var(--cyan);
-
-      font-size: 17px;
-
-      margin-bottom: 12px;
-    }
-
-
-    .payment-option.card-method .payment-icon {
-
-      background:
-        rgba(124, 58, 237, 0.10);
-
-      color: var(--violet-light);
-    }
-
-
-    .payment-name {
-
-      display: block;
-
-      font-size: 13px;
-
-      font-weight: 800;
-
-      margin-bottom: 4px;
-    }
-
-
-    .payment-description {
-
-      display: block;
-
-      color: var(--muted);
-
-      font-size: 11px;
-
-      line-height: 1.4;
-    }
-
-
-    .coming-soon {
-
-      position: absolute;
-
-      top: 11px;
-      right: 11px;
-
-      padding: 4px 7px;
-
-      border-radius: 999px;
-
-      background:
-        rgba(167, 139, 250, 0.10);
-
-      border:
-        1px solid rgba(167, 139, 250, 0.15);
-
-      color: var(--violet-light);
-
-      font-size: 9px;
-
-      font-weight: 800;
-
-      text-transform: uppercase;
-    }
-
-
-    /* =====================================================
-       PAYMENT INFORMATION
-    ===================================================== */
-
-    .payment-info {
-
-      display: flex;
-
-      gap: 12px;
-
-      padding: 15px;
-
-      margin-top: 16px;
-
-      border-radius: 14px;
-
-      background:
-        rgba(56, 189, 248, 0.045);
-
-      border:
-        1px solid rgba(56, 189, 248, 0.10);
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      line-height: 1.6;
-    }
-
-
-    .info-icon {
-
-      flex: 0 0 auto;
-
-      width: 22px;
-      height: 22px;
-
-      display: grid;
-
-      place-items: center;
-
-      border-radius: 7px;
-
-      background:
-        rgba(56, 189, 248, 0.10);
-
-      color: var(--blue);
-
-      font-size: 11px;
-    }
-
-
-    /* =====================================================
-       BUTTON
-    ===================================================== */
-
-    button {
-
-      width: 100%;
-
-      min-height: 54px;
-
-      border: 0;
-
-      border-radius: 15px;
-
-      margin-top: 5px;
-
-      padding: 0 20px;
-
-      background:
-        linear-gradient(
-          100deg,
-          #00cfe8,
-          #38bdf8 45%,
-          #7c3aed
-        );
-
-      color: #03101a;
-
-      font-family: inherit;
-
-      font-size: 15px;
-
-      font-weight: 850;
-
-      cursor: pointer;
-
-      box-shadow:
-        0 14px 35px
-        rgba(0, 234, 255, 0.15);
-
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        opacity 0.25s ease;
-    }
-
-
-    button:hover:not(:disabled) {
-
-      transform: translateY(-2px);
-
-      box-shadow:
-        0 18px 42px
-        rgba(0, 234, 255, 0.22);
-    }
-
-
-    button:active:not(:disabled) {
-
-      transform: translateY(0);
-    }
-
-
-    button:disabled {
-
-      opacity: 0.55;
-
-      cursor: not-allowed;
-    }
-
-
-    /* =====================================================
-       MESSAGE
-    ===================================================== */
-
-    .message {
-
-      display: none;
-
-      margin-top: 18px;
-
-      padding: 15px 16px;
-
-      border-radius: 14px;
-
-      font-size: 13px;
-
-      line-height: 1.6;
-
-      border: 1px solid transparent;
-    }
-
-
-    .message.info {
-
-      display: block;
-
-      background:
-        rgba(56, 189, 248, 0.07);
-
-      border-color:
-        rgba(56, 189, 248, 0.14);
-
-      color: #bcecff;
-    }
-
-
-    .message.success {
-
-      display: block;
-
-      background:
-        rgba(74, 222, 128, 0.07);
-
-      border-color:
-        rgba(74, 222, 128, 0.14);
-
-      color: #bdf4ce;
-    }
-
-
-    .message.error {
-
-      display: block;
-
-      background:
-        rgba(251, 113, 133, 0.07);
-
-      border-color:
-        rgba(251, 113, 133, 0.14);
-
-      color: #fecdd6;
-    }
-
-
-    /* =====================================================
-       DETAILS
-    ===================================================== */
-
-    .details {
-
-      margin-top: 14px;
-
-      padding: 14px;
-
-      border-radius: 13px;
-
-      background:
-        rgba(255,255,255,0.025);
-
-      border:
-        1px solid rgba(255,255,255,0.06);
-
-      color: var(--muted);
-
-      font-size: 11px;
-
-      line-height: 1.7;
-
-      word-break: break-word;
-    }
-
-
-    .hidden {
-
-      display: none !important;
-    }
-
-
-    /* =====================================================
-       SPINNER
-    ===================================================== */
-
-    .spinner {
-
-      width: 18px;
-      height: 18px;
-
-      border:
-        3px solid
-        rgba(3, 16, 26, 0.25);
-
-      border-top-color:
-        #03101a;
-
-      border-radius: 50%;
-
-      display: inline-block;
-
-      animation:
-        spin .8s linear infinite;
-
-      vertical-align: middle;
-
-      margin-right: 8px;
-    }
-
-
-    @keyframes spin {
 
-      to {
-        transform: rotate(360deg);
+<script>
+  /* =====================================================
+     CONFIGURATION
+  ===================================================== */
+
+  const SUPABASE_URL =
+    "https://ejjmluesrrrbktgstlqm.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+
+  const CREATE_INVOICE_FUNCTION =
+    `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
+
+  let currentProduct = null;
+  let currentOrderId = null;
+  let isCheckingPayment = false;
+
+  /* =====================================================
+     UTILITAIRES
+  ===================================================== */
+
+  function showMessage(text, type = "info") {
+    const box = document.getElementById("message");
+    box.className = `message ${type}`;
+    box.innerHTML = text;
+  }
+
+  function formatPrice(value) {
+    return new Intl.NumberFormat("fr-FR")
+      .format(Number(value || 0)) + " FCFA";
+  }
+
+  function normalizePhone(phone) {
+    let value = String(phone || "")
+      .trim()
+      .replace(/[^\d+]/g, "");
+
+    if (value.startsWith("+241")) {
+      value = "0" + value.slice(4);
+    } else if (value.startsWith("241")) {
+      value = "0" + value.slice(3);
+    }
+
+    return value;
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /* =====================================================
+     LECTURE DU STATUT RÉEL DE LA COMMANDE
+  ===================================================== */
+
+  async function fetchOrderStatus(orderId) {
+    const url =
+      `${SUPABASE_URL}/rest/v1/orders` +
+      `?id=eq.${encodeURIComponent(orderId)}` +
+      `&select=id,status,payment_state,bill_id`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `La vérification Supabase a échoué (HTTP ${response.status}).`
+      );
+    }
+
+    const orders = await response.json();
+
+    if (!Array.isArray(orders) || orders.length === 0) {
+      throw new Error(
+        "Commande introuvable ou lecture non autorisée."
+      );
+    }
+
+    return orders[0];
+  }
+
+  function orderIsPaid(order) {
+    return (
+      String(order.status || "").toLowerCase() === "paid" ||
+      String(order.payment_state || "").toLowerCase() === "paid"
+    );
+  }
+
+  /* =====================================================
+     AFFICHAGE DU RÉSULTAT VÉRIFIÉ
+  ===================================================== */
+
+  function displayVerifiedPayment(order) {
+    showMessage(
+      `
+        <strong>Paiement confirmé !</strong><br><br>
+        E-Billing a transmis la confirmation et
+        MindFlow a enregistré votre commande comme payée.
+      `,
+      "success"
+    );
+
+    const details = document.getElementById("details");
+    details.classList.remove("hidden");
+    details.textContent =
+      `Commande : ${order.id}\n` +
+      `Statut : Paiement confirmé`;
+  }
+
+  function displayPendingPayment(orderId) {
+    showMessage(
+      `
+        <strong>Paiement en attente de confirmation.</strong><br><br>
+        Nous n'avons pas encore reçu la confirmation
+        définitive d'E-Billing. Ne payez pas une deuxième fois
+        avant d'avoir vérifié le statut de votre commande.<br><br>
+        <button type="button" id="retryPaymentCheck">
+          Vérifier à nouveau
+        </button>
+      `,
+      "info"
+    );
+
+    const retryButton =
+      document.getElementById("retryPaymentCheck");
+
+    retryButton.addEventListener("click", () => {
+      verifyReturnedPayment(true, orderId);
+    });
+  }
+
+  /* =====================================================
+     VÉRIFICATION APRÈS LE RETOUR D'E-BILLING
+  ===================================================== */
+
+  async function verifyReturnedPayment(
+    retry = false,
+    providedOrderId = null
+  ) {
+    if (isCheckingPayment) return;
+
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    const payment = params.get("payment");
+    const orderId =
+      providedOrderId || params.get("order_id");
+
+    if (!["success", "failed"].includes(payment)) {
+      return;
+    }
+
+    if (!orderId) {
+      showMessage(
+        `
+          <strong>Confirmation impossible.</strong><br><br>
+          L'identifiant de votre commande manque dans
+          l'adresse de retour. Aucun paiement ne sera
+          considéré comme confirmé sans vérification.
+        `,
+        "error"
+      );
+      return;
+    }
+
+    isCheckingPayment = true;
+
+    const retryButton =
+      document.getElementById("retryPaymentCheck");
+
+    if (retryButton) {
+      retryButton.disabled = true;
+      retryButton.textContent = "Vérification...";
+    } else {
+      showMessage(
+        "Vérification du statut de votre commande...",
+        "info"
+      );
+    }
+
+    const details = document.getElementById("details");
+    details.classList.remove("hidden");
+    details.textContent = `Commande : ${orderId}`;
+
+    try {
+      /*
+       * Si E-Billing indique un succès, on laisse un délai
+       * au callback pour mettre à jour Supabase.
+       * Le retour du navigateur ne constitue jamais la preuve.
+       */
+      const attempts =
+        payment === "success" && !retry ? 6 : 1;
+
+      let order = null;
+
+      for (let i = 0; i < attempts; i++) {
+        order = await fetchOrderStatus(orderId);
+
+        if (orderIsPaid(order)) {
+          displayVerifiedPayment(order);
+          return;
+        }
+
+        if (i < attempts - 1) {
+          await sleep(2000);
+        }
       }
-    }
-
-
-    /* =====================================================
-       FOOTER
-    ===================================================== */
-
-    footer {
-
-      position: relative;
-
-      z-index: 1;
-
-      width: min(1100px, 92%);
-
-      margin: 0 auto;
-
-      padding: 0 0 35px;
-
-      text-align: center;
-
-      color: #66728d;
-
-      font-size: 11px;
-    }
-
-
-    footer img {
-
-      width: 25px;
-      height: 25px;
-
-      object-fit: contain;
-
-      opacity: 0.65;
-
-      margin-bottom: 8px;
-    }
-
-
-    /* =====================================================
-       RESPONSIVE
-    ===================================================== */
-
-    @media (max-width: 820px) {
-
-      header {
-
-        padding: 0 4%;
-      }
-
-
-      .checkout {
-
-        grid-template-columns: 1fr;
-      }
-
-
-      .summary {
-
-        position: relative;
-
-        top: auto;
-      }
-
-
-      .form-card {
-
-        padding: 24px;
-      }
-    }
-
-
-    @media (max-width: 560px) {
-
-      main {
-
-        width: 94%;
-
-        padding-top: 38px;
-      }
-
-
-      header {
-
-        height: 68px;
-      }
-
-
-      .brand img {
-
-        width: 34px;
-        height: 34px;
-      }
-
-
-      .brand-name {
-
-        font-size: 18px;
-      }
-
-
-      .back-link {
-
-        font-size: 12px;
-      }
-
-
-      .intro {
-
-        margin-bottom: 28px;
-      }
-
-
-      h1 {
-
-        font-size: 34px;
-      }
-
-
-      .summary {
-
-        padding: 20px;
-      }
-
-
-      .form-card {
-
-        padding: 20px;
-      }
-
-
-      .field-grid {
-
-        grid-template-columns: 1fr;
-
-        gap: 0;
-      }
-
-
-      .payment-methods {
-
-        grid-template-columns: 1fr;
-      }
-
-
-      .product-visual {
-
-        height: 145px;
-      }
-    }
-
-  </style>
-</head>
-
-
-<body>
-
-  <!-- AMBIENT LIGHTS -->
-
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
-
-
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
-
-  <header>
-
-    <a
-      href="catalogue.html"
-      class="brand"
-    >
-
-      <img
-        src="assets/icone-mindflow.png"
-        alt="MindFlow"
-      >
-
-      <div class="brand-name">
-        Mind<span>Flow</span>
-      </div>
-
-    </a>
-
-
-    <a
-      href="catalogue.html"
-      class="back-link"
-    >
-      ← Retour au catalogue
-    </a>
-
-  </header>
-
-
-  <!-- =====================================================
-       MAIN
-  ====================================================== -->
-
-  <main>
-
-    <section class="intro">
-
-      <div class="eyebrow">
-
-        <span class="eyebrow-dot"></span>
-
-        Finaliser votre commande
-
-      </div>
-
-
-      <h1>
-        Votre prochaine
-        <span>ressource</span>
-      </h1>
-
-
-      <p>
-        Quelques informations suffisent pour préparer
-        votre accès à la ressource MindFlow.
-      </p>
-
-    </section>
-
-
-    <section class="checkout">
-
-
-      <!-- =================================================
-           PRODUCT SUMMARY
-      ================================================== -->
-
-      <aside class="glass-card summary">
-
-        <div class="summary-label">
-          Votre sélection
-        </div>
-
-
-        <div class="product-visual">
-
-          <img
-            src="assets/logo-mindflow.png"
-            alt="MindFlow"
-          >
-
-        </div>
-
-
-        <div
-          id="productCategory"
-          class="product-category"
-        >
-          Ressource MindFlow
-        </div>
-
-
-        <div
-          id="productName"
-          class="product-name"
-        >
-          Chargement...
-        </div>
-
-
-        <div
-          id="productDescription"
-          class="product-description"
-        >
-          Préparation de votre sélection...
-        </div>
-
-
-        <div class="price-line">
-
-          <div class="price-label">
-            Total
-          </div>
-
-          <div
-            id="productPrice"
-            class="product-price"
-          >
-            ...
-          </div>
-
-        </div>
-
-
-        <div class="secure-note">
-
-          <div class="secure-icon">
-            ✓
-          </div>
-
-          <div>
-            Votre commande est préparée avant
-            votre redirection vers le portail
-            sécurisé de paiement.
-          </div>
-
-        </div>
-
-      </aside>
-
-
-
-      <!-- =================================================
-           FORM
-      ================================================== -->
-
-      <div class="glass-card form-card">
-
-
-        <div class="form-title">
-          Vos informations
-        </div>
-
-
-        <div class="form-subtitle">
-          Elles nous permettent d'associer correctement
-          votre commande à votre paiement.
-        </div>
-
-
-        <form id="paymentForm">
-
-
-          <!-- =============================================
-               PERSONAL INFORMATION
-          ============================================== -->
-
-          <div class="form-section">
-
-            <div class="section-title">
-
-              <div class="section-number">
-                01
-              </div>
-
-              Informations personnelles
-
-            </div>
-
-
-            <div class="field-grid">
-
-
-              <div class="field">
-
-                <label for="customerFirstName">
-                  Prénom
-                </label>
-
-                <input
-                  id="customerFirstName"
-                  type="text"
-                  placeholder="Votre prénom"
-                  autocomplete="given-name"
-                  required
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label for="customerLastName">
-                  Nom
-                </label>
-
-                <input
-                  id="customerLastName"
-                  type="text"
-                  placeholder="Votre nom"
-                  autocomplete="family-name"
-                  required
-                >
-
-              </div>
-
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="customerEmail">
-                Adresse e-mail
-              </label>
-
-              <input
-                id="customerEmail"
-                type="email"
-                placeholder="vous@example.com"
-                autocomplete="email"
-                required
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="customerPhone">
-                Numéro de téléphone
-              </label>
-
-              <input
-                id="customerPhone"
-                type="tel"
-                placeholder="Ex. 074509021"
-                autocomplete="tel"
-                required
-              >
-
-            </div>
-
-          </div>
-
-
-
-          <!-- =============================================
-               PAYMENT METHOD
-          ============================================== -->
-
-          <div class="form-section">
-
-            <div class="section-title">
-
-              <div class="section-number">
-                02
-              </div>
-
-              Mode de paiement
-
-            </div>
-
-
-            <div class="payment-methods">
-
-
-              <!-- MOBILE MONEY -->
-
-              <label
-                class="payment-option active"
-                id="mobileMoneyOption"
-              >
-
-                <input
-                  class="payment-radio"
-                  type="radio"
-                  name="paymentMethod"
-                  value="mobile_money"
-                  checked
-                >
-
-
-                <div class="payment-icon">
-                  ◉
-                </div>
-
-
-                <span class="payment-name">
-                  Mobile Money
-                </span>
-
-
-                <span class="payment-description">
-                  Airtel Money ou Moov Money
-                </span>
-
-              </label>
-
-
-
-              <!-- CARD -->
-
-              <label
-                class="payment-option card-method disabled"
-                id="cardOption"
-              >
-
-                <input
-                  class="payment-radio"
-                  type="radio"
-                  name="paymentMethod"
-                  value="card"
-                  disabled
-                >
-
-
-                <span class="coming-soon">
-                  Bientôt
-                </span>
-
-
-                <div class="payment-icon">
-                  ▣
-                </div>
-
-
-                <span class="payment-name">
-                  Carte bancaire
-                </span>
-
-
-                <span class="payment-description">
-                  Disponible prochainement
-                </span>
-
-              </label>
-
-
-            </div>
-
-
-            <div class="payment-info">
-
-              <div class="info-icon">
-                i
-              </div>
-
-              <div>
-                Le paiement Mobile Money sera effectué
-                via le portail sécurisé E-Billing.
-                Vous pourrez choisir votre opérateur
-                lors de l'étape suivante.
-              </div>
-
-            </div>
-
-          </div>
-
-
-
-          <!-- =============================================
-               BUTTON
-          ============================================== -->
-
-          <button
-            id="payButton"
-            type="submit"
-          >
-            Payer
-          </button>
-
-
-        </form>
-
-
-        <!-- MESSAGE -->
-
-        <div
-          id="message"
-          class="message"
-        ></div>
-
-
-        <!-- DETAILS -->
-
-        <div
-          id="details"
-          class="details hidden"
-        ></div>
-
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
-  <footer>
-
-    <img
-      src="assets/icone-mindflow.png"
-      alt=""
-    >
-
-    <div>
-      MindFlow — Apprendre autrement.
-    </div>
-
-  </footer>
-
-
-
-  <script>
-
-    /* =====================================================
-       CONFIGURATION
-    ===================================================== */
-
-    const SUPABASE_URL =
-      "https://ejjmluesrrrbktgstlqm.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
-
-
-    /*
-     * FONCTION SUPABASE EDGE
-     *
-     * Cette fonction :
-     * 1. récupère la commande
-     * 2. crée la facture E-Billing
-     * 3. retourne payment_url
-     */
-
-    const CREATE_INVOICE_FUNCTION =
-      `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
-
-
-    let currentProduct = null;
-
-    let currentOrderId = null;
-
-
-    /* =====================================================
-       UTILITAIRES
-    ===================================================== */
-
-    function showMessage(
-      text,
-      type = "info"
-    ) {
-
-      const box =
-        document.getElementById("message");
-
-      box.className =
-        `message ${type}`;
-
-      box.innerHTML = text;
-    }
-
-
-    function formatPrice(value) {
-
-      const amount =
-        Number(value || 0);
-
-      return new Intl.NumberFormat(
-        "fr-FR"
-      ).format(amount) + " FCFA";
-    }
-
-
-    function normalizePhone(phone) {
-
-      let value =
-        String(phone || "")
-          .trim()
-          .replace(/[^\d+]/g, "");
-
-
-      if (value.startsWith("+241")) {
-
-        value =
-          "0" + value.slice(4);
-      }
-
-
-      if (value.startsWith("241")) {
-
-        value =
-          "0" + value.slice(3);
-      }
-
-
-      return value;
-    }
-
-
-    /* =====================================================
-       GESTION DU RETOUR E-BILLING
-    ===================================================== */
-
-    function handlePaymentReturn() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-
-      const payment =
-        params.get("payment");
-
-
-      if (payment === "success") {
-
-        showMessage(
-          `
-          <strong>Paiement terminé.</strong><br><br>
-          Votre paiement a été transmis avec succès.
-          La confirmation définitive sera effectuée
-          automatiquement par MindFlow.
-          `,
-          "success"
-        );
-
-
-        document
-          .getElementById("details")
-          .classList
-          .remove("hidden");
-
-
-        document
-          .getElementById("details")
-          .innerHTML =
-          `
-          Retour du portail E-Billing :
-          paiement terminé.
-          `;
-
-
-        return true;
-      }
-
 
       if (payment === "failed") {
-
         showMessage(
           `
-          <strong>Paiement non finalisé.</strong><br><br>
-          Le paiement n'a pas été finalisé.
-          Vous pouvez recommencer.
+            <strong>Paiement non confirmé.</strong><br><br>
+            Le portail a signalé un échec ou un abandon.
+            La commande n'est pas enregistrée comme payée.
+            Vous pouvez vérifier son statut à nouveau avant
+            de tenter un autre paiement.
           `,
           "error"
         );
 
-
-        return true;
-      }
-
-
-      return false;
-    }
-
-
-    /* =====================================================
-       CHARGEMENT PRODUIT
-    ===================================================== */
-
-    async function loadProduct() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-
-      const productId =
-        params.get("id");
-
-
-      /*
-       * Après le retour E-Billing,
-       * l'URL peut ne plus contenir id.
-       */
-
-      if (!productId) {
-
-        const returned =
-          handlePaymentReturn();
-
-
-        if (!returned) {
-
-          showMessage(
-            "Produit introuvable.",
-            "error"
-          );
-        }
-
-
+        details.textContent = `Commande : ${orderId}`;
         return;
       }
 
+      displayPendingPayment(orderId);
+
+    } catch (error) {
+      console.error(
+        "Vérification du paiement :",
+        error
+      );
+
+      showMessage(
+        `
+          <strong>Statut du paiement indisponible.</strong><br><br>
+          ${error.message}<br><br>
+          Cela ne signifie pas nécessairement que le paiement
+          a échoué. Vérifiez les règles d'accès Supabase et
+          le statut de la commande avant de recommencer.
+        `,
+        "error"
+      );
+
+    } finally {
+      isCheckingPayment = false;
+    }
+  }
+
+  /* =====================================================
+     CHARGEMENT DU PRODUIT
+  ===================================================== */
+
+  async function loadProduct() {
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    /*
+     * Priorité au retour E-Billing.
+     * Pas besoin de l'identifiant du produit pour vérifier
+     * une commande déjà créée.
+     */
+    if (params.has("payment")) {
+      document.getElementById("productName").textContent =
+        "Vérification de votre commande";
+
+      document.getElementById("productDescription").textContent =
+        "Nous vérifions la confirmation du paiement.";
+
+      await verifyReturnedPayment();
+      return;
+    }
+
+    const productId = params.get("id");
+
+    if (!productId) {
+      showMessage("Produit introuvable.", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/products?id=eq.${encodeURIComponent(productId)}&select=*`,
+        {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Impossible de charger le produit.");
+      }
+
+      const products = await response.json();
+
+      if (!products.length) {
+        throw new Error("Produit introuvable.");
+      }
+
+      currentProduct = products[0];
+
+      document.getElementById("productName").textContent =
+        currentProduct.name ||
+        currentProduct.title ||
+        "Produit MindFlow";
+
+      document.getElementById("productPrice").textContent =
+        formatPrice(currentProduct.price);
+
+      document.getElementById("productDescription").textContent =
+        currentProduct.description ||
+        "Une ressource conçue pour apprendre, progresser et développer vos connaissances avec MindFlow.";
+
+      document.getElementById("productCategory").textContent =
+        currentProduct.category || "Ressource MindFlow";
+
+    } catch (error) {
+      console.error(error);
+      showMessage(
+        error.message || "Erreur lors du chargement du produit.",
+        "error"
+      );
+    }
+  }
+
+  /* =====================================================
+     CRÉATION DE LA COMMANDE
+  ===================================================== */
+
+  async function createOrder(customerData) {
+    const order = {
+      id: crypto.randomUUID(),
+      product_id: currentProduct.id,
+      customer_name: customerData.name,
+      customer_email: customerData.email,
+      customer_phone: customerData.phone,
+      amount: Number(currentProduct.price),
+      status: "pending"
+    };
+
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/orders`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify(order)
+      }
+    );
+
+    if (!response.ok) {
+      const text = await response.text();
+
+      throw new Error(
+        `Impossible de créer la commande : ${text}`
+      );
+    }
+
+    return order;
+  }
+
+  /* =====================================================
+     CRÉATION DE LA FACTURE E-BILLING
+  ===================================================== */
+
+  async function createInvoice(orderId) {
+    const response = await fetch(
+      CREATE_INVOICE_FUNCTION,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`
+        },
+        body: JSON.stringify({
+          order_id: orderId
+        })
+      }
+    );
+
+    const text = await response.text();
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text };
+    }
+
+    if (!response.ok || !data.success) {
+      console.error("Erreur création facture :", data);
+
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Impossible de créer la facture E-Billing."
+      );
+    }
+
+    return data;
+  }
+
+  /* =====================================================
+     CHOIX DU MODE DE PAIEMENT
+  ===================================================== */
+
+  const mobileMoneyOption =
+    document.getElementById("mobileMoneyOption");
+
+  const cardOption =
+    document.getElementById("cardOption");
+
+  mobileMoneyOption.addEventListener("click", function() {
+    mobileMoneyOption.classList.add("active");
+    cardOption.classList.remove("active");
+  });
+
+  cardOption.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    showMessage(
+      `
+        <strong>Carte bancaire bientôt disponible.</strong><br><br>
+        Pour le moment, MindFlow accepte les paiements
+        via Mobile Money.
+      `,
+      "info"
+    );
+  });
+
+  /* =====================================================
+     SOUMISSION DU FORMULAIRE
+  ===================================================== */
+
+  document.getElementById("paymentForm")
+    .addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      if (!currentProduct) {
+        showMessage(
+          "Le produit n'est pas encore chargé.",
+          "error"
+        );
+        return;
+      }
+
+      const button = document.getElementById("payButton");
+
+      const firstName = document
+        .getElementById("customerFirstName")
+        .value.trim();
+
+      const lastName = document
+        .getElementById("customerLastName")
+        .value.trim();
+
+      const email = document
+        .getElementById("customerEmail")
+        .value.trim();
+
+      const phone = document
+        .getElementById("customerPhone")
+        .value.trim();
+
+      if (!firstName || !lastName || !email || !phone) {
+        showMessage(
+          "Veuillez remplir tous les champs.",
+          "error"
+        );
+        return;
+      }
+
+      const normalizedPhone = normalizePhone(phone);
+
+      if (!/^0\d{8}$/.test(normalizedPhone)) {
+        showMessage(
+          "Veuillez entrer un numéro Mobile Money gabonais valide.",
+          "error"
+        );
+        return;
+      }
 
       try {
-
-        const response =
-          await fetch(
-            `${SUPABASE_URL}/rest/v1/products?id=eq.${encodeURIComponent(productId)}&select=*`,
-            {
-              headers: {
-
-                apikey:
-                  SUPABASE_KEY,
-
-                Authorization:
-                  `Bearer ${SUPABASE_KEY}`
-              }
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Impossible de charger le produit."
-          );
-        }
-
-
-        const products =
-          await response.json();
-
-
-        if (!products.length) {
-
-          throw new Error(
-            "Produit introuvable."
-          );
-        }
-
-
-        currentProduct =
-          products[0];
-
-
-        /* =============================================
-           NOM
-        ============================================== */
-
-        document
-          .getElementById("productName")
-          .textContent =
-            currentProduct.name ||
-            currentProduct.title ||
-            "Produit MindFlow";
-
-
-        /* =============================================
-           PRIX
-        ============================================== */
-
-        document
-          .getElementById("productPrice")
-          .textContent =
-            formatPrice(
-              currentProduct.price
-            );
-
-
-        /* =============================================
-           DESCRIPTION
-        ============================================== */
-
-        document
-          .getElementById("productDescription")
-          .textContent =
-            currentProduct.description ||
-            "Une ressource conçue pour apprendre, progresser et développer vos connaissances avec MindFlow.";
-
-
-        /* =============================================
-           CATÉGORIE
-        ============================================== */
-
-        document
-          .getElementById("productCategory")
-          .textContent =
-            currentProduct.category ||
-            "Ressource MindFlow";
-
-
-        /*
-         * Vérifier si retour E-Billing
-         */
-
-        handlePaymentReturn();
-
-
-      } catch (error) {
-
-        console.error(error);
-
+        button.disabled = true;
+        button.innerHTML =
+          '<span class="spinner"></span>Préparation...';
 
         showMessage(
-          error.message ||
-          "Erreur lors du chargement du produit.",
+          "Création de votre commande...",
+          "info"
+        );
+
+        /*
+         * 1. Créer la commande
+         */
+        const order = await createOrder({
+          name: `${firstName} ${lastName}`,
+          email: email,
+          phone: normalizedPhone
+        });
+
+        currentOrderId = order.id;
+
+        /*
+         * 2. Créer la facture E-Billing
+         */
+        showMessage(
+          "Création de la facture sécurisée...",
+          "info"
+        );
+
+        const invoice = await createInvoice(order.id);
+
+        /*
+         * 3. Vérifier l'URL de paiement
+         */
+        if (!invoice.payment_url) {
+          console.error("Réponse E-Billing :", invoice);
+
+          throw new Error(
+            "La facture a été créée, mais aucune URL de paiement n'a été retournée."
+          );
+        }
+
+        /*
+         * 4. Afficher les détails de la commande
+         */
+        const details = document.getElementById("details");
+        details.classList.remove("hidden");
+        details.textContent =
+          `Commande : ${order.id}\n` +
+          `Facture : ${invoice.bill_id || "créée"}\n` +
+          `Montant : ${formatPrice(order.amount)}`;
+
+        showMessage(
+          `
+            <strong>Facture créée avec succès.</strong><br><br>
+            Redirection vers le portail sécurisé E-Billing...
+          `,
+          "info"
+        );
+
+        button.innerHTML =
+          '<span class="spinner"></span>Redirection...';
+
+        /*
+         * 5. Redirection sans imposer d'opérateur.
+         */
+        window.location.href = invoice.payment_url;
+
+      } catch (error) {
+        console.error("Erreur paiement :", error);
+
+        button.disabled = false;
+        button.innerHTML = "Payer";
+
+        showMessage(
+          error.message || "Une erreur est survenue.",
           "error"
         );
       }
-    }
+    });
 
+  /* =====================================================
+     INITIALISATION
+  ===================================================== */
 
-    /* =====================================================
-       CREATION COMMANDE
-    ===================================================== */
-
-    async function createOrder(
-      customerData
-    ) {
-
-      const orderId =
-        crypto.randomUUID();
-
-
-      const order = {
-
-        id:
-          orderId,
-
-        product_id:
-          currentProduct.id,
-
-        customer_name:
-          customerData.name,
-
-        customer_email:
-          customerData.email,
-
-        customer_phone:
-          customerData.phone,
-
-        amount:
-          Number(currentProduct.price),
-
-        status:
-          "pending"
-      };
-
-
-      const response =
-        await fetch(
-          `${SUPABASE_URL}/rest/v1/orders`,
-          {
-            method: "POST",
-
-            headers: {
-
-              "Content-Type":
-                "application/json",
-
-              apikey:
-                SUPABASE_KEY,
-
-              Authorization:
-                `Bearer ${SUPABASE_KEY}`,
-
-              Prefer:
-                "return=minimal"
-            },
-
-            body:
-              JSON.stringify(order)
-          }
-        );
-
-
-      if (!response.ok) {
-
-        const text =
-          await response.text();
-
-
-        throw new Error(
-          `Impossible de créer la commande : ${text}`
-        );
-      }
-
-
-      return order;
-    }
-
-
-    /* =====================================================
-       CREATION FACTURE E-BILLING
-    ===================================================== */
-
-    async function createInvoice(
-      orderId
-    ) {
-
-      const response =
-        await fetch(
-          CREATE_INVOICE_FUNCTION,
-          {
-            method: "POST",
-
-            headers: {
-
-              "Content-Type":
-                "application/json",
-
-              apikey:
-                SUPABASE_KEY,
-
-              Authorization:
-                `Bearer ${SUPABASE_KEY}`
-            },
-
-            body:
-              JSON.stringify({
-                order_id:
-                  orderId
-              })
-          }
-        );
-
-
-      const text =
-        await response.text();
-
-
-      let data;
-
-
-      try {
-
-        data =
-          JSON.parse(text);
-
-      } catch {
-
-        data = {
-          raw: text
-        };
-      }
-
-
-      if (
-        !response.ok ||
-        !data.success
-      ) {
-
-        console.error(
-          "Erreur création facture :",
-          data
-        );
-
-
-        throw new Error(
-          data.message ||
-          data.error ||
-          "Impossible de créer la facture E-Billing."
-        );
-      }
-
-
-      return data;
-    }
-
-
-    /* =====================================================
-       CHOIX DU MODE DE PAIEMENT
-    ===================================================== */
-
-    const mobileMoneyOption =
-      document.getElementById(
-        "mobileMoneyOption"
-      );
-
-
-    const cardOption =
-      document.getElementById(
-        "cardOption"
-      );
-
-
-    mobileMoneyOption
-      .addEventListener(
-        "click",
-        function() {
-
-          mobileMoneyOption
-            .classList
-            .add("active");
-
-          cardOption
-            .classList
-            .remove("active");
-        }
-      );
-
-
-    cardOption
-      .addEventListener(
-        "click",
-        function(event) {
-
-          event.preventDefault();
-
-          showMessage(
-            `
-            <strong>Carte bancaire bientôt disponible.</strong><br><br>
-            Pour le moment, MindFlow accepte les paiements
-            via Mobile Money.
-            `,
-            "info"
-          );
-        }
-      );
-
-
-    /* =====================================================
-       FORMULAIRE
-    ===================================================== */
-
-    document
-      .getElementById("paymentForm")
-      .addEventListener(
-        "submit",
-        async function(event) {
-
-          event.preventDefault();
-
-
-          if (!currentProduct) {
-
-            showMessage(
-              "Le produit n'est pas encore chargé.",
-              "error"
-            );
-
-            return;
-          }
-
-
-          const button =
-            document.getElementById(
-              "payButton"
-            );
-
-
-          const firstName =
-            document
-              .getElementById(
-                "customerFirstName"
-              )
-              .value
-              .trim();
-
-
-          const lastName =
-            document
-              .getElementById(
-                "customerLastName"
-              )
-              .value
-              .trim();
-
-
-          const email =
-            document
-              .getElementById(
-                "customerEmail"
-              )
-              .value
-              .trim();
-
-
-          const phone =
-            document
-              .getElementById(
-                "customerPhone"
-              )
-              .value
-              .trim();
-
-
-          if (
-            !firstName ||
-            !lastName ||
-            !email ||
-            !phone
-          ) {
-
-            showMessage(
-              "Veuillez remplir tous les champs.",
-              "error"
-            );
-
-            return;
-          }
-
-
-          const normalizedPhone =
-            normalizePhone(phone);
-
-
-          if (
-            !/^0\d{8}$/.test(
-              normalizedPhone
-            )
-          ) {
-
-            showMessage(
-              "Veuillez entrer un numéro Mobile Money gabonais valide.",
-              "error"
-            );
-
-            return;
-          }
-
-
-          try {
-
-            button.disabled = true;
-
-
-            button.innerHTML =
-              `
-              <span class="spinner"></span>
-              Préparation...
-              `;
-
-
-            showMessage(
-              "Création de votre commande...",
-              "info"
-            );
-
-
-            /*
-             * 1. CREATION COMMANDE
-             */
-
-            const order =
-              await createOrder({
-
-                name:
-                  `${firstName} ${lastName}`,
-
-                email:
-                  email,
-
-                phone:
-                  normalizedPhone
-              });
-
-
-            currentOrderId =
-              order.id;
-
-
-            /*
-             * 2. CREATION FACTURE E-BILLING
-             */
-
-            showMessage(
-              "Création de la facture sécurisée...",
-              "info"
-            );
-
-
-            const invoice =
-              await createInvoice(
-                order.id
-              );
-
-
-            /*
-             * 3. VERIFIER L'URL
-             */
-
-            if (
-              !invoice.payment_url
-            ) {
-
-              console.error(
-                "Réponse E-Billing :",
-                invoice
-              );
-
-
-              throw new Error(
-                "La facture a été créée, mais aucune URL de paiement n'a été retournée."
-              );
-            }
-
-
-            /*
-             * 4. INFORMATIONS
-             */
-
-            document
-              .getElementById("details")
-              .classList
-              .remove("hidden");
-
-
-            document
-              .getElementById("details")
-              .innerHTML =
-              `
-              Commande : ${order.id}<br>
-              Facture : ${invoice.bill_id || "créée"}<br>
-              Montant : ${formatPrice(order.amount)}
-              `;
-
-
-            showMessage(
-              `
-              <strong>Facture créée avec succès.</strong><br><br>
-              Redirection vers le portail sécurisé
-              E-Billing...
-              `,
-              "info"
-            );
-
-
-            button.innerHTML =
-              `
-              <span class="spinner"></span>
-              Redirection...
-              `;
-
-
-            /*
-             * 5. REDIRECTION
-             *
-             * Aucun opérateur n'est envoyé.
-             *
-             * E-Billing affichera son propre choix :
-             * Airtel Money / Moov Money.
-             */
-
-            setTimeout(() => {
-
-              window.location.href =
-                invoice.payment_url;
-
-            }, 700);
-
-
-          } catch (error) {
-
-            console.error(
-              "Erreur paiement :",
-              error
-            );
-
-
-            button.disabled = false;
-
-
-            button.innerHTML =
-              "Payer";
-
-
-            showMessage(
-              error.message ||
-              "Une erreur est survenue.",
-              "error"
-            );
-          }
-
-        }
-      );
-
-
-    /* =====================================================
-       INITIALISATION
-    ===================================================== */
-
-    loadProduct();
-
-  </script>
-
-</body>
-  </html>
+  loadProduct();
+</script>
