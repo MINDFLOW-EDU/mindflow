@@ -1,584 +1,482 @@
 
 <script>
-  /* =====================================================
-     CONFIGURATION
-  ===================================================== */
+"use strict";
 
-  const SUPABASE_URL =
-    "https://ejjmluesrrrbktgstlqm.supabase.co";
+/* =========================================
+   CONFIGURATION MINDFLOW / SUPABASE
+========================================= */
 
-  const SUPABASE_KEY =
-    "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
+const SUPABASE_URL =
+  "https://ejjmluesrrrbktgstlqm.supabase.co";
 
-  const CREATE_INVOICE_FUNCTION =
-    `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
+const SUPABASE_ANON_KEY =
+  "sb_publishable_cZFXtvFhhdnwip0SDDJArg_ofylyowI";
 
-  let currentProduct = null;
-  let currentOrderId = null;
-  let isCheckingPayment = false;
+const CREATE_INVOICE_FUNCTION =
+  `${SUPABASE_URL}/functions/v1/create-ebilling-payment`;
 
-  /* =====================================================
-     UTILITAIRES
-  ===================================================== */
+/* =========================================
+   ÉTAT DE LA PAGE
+========================================= */
 
-  function showMessage(text, type = "info") {
-    const box = document.getElementById("message");
-    box.className = `message ${type}`;
-    box.innerHTML = text;
+let currentProduct = null;
+let currentOrderId = null;
+let selectedPaymentMethod = "mobile_money";
+
+const params = new URLSearchParams(window.location.search);
+
+/* =========================================
+   AFFICHAGE DES MESSAGES
+========================================= */
+
+function showMessage(text, type = "info") {
+  const message = document.getElementById("message");
+  if (!message) return;
+
+  message.textContent = text;
+  message.className = `message ${type}`;
+  message.style.display = "block";
+}
+
+function formatPrice(value) {
+  const amount = Number(value);
+
+  if (!Number.isFinite(amount)) return "Prix indisponible";
+
+  return new Intl.NumberFormat("fr-FR", {
+    maximumFractionDigits: 0
+  }).format(amount) + " FCFA";
+}
+
+function normalizePhone(value) {
+  let phone = String(value || "").replace(/\D/g, "");
+
+  if (phone.startsWith("241")) {
+    phone = phone.slice(3);
   }
 
-  function formatPrice(value) {
-    return new Intl.NumberFormat("fr-FR")
-      .format(Number(value || 0)) + " FCFA";
+  if (phone.length === 8) {
+    phone = "0" + phone;
   }
 
-  function normalizePhone(phone) {
-    let value = String(phone || "")
-      .trim()
-      .replace(/[^\d+]/g, "");
+  return phone;
+}
 
-    if (value.startsWith("+241")) {
-      value = "0" + value.slice(4);
-    } else if (value.startsWith("241")) {
-      value = "0" + value.slice(3);
+async function readResponse(response) {
+  const text = await response.text();
+
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return { message: text };
+  }
+}
+
+/* =========================================
+   RETOUR DEPUIS E-BILLING
+========================================= */
+
+function handlePaymentReturn() {
+  const payment = params.get("payment");
+
+  if (payment === "failed") {
+    showMessage(
+      "Le paiement n'a pas abouti. Tu peux réessayer.",
+      "error"
+    );
+    return true;
+  }
+
+  if (payment === "success") {
+    /*
+      IMPORTANT :
+      Le paramètre URL ne prouve pas que le paiement
+      a été effectué. La confirmation définitive
+      doit venir du callback E-Billing côté serveur.
+    */
+    showMessage(
+      "Retour de paiement reçu. MindFlow attend la confirmation définitive du serveur. Ne ferme pas cette page si la vérification est encore en cours.",
+      "info"
+    );
+    return true;
+  }
+
+  return false;
+}
+
+/* =========================================
+   CHARGEMENT DU PRODUIT
+========================================= */
+
+async function loadProduct() {
+  const productId = params.get("id");
+
+  if (!productId) {
+    if (!handlePaymentReturn()) {
+      showMessage(
+        "Produit introuvable. Retourne au catalogue et sélectionne un produit.",
+        "error"
+      );
     }
-
-    return value;
+    return;
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/products?id=eq.${encodeURIComponent(productId)}&select=*`,
+      {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Accept": "application/json"
+        }
+      }
+    );
 
-  /* =====================================================
-     LECTURE DU STATUT RÉEL DE LA COMMANDE
-  ===================================================== */
-
-  async function fetchOrderStatus(orderId) {
-    const url =
-      `${SUPABASE_URL}/rest/v1/orders` +
-      `?id=eq.${encodeURIComponent(orderId)}` +
-      `&select=id,status,payment_state,bill_id`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      },
-      cache: "no-store"
-    });
+    const products = await readResponse(response);
 
     if (!response.ok) {
       throw new Error(
-        `La vérification Supabase a échoué (HTTP ${response.status}).`
+        products.message || "Impossible de charger le produit."
       );
     }
 
-    const orders = await response.json();
-
-    if (!Array.isArray(orders) || orders.length === 0) {
-      throw new Error(
-        "Commande introuvable ou lecture non autorisée."
-      );
-    }
-
-    return orders[0];
-  }
-
-  function orderIsPaid(order) {
-    return (
-      String(order.status || "").toLowerCase() === "paid" ||
-      String(order.payment_state || "").toLowerCase() === "paid"
-    );
-  }
-
-  /* =====================================================
-     AFFICHAGE DU RÉSULTAT VÉRIFIÉ
-  ===================================================== */
-
-  function displayVerifiedPayment(order) {
-    showMessage(
-      `
-        <strong>Paiement confirmé !</strong><br><br>
-        E-Billing a transmis la confirmation et
-        MindFlow a enregistré votre commande comme payée.
-      `,
-      "success"
-    );
-
-    const details = document.getElementById("details");
-    details.classList.remove("hidden");
-    details.textContent =
-      `Commande : ${order.id}\n` +
-      `Statut : Paiement confirmé`;
-  }
-
-  function displayPendingPayment(orderId) {
-    showMessage(
-      `
-        <strong>Paiement en attente de confirmation.</strong><br><br>
-        Nous n'avons pas encore reçu la confirmation
-        définitive d'E-Billing. Ne payez pas une deuxième fois
-        avant d'avoir vérifié le statut de votre commande.<br><br>
-        <button type="button" id="retryPaymentCheck">
-          Vérifier à nouveau
-        </button>
-      `,
-      "info"
-    );
-
-    const retryButton =
-      document.getElementById("retryPaymentCheck");
-
-    retryButton.addEventListener("click", () => {
-      verifyReturnedPayment(true, orderId);
-    });
-  }
-
-  /* =====================================================
-     VÉRIFICATION APRÈS LE RETOUR D'E-BILLING
-  ===================================================== */
-
-  async function verifyReturnedPayment(
-    retry = false,
-    providedOrderId = null
-  ) {
-    if (isCheckingPayment) return;
-
-    const params = new URLSearchParams(
-      window.location.search
-    );
-
-    const payment = params.get("payment");
-    const orderId =
-      providedOrderId || params.get("order_id");
-
-    if (!["success", "failed"].includes(payment)) {
-      return;
-    }
-
-    if (!orderId) {
+    if (!Array.isArray(products) || products.length === 0) {
       showMessage(
-        `
-          <strong>Confirmation impossible.</strong><br><br>
-          L'identifiant de votre commande manque dans
-          l'adresse de retour. Aucun paiement ne sera
-          considéré comme confirmé sans vérification.
-        `,
+        "Ce produit n'existe pas ou n'est pas disponible.",
         "error"
       );
       return;
     }
 
-    isCheckingPayment = true;
+    currentProduct = products[0];
 
-    const retryButton =
-      document.getElementById("retryPaymentCheck");
+    const productName =
+      document.getElementById("productName");
+    const productDescription =
+      document.getElementById("productDescription");
+    const productPrice =
+      document.getElementById("productPrice");
+    const productCategory =
+      document.getElementById("productCategory");
 
-    if (retryButton) {
-      retryButton.disabled = true;
-      retryButton.textContent = "Vérification...";
-    } else {
-      showMessage(
-        "Vérification du statut de votre commande...",
-        "info"
-      );
-    }
-
-    const details = document.getElementById("details");
-    details.classList.remove("hidden");
-    details.textContent = `Commande : ${orderId}`;
-
-    try {
-      /*
-       * Si E-Billing indique un succès, on laisse un délai
-       * au callback pour mettre à jour Supabase.
-       * Le retour du navigateur ne constitue jamais la preuve.
-       */
-      const attempts =
-        payment === "success" && !retry ? 6 : 1;
-
-      let order = null;
-
-      for (let i = 0; i < attempts; i++) {
-        order = await fetchOrderStatus(orderId);
-
-        if (orderIsPaid(order)) {
-          displayVerifiedPayment(order);
-          return;
-        }
-
-        if (i < attempts - 1) {
-          await sleep(2000);
-        }
-      }
-
-      if (payment === "failed") {
-        showMessage(
-          `
-            <strong>Paiement non confirmé.</strong><br><br>
-            Le portail a signalé un échec ou un abandon.
-            La commande n'est pas enregistrée comme payée.
-            Vous pouvez vérifier son statut à nouveau avant
-            de tenter un autre paiement.
-          `,
-          "error"
-        );
-
-        details.textContent = `Commande : ${orderId}`;
-        return;
-      }
-
-      displayPendingPayment(orderId);
-
-    } catch (error) {
-      console.error(
-        "Vérification du paiement :",
-        error
-      );
-
-      showMessage(
-        `
-          <strong>Statut du paiement indisponible.</strong><br><br>
-          ${error.message}<br><br>
-          Cela ne signifie pas nécessairement que le paiement
-          a échoué. Vérifiez les règles d'accès Supabase et
-          le statut de la commande avant de recommencer.
-        `,
-        "error"
-      );
-
-    } finally {
-      isCheckingPayment = false;
-    }
-  }
-
-  /* =====================================================
-     CHARGEMENT DU PRODUIT
-  ===================================================== */
-
-  async function loadProduct() {
-    const params = new URLSearchParams(
-      window.location.search
-    );
-
-    /*
-     * Priorité au retour E-Billing.
-     * Pas besoin de l'identifiant du produit pour vérifier
-     * une commande déjà créée.
-     */
-    if (params.has("payment")) {
-      document.getElementById("productName").textContent =
-        "Vérification de votre commande";
-
-      document.getElementById("productDescription").textContent =
-        "Nous vérifions la confirmation du paiement.";
-
-      await verifyReturnedPayment();
-      return;
-    }
-
-    const productId = params.get("id");
-
-    if (!productId) {
-      showMessage("Produit introuvable.", "error");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${SUPABASE_URL}/rest/v1/products?id=eq.${encodeURIComponent(productId)}&select=*`,
-        {
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Impossible de charger le produit.");
-      }
-
-      const products = await response.json();
-
-      if (!products.length) {
-        throw new Error("Produit introuvable.");
-      }
-
-      currentProduct = products[0];
-
-      document.getElementById("productName").textContent =
+    if (productName) {
+      productName.textContent =
         currentProduct.name ||
         currentProduct.title ||
         "Produit MindFlow";
+    }
 
-      document.getElementById("productPrice").textContent =
-        formatPrice(currentProduct.price);
-
-      document.getElementById("productDescription").textContent =
+    if (productDescription) {
+      productDescription.textContent =
         currentProduct.description ||
-        "Une ressource conçue pour apprendre, progresser et développer vos connaissances avec MindFlow.";
-
-      document.getElementById("productCategory").textContent =
-        currentProduct.category || "Ressource MindFlow";
-
-    } catch (error) {
-      console.error(error);
-      showMessage(
-        error.message || "Erreur lors du chargement du produit.",
-        "error"
-      );
-    }
-  }
-
-  /* =====================================================
-     CRÉATION DE LA COMMANDE
-  ===================================================== */
-
-  async function createOrder(customerData) {
-    const order = {
-      id: crypto.randomUUID(),
-      product_id: currentProduct.id,
-      customer_name: customerData.name,
-      customer_email: customerData.email,
-      customer_phone: customerData.phone,
-      amount: Number(currentProduct.price),
-      status: "pending"
-    };
-
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/orders`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          Prefer: "return=minimal"
-        },
-        body: JSON.stringify(order)
-      }
-    );
-
-    if (!response.ok) {
-      const text = await response.text();
-
-      throw new Error(
-        `Impossible de créer la commande : ${text}`
-      );
+        "Contenu numérique MindFlow.";
     }
 
-    return order;
-  }
-
-  /* =====================================================
-     CRÉATION DE LA FACTURE E-BILLING
-  ===================================================== */
-
-  async function createInvoice(orderId) {
-    const response = await fetch(
-      CREATE_INVOICE_FUNCTION,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`
-        },
-        body: JSON.stringify({
-          order_id: orderId
-        })
-      }
-    );
-
-    const text = await response.text();
-    let data;
-
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = { raw: text };
+    if (productPrice) {
+      productPrice.textContent =
+        formatPrice(currentProduct.price);
     }
 
-    if (!response.ok || !data.success) {
-      console.error("Erreur création facture :", data);
-
-      throw new Error(
-        data.message ||
-        data.error ||
-        "Impossible de créer la facture E-Billing."
-      );
+    if (productCategory) {
+      productCategory.textContent =
+        currentProduct.category || "MindFlow";
     }
 
-    return data;
-  }
+    handlePaymentReturn();
 
-  /* =====================================================
-     CHOIX DU MODE DE PAIEMENT
-  ===================================================== */
-
-  const mobileMoneyOption =
-    document.getElementById("mobileMoneyOption");
-
-  const cardOption =
-    document.getElementById("cardOption");
-
-  mobileMoneyOption.addEventListener("click", function() {
-    mobileMoneyOption.classList.add("active");
-    cardOption.classList.remove("active");
-  });
-
-  cardOption.addEventListener("click", function(event) {
-    event.preventDefault();
+  } catch (error) {
+    console.error("Erreur de chargement du produit :", error);
 
     showMessage(
-      `
-        <strong>Carte bancaire bientôt disponible.</strong><br><br>
-        Pour le moment, MindFlow accepte les paiements
-        via Mobile Money.
-      `,
-      "info"
+      error.message ||
+      "Une erreur est survenue pendant le chargement du produit.",
+      "error"
     );
+  }
+}
+
+/* =========================================
+   CRÉATION DE LA COMMANDE
+========================================= */
+
+async function createOrder(customerData) {
+  const orderId = crypto.randomUUID();
+
+  const order = {
+    id: orderId,
+    product_id: currentProduct.id,
+    customer_name:
+      `${customerData.firstName} ${customerData.lastName}`.trim(),
+    customer_email: customerData.email,
+    customer_phone: customerData.phone,
+    amount: Number(currentProduct.price),
+    status: "pending"
+  };
+
+  const response = await fetch(
+    `${SUPABASE_URL}/rest/v1/orders`,
+    {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(order)
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await readResponse(response);
+
+    console.error("Erreur de création de commande:", errorData);
+
+    throw new Error(
+      errorData.message ||
+      "Impossible de créer la commande. Vérifie les règles d'accès Supabase (RLS)."
+    );
+  }
+
+  currentOrderId = orderId;
+  return orderId;
+}
+
+/* =========================================
+   CRÉATION DE LA FACTURE E-BILLING
+========================================= */
+
+async function createInvoice(orderId) {
+  const response = await fetch(CREATE_INVOICE_FUNCTION, {
+    method: "POST",
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify({
+      order_id: orderId
+    })
   });
 
-  /* =====================================================
-     SOUMISSION DU FORMULAIRE
-  ===================================================== */
+  const data = await readResponse(response);
 
-  document.getElementById("paymentForm")
-    .addEventListener("submit", async function(event) {
+  if (!response.ok) {
+    console.error("Erreur E-Billing:", data);
+
+    throw new Error(
+      data.error ||
+      data.message ||
+      "La facture n'a pas pu être créée."
+    );
+  }
+
+  if (data.success === false) {
+    throw new Error(
+      data.error ||
+      data.message ||
+      "E-Billing n'a pas confirmé la création de la facture."
+    );
+  }
+
+  if (!data.payment_url) {
+    console.error("Réponse E-Billing sans payment_url:", data);
+
+    throw new Error(
+      "La facture a peut-être été créée, mais aucune URL de paiement n'a été retournée."
+    );
+  }
+
+  return data;
+}
+
+/* =========================================
+   CHOIX DU MODE DE PAIEMENT
+========================================= */
+
+const mobileMoneyOption =
+  document.getElementById("mobileMoneyOption");
+
+const cardOption =
+  document.getElementById("cardOption");
+
+if (mobileMoneyOption) {
+  mobileMoneyOption.addEventListener("click", () => {
+    selectedPaymentMethod = "mobile_money";
+
+    mobileMoneyOption.classList.add("active");
+
+    if (cardOption) {
+      cardOption.classList.remove("active");
+    }
+
+    const radio =
+      mobileMoneyOption.querySelector('input[type="radio"]');
+
+    if (radio) radio.checked = true;
+  });
+}
+
+if (cardOption) {
+  cardOption.addEventListener("click", (event) => {
+    const radio =
+      cardOption.querySelector('input[type="radio"]');
+
+    if (radio && radio.disabled) {
       event.preventDefault();
 
-      if (!currentProduct) {
-        showMessage(
-          "Le produit n'est pas encore chargé.",
-          "error"
-        );
-        return;
-      }
+      showMessage(
+        "Le paiement par carte bancaire n'est pas encore disponible.",
+        "info"
+      );
+      return;
+    }
 
-      const button = document.getElementById("payButton");
+    selectedPaymentMethod = "card";
 
-      const firstName = document
-        .getElementById("customerFirstName")
-        .value.trim();
+    cardOption.classList.add("active");
 
-      const lastName = document
-        .getElementById("customerLastName")
-        .value.trim();
+    if (mobileMoneyOption) {
+      mobileMoneyOption.classList.remove("active");
+    }
 
-      const email = document
-        .getElementById("customerEmail")
-        .value.trim();
+    if (radio) radio.checked = true;
+  });
+}
 
-      const phone = document
-        .getElementById("customerPhone")
-        .value.trim();
+/* =========================================
+   VALIDATION ET LANCEMENT DU PAIEMENT
+========================================= */
 
-      if (!firstName || !lastName || !email || !phone) {
-        showMessage(
-          "Veuillez remplir tous les champs.",
-          "error"
-        );
-        return;
-      }
+const paymentForm = document.getElementById("paymentForm");
+const payButton = document.getElementById("payButton");
 
-      const normalizedPhone = normalizePhone(phone);
+if (paymentForm) {
+  paymentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      if (!/^0\d{8}$/.test(normalizedPhone)) {
-        showMessage(
-          "Veuillez entrer un numéro Mobile Money gabonais valide.",
-          "error"
-        );
-        return;
-      }
+    if (!currentProduct) {
+      showMessage(
+        "Le produit n'est pas encore chargé. Réessaie dans quelques instants.",
+        "error"
+      );
+      return;
+    }
 
-      try {
-        button.disabled = true;
-        button.innerHTML =
-          '<span class="spinner"></span>Préparation...';
+    if (selectedPaymentMethod !== "mobile_money") {
+      showMessage(
+        "Ce mode de paiement n'est pas encore disponible.",
+        "error"
+      );
+      return;
+    }
 
-        showMessage(
-          "Création de votre commande...",
-          "info"
-        );
+    const firstName =
+      document.getElementById("customerFirstName")?.value.trim() || "";
 
-        /*
-         * 1. Créer la commande
-         */
-        const order = await createOrder({
-          name: `${firstName} ${lastName}`,
-          email: email,
-          phone: normalizedPhone
-        });
+    const lastName =
+      document.getElementById("customerLastName")?.value.trim() || "";
 
-        currentOrderId = order.id;
+    const email =
+      document.getElementById("customerEmail")?.value.trim() || "";
 
-        /*
-         * 2. Créer la facture E-Billing
-         */
-        showMessage(
-          "Création de la facture sécurisée...",
-          "info"
-        );
+    const phoneInput =
+      document.getElementById("customerPhone")?.value.trim() || "";
 
-        const invoice = await createInvoice(order.id);
+    const phone = normalizePhone(phoneInput);
 
-        /*
-         * 3. Vérifier l'URL de paiement
-         */
-        if (!invoice.payment_url) {
-          console.error("Réponse E-Billing :", invoice);
+    if (!firstName || !lastName || !email || !phoneInput) {
+      showMessage(
+        "Remplis tous les champs avant de continuer.",
+        "error"
+      );
+      return;
+    }
 
-          throw new Error(
-            "La facture a été créée, mais aucune URL de paiement n'a été retournée."
-          );
-        }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage(
+        "Saisis une adresse e-mail valide.",
+        "error"
+      );
+      return;
+    }
 
-        /*
-         * 4. Afficher les détails de la commande
-         */
-        const details = document.getElementById("details");
-        details.classList.remove("hidden");
+    if (!/^0\d{8}$/.test(phone)) {
+      showMessage(
+        "Saisis un numéro gabonais valide avec 8 chiffres, avec ou sans l'indicatif +241.",
+        "error"
+      );
+      return;
+    }
+
+    if (payButton) {
+      payButton.disabled = true;
+      payButton.textContent = "Préparation du paiement...";
+    }
+
+    try {
+      showMessage(
+        "Création de ta commande...",
+        "info"
+      );
+
+      const orderId = await createOrder({
+        firstName,
+        lastName,
+        email,
+        phone
+      });
+
+      showMessage(
+        "Commande créée. Préparation de la facture...",
+        "info"
+      );
+
+      const invoice = await createInvoice(orderId);
+
+      const details = document.getElementById("details");
+
+      if (details) {
         details.textContent =
-          `Commande : ${order.id}\n` +
-          `Facture : ${invoice.bill_id || "créée"}\n` +
-          `Montant : ${formatPrice(order.amount)}`;
-
-        showMessage(
-          `
-            <strong>Facture créée avec succès.</strong><br><br>
-            Redirection vers le portail sécurisé E-Billing...
-          `,
-          "info"
-        );
-
-        button.innerHTML =
-          '<span class="spinner"></span>Redirection...';
-
-        /*
-         * 5. Redirection sans imposer d'opérateur.
-         */
-        window.location.href = invoice.payment_url;
-
-      } catch (error) {
-        console.error("Erreur paiement :", error);
-
-        button.disabled = false;
-        button.innerHTML = "Payer";
-
-        showMessage(
-          error.message || "Une erreur est survenue.",
-          "error"
-        );
+          `Référence de commande : ${orderId}`;
+        details.style.display = "block";
       }
-    });
 
-  /* =====================================================
-     INITIALISATION
-  ===================================================== */
+      showMessage(
+        "Facture créée. Redirection vers la page sécurisée de paiement...",
+        "success"
+      );
 
-  loadProduct();
+      /*
+        On redirige vers l'URL fournie par le serveur.
+        La confirmation du paiement sera faite côté serveur
+        par le callback E-Billing, pas par cette page.
+      */
+      window.location.assign(invoice.payment_url);
+
+    } catch (error) {
+      console.error("Erreur pendant le paiement :", error);
+
+      showMessage(
+        error.message ||
+        "Une erreur est survenue. Vérifie ta connexion puis réessaie.",
+        "error"
+      );
+
+      if (payButton) {
+        payButton.disabled = false;
+        payButton.textContent = "Réessayer le paiement";
+      }
+    }
+  });
+}
+
+/* =========================================
+   DÉMARRAGE
+========================================= */
+
+loadProduct();
 </script>
